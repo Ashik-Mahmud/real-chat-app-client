@@ -1,3 +1,4 @@
+import Header from "../../shared/Header";
 import FriendsBar from "./FriendsBar/FriendsBar";
 import MessageBody from "./MessageBody/MessageBody";
 import MessageFooter from "./MessageBody/MessageFooter";
@@ -7,9 +8,10 @@ type Props = {};
 
 const Messages = (props: Props) => {
   return (
-    <div className="bg-slate-200 h-screen">
+    <div className="bg-slate-200 h-screen py-5">
       <div className="container mx-auto">
-        <div className="message-container py-5 grid grid-cols-1 sm:grid-cols-3 items-stretch gap-2">
+        <Header />
+        <div className="message-container  grid grid-cols-1 sm:grid-cols-3 items-stretch gap-2">
           <div className="friends-sidebar sm:col-span-1 bg-white">
             <FriendsBar />
           </div>
