@@ -1,29 +1,38 @@
 import { useState } from "react";
 import { AiOutlineCloseCircle } from "react-icons/ai";
-import { BiBlock, BiUser } from "react-icons/bi";
+import { BiArrowBack, BiBlock, BiUser } from "react-icons/bi";
 import { FaEllipsisV } from "react-icons/fa";
 import { HiOutlineUserRemove } from "react-icons/hi";
 type Props = {
   setIsShowProfile: (value: boolean) => void;
   isShowProfile: boolean;
+  setIsShowChatList: (value: boolean) => void;
 };
 
-const MessageHeader = (props: Props) => {
+const MessageHeader = ({ setIsShowChatList }: Props) => {
   const [isMenuShow, setIsMenuShow] = useState(false);
   return (
     <div>
       <div className="flex items-center justify-between bg-white p-4 border shadow">
-        <div className="flex items-center">
-          <div className="avatar">
-            <img
-              src="https://www.vippng.com/png/full/416-4161690_empty-profile-picture-blank-avatar-image-circle.png"
-              alt="avatar"
-              className="w-12 h-12 rounded-full object-cover border-4"
-            />
-          </div>
-          <div className="ml-3">
-            <h4 className="text-xl font-bold">John Doe</h4>
-            <p className="text-sm text-gray-500">Active 1h ago</p>
+        <div className="flex items-center gap-3">
+          <span
+            onClick={() => setIsShowChatList(true)}
+            className="cursor-pointer block md:hidden"
+          >
+            <BiArrowBack size={20} />
+          </span>
+          <div className="flex items-center">
+            <div className="avatar">
+              <img
+                src="https://www.vippng.com/png/full/416-4161690_empty-profile-picture-blank-avatar-image-circle.png"
+                alt="avatar"
+                className="w-12 h-12 rounded-full object-cover border-4"
+              />
+            </div>
+            <div className="ml-3">
+              <h4 className="text-xl font-bold">John Doe</h4>
+              <p className="text-sm text-gray-500">Active 1h ago</p>
+            </div>
           </div>
         </div>
 

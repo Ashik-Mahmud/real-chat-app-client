@@ -18,7 +18,7 @@ const FriendsBar = (props: Props) => {
         showAllFriends={showAllFriends}
         setShowAllFriends={setShowAllFriends}
       />
-      <div className=" bg-white p-8 ">
+      <div className=" bg-white p-8 mt-5 md:mt-0">
         <div className="title flex flex-col md:flex-row items-center justify-between bg-sky-100 text-sky-500  px-3 py-3 rounded">
           <h3 className="text-xl font-bold my-2">Friends</h3>
           <button
