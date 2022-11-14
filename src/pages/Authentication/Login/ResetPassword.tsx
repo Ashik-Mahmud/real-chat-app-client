@@ -4,8 +4,8 @@ type Props = {};
 
 const ResetPassword = (props: Props) => {
   return (
-    <div className="grid place-items-center h-screen bg-gray-50 p-5 sm:p-0">
-      <div className="bg-white w-full sm:w-[30rem] p-8 shadow border">
+    <div className="grid place-items-center h-screen bg-gray-50  sm:p-0">
+      <div className="bg-white w-full  sm:w-[30rem] p-8 shadow border">
         <div className="logo my-4">
           <h3 className="text-2xl font-bold ">Reset Password</h3>
         </div>
