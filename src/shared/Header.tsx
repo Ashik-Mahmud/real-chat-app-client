@@ -11,9 +11,11 @@ const Header = (props: Props) => {
         </div>
         <div className="flex items-center gap-5">
           <div className="notification">
-            <div className="notification-icon cursor-pointer">
+            <div className="notification-icon cursor-pointer relative">
               <AiOutlineBell size={30} />
-              <div className="dot">4</div>
+              <div className="dot absolute w-5 h-5 text-xs rounded-full grid place-items-center bg-blue-500 text-blue-100 -top-1 -right-1">
+                4
+              </div>
             </div>
           </div>
           {/* notification end */}
