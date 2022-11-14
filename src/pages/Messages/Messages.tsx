@@ -1,4 +1,5 @@
 import FriendsBar from "./FriendsBar/FriendsBar";
+import MessageBody from "./MessageBody/MessageBody";
 import MessageHeader from "./MessageHeader";
 
 type Props = {};
@@ -13,7 +14,9 @@ const Messages = (props: Props) => {
           </div>
           <div className="message-content sm:col-span-2">
             <MessageHeader />
-            <div className="message-body"></div>
+            <div className="message-body bg-gray-50 p-8">
+              <MessageBody />
+            </div>
           </div>
         </div>
       </div>
