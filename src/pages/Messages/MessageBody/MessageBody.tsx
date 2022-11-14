@@ -4,7 +4,7 @@ type Props = {};
 const MessageBody = (props: Props) => {
   return (
     <div>
-      <div className="message-body h-[40rem] overflow-y-auto p-8">
+      <div className="message-body h-[40rem] overflow-y-auto p-10">
         {/* single message */}
         <SingleMessage message="Hey bro?" />
         <SingleMessage me={true} message="How are you doing?" />

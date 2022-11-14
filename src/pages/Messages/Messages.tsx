@@ -1,5 +1,6 @@
 import FriendsBar from "./FriendsBar/FriendsBar";
 import MessageBody from "./MessageBody/MessageBody";
+import MessageFooter from "./MessageBody/MessageFooter";
 import MessageHeader from "./MessageHeader";
 
 type Props = {};
@@ -12,10 +13,11 @@ const Messages = (props: Props) => {
           <div className="friends-sidebar sm:col-span-1 bg-white">
             <FriendsBar />
           </div>
-          <div className="message-content sm:col-span-2">
+          <div className="message-content sm:col-span-2 ">
             <MessageHeader />
-            <div className="message-body bg-gray-50 p-5">
+            <div className="message-body bg-gray-50">
               <MessageBody />
+              <MessageFooter />
             </div>
           </div>
         </div>
