@@ -6,4 +6,8 @@ This is the client side of the Real Chat App. It is a React app that uses the [R
 
 ## Required Features
 
+## Preview Image
+
+![previewImage](./preview.png)
+
 > Thanks for reach out me on github. If you have any query please contact me.
