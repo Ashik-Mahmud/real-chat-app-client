@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 type Props = {};
 const Login = (props: Props) => {
   return (
@@ -33,7 +35,7 @@ const Login = (props: Props) => {
               <input type="checkbox" name="remember" id="remember" />
               <label htmlFor="remember">Remember me</label>
             </div>
-            <a href="#" className="text-blue-500">
+            <a href="/" className="text-blue-500">
               Forgot password?
             </a>
           </div>
@@ -47,9 +49,12 @@ const Login = (props: Props) => {
             <span className="text-gray-400">or</span>
             <div className="h-[1px] w-10 bg-gray-300"></div>
           </div>
-          <button className="bg-blue-100 text-blue-500 p-3 rounded-full">
+          <Link
+            to="/register"
+            className="bg-blue-100 text-blue-500 p-3 text-center block rounded-full"
+          >
             create an account
-          </button>
+          </Link>
         </form>
       </div>
     </div>
