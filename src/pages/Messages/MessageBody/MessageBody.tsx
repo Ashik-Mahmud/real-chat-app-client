@@ -3,7 +3,7 @@ import SingleMessage from "./SingleMessage";
 type Props = {};
 const MessageBody = (props: Props) => {
   return (
-    <div className="message-body h-screen sm:h-[40rem] overflow-y-auto p-10">
+    <div className="message-body h-screen sm:h-[40rem] overflow-y-auto p-3 md:p-10">
       {/* single message */}
       <SingleMessage message="Hey bro?" />
       <SingleMessage me={true} message="How are you doing?" />
