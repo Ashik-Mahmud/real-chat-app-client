@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 type Props = {};
 const Login = (props: Props) => {
   return (
-    <div className="login grid place-items-center p-4 h-screen bg-gray-50">
-      <div className="login-wrapper bg-white w-[30rem] p-8 shadow border">
+    <div className="login grid place-items-center p-4 h-screen bg-gray-50 p-5 sm:p-0">
+      <div className="login-wrapper bg-white w-full sm:w-[30rem] p-8 shadow border">
         <div className="logo my-4">
           <h3 className="text-2xl font-bold ">Login to your account</h3>
         </div>
@@ -30,7 +30,7 @@ const Login = (props: Props) => {
               className="border p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
             />
           </div>
-          <div className="flex justify-between items-center">
+          <div className="flex flex-col sm:flex-row justify-between sm:items-center">
             <div className="flex items-center gap-2">
               <input type="checkbox" name="remember" id="remember" />
               <label htmlFor="remember">Remember me</label>

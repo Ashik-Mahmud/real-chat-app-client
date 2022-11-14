@@ -79,7 +79,7 @@ const AllFriendList = ({ showAllFriends, setShowAllFriends }: Props) => {
         }`}
       ></div>
       <div
-        className={`fixed transition-all  top-0 p-5 w-full sm:w-[50rem] bg-white z-50 h-full shadow-sm border ${
+        className={`fixed  transition-all  top-0 p-5 w-full sm:w-[50rem] bg-white z-50 h-full shadow-sm border ${
           showAllFriends ? "right-0" : "-right-[200%]"
         }`}
       >

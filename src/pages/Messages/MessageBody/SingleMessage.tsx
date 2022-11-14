@@ -40,37 +40,37 @@ const SingleMessage = ({ message, me }: Props) => {
         </p>
         <small className="text-xs text-slate-500">12:00 PM</small>
 
-        {me && (
-          <div
-            className="relative transition-all scale-0 group-hover:scale-100 "
-            onClick={() => setShowActionMessage((state) => !state)}
-          >
-            <small className="cursor-pointer  block ">
-              <FaEllipsisV />
-            </small>
-            {showActionMessage && (
-              <div
-                onMouseLeave={() => setShowActionMessage(false)}
-                className="popovers text-xs border bg-white p-2 shadow-sm rounded absolute -top-8 left-5 z-40 "
-              >
-                <ul className="flex flex-col gap-2">
-                  <li
-                    className="bg-blue-50 text-blue-500 p-1 text-xs rounded-lg cursor-pointer"
-                    title="Copy Message"
-                  >
-                    <FiCopy />
-                  </li>
+        <div
+          className="relative transition-all scale-0 group-hover:scale-100 "
+          onClick={() => setShowActionMessage((state) => !state)}
+        >
+          <small className="cursor-pointer  block ">
+            <FaEllipsisV />
+          </small>
+          {showActionMessage && (
+            <div
+              onMouseLeave={() => setShowActionMessage(false)}
+              className="popovers text-xs border bg-white p-2 shadow-sm rounded absolute -top-8 left-5 z-40 "
+            >
+              <ul className="flex flex-col gap-2">
+                <li
+                  className="bg-blue-50 text-blue-500 p-1 text-xs rounded-lg cursor-pointer"
+                  title="Copy Message"
+                >
+                  <FiCopy />
+                </li>
+                {me && (
                   <li
                     className="bg-red-50 text-red-400 p-1 text-xs rounded-lg cursor-pointer"
                     title="Delete Message"
                   >
                     <FiTrash2 />
                   </li>
-                </ul>
-              </div>
-            )}
-          </div>
-        )}
+                )}
+              </ul>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
