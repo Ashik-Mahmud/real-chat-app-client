@@ -36,7 +36,7 @@ const FriendsBar = (props: Props) => {
               className="w-full p-4 rounded-lg border-2 border-sky-100 focus:outline-none focus:border-sky-500"
             />
           </div>
-          <ul className="flex items-start flex-col gap-2 h-[30rem] overflow-y-auto">
+          <ul className="flex items-start flex-col gap-2 h-[28rem] sm:h-[30rem] overflow-y-auto">
             <ListItem />
             <ListItem />
             <ListItem />
