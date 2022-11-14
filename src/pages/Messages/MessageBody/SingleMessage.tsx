@@ -11,7 +11,7 @@ const SingleMessage = ({ message, me }: Props) => {
 
   return (
     <div
-      className={`single-message   font-montserrat group flex  gap-2 mb-3 ${
+      className={`single-message   font-montserrat group flex  gap-2 mb-2 ${
         me ? "flex-row-reverse justify-start items-end " : " items-start "
       }`}
     >

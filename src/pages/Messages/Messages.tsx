@@ -14,7 +14,7 @@ const Messages = (props: Props) => {
           </div>
           <div className="message-content sm:col-span-2">
             <MessageHeader />
-            <div className="message-body bg-gray-50 p-8">
+            <div className="message-body bg-gray-50 p-5">
               <MessageBody />
             </div>
           </div>
