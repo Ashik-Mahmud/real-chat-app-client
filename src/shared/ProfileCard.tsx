@@ -10,7 +10,7 @@ const ProfileCard = ({ setIsShowProfile, isShowProfile }: Props) => {
     <div>
       <div
         onClick={() => setIsShowProfile(false)}
-        className={`modal-overlay w-full h-full fixed left-0 transition-opacity top-0 bg-[#ffffff69] backdrop-blur-sm z-10 ${
+        className={`modal-overlay w-full h-full fixed left-0 transition-opacity top-50 bg-[#ffffff69] backdrop-blur-sm z-10 ${
           isShowProfile
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"

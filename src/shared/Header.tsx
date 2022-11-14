@@ -16,7 +16,7 @@ const Header = ({ setIsShowProfile, isShowProfile }: Props) => {
         setIsShowProfile={setIsShowProfile}
         isShowProfile={isShowProfile}
       />
-      <div className="flex items-center justify-between bg-white mb-3 p-2 px-8">
+      <div className="flex items-center justify-between bg-white mb-3 p-2 px-8 relative">
         <div className="flex items-center gap-2">
           <BsChatSquareDots size={30} /> Real Chat.
         </div>

@@ -12,7 +12,7 @@ type Props = {
 const MessageHeader = ({ setIsShowChatList }: Props) => {
   const [isMenuShow, setIsMenuShow] = useState(false);
   return (
-    <div className="flex items-center justify-between bg-white p-4 border shadow -z-10">
+    <div className="flex items-center justify-between bg-white p-4 border shadow">
       <div className="flex items-center gap-3">
         <span
           onClick={() => setIsShowChatList(true)}
@@ -35,7 +35,7 @@ const MessageHeader = ({ setIsShowChatList }: Props) => {
         </div>
       </div>
 
-      <div className="flex items-center gap-4 relative ">
+      <div className="flex items-center gap-4 relative">
         <button className="" onClick={() => setIsMenuShow((state) => !state)}>
           {isMenuShow ? (
             <AiOutlineCloseCircle size={20} />

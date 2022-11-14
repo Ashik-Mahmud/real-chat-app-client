@@ -69,21 +69,21 @@ const usersData = [
 ];
 const AllFriendList = ({ showAllFriends, setShowAllFriends }: Props) => {
   return (
-    <>
+    <div>
       <div
         onClick={() => setShowAllFriends(false)}
-        className={`overlay fixed w-full transition-opacity h-full left-0 top-0 z-10 bg-[#0000003b] backdrop-blur-sm ${
+        className={`overlay fixed w-full  transition-opacity h-full left-0 top-0 z-10 bg-[#0000003b] backdrop-blur-sm ${
           showAllFriends
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"
         }`}
       ></div>
       <div
-        className={`fixed  transition-all  top-0 p-5 w-full sm:w-[50rem] bg-white z-50 h-full shadow-sm border ${
+        className={`fixed   transition-all  top-0 p-5 w-full sm:w-[50rem] bg-white z-20 h-full shadow-sm border ${
           showAllFriends ? "right-0" : "-right-[200%]"
         }`}
       >
-        <div className="all-friend-list z-50 relative">
+        <div className="all-friend-list z-50 ">
           <div className="title flex items-center justify-between mb-5 bg-gray-50 p-3 px-6 rounded">
             <div className="flex items-center flex-1 gap-2">
               <span
@@ -110,7 +110,7 @@ const AllFriendList = ({ showAllFriends, setShowAllFriends }: Props) => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
