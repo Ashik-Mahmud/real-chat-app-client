@@ -1,10 +1,13 @@
 import { BsPlus } from "react-icons/bs";
+import { Link } from "react-router-dom";
+import AllFriendList from "./AllFriendList";
 import ListItem from "./ListItem";
 type Props = {};
 
 const FriendsBar = (props: Props) => {
   return (
     <div>
+      <AllFriendList />
       <div className=" bg-white p-8 ">
         <div className="title flex items-center justify-between bg-sky-100 text-sky-500  px-3 py-3 rounded">
           <h3 className="text-xl font-bold my-2">Friends</h3>
@@ -39,6 +42,15 @@ const FriendsBar = (props: Props) => {
             <ListItem />
             <ListItem />
           </ul>
+        </div>
+
+        <div className="find-friends mt-6">
+          <Link
+            to={"/friends"}
+            className="bg-blue-100 text-blue-500 p-4 block font-bold"
+          >
+            Find Friends
+          </Link>
         </div>
       </div>
     </div>
