@@ -1,4 +1,4 @@
-import { BiMinus } from "react-icons/bi";
+import { BiArrowBack, BiMinus } from "react-icons/bi";
 
 type Props = {
   setIsShowProfile: (value: boolean) => void;
@@ -17,11 +17,17 @@ const ProfileCard = ({ setIsShowProfile, isShowProfile }: Props) => {
         }`}
       ></div>
       <div
-        className={`modal fixed w-[30rem] h-full right-0 z-20 bg-white top-0 border transition-all ${
-          isShowProfile ? "right-0" : "-right-[100%]"
+        className={`modal fixed w-full sm:w-[30rem] h-full right-0 z-20 bg-white top-0 border transition-all ${
+          isShowProfile ? "right-0" : "-right-[150%]"
         }`}
       >
         <div className="modal-content  p-5 ">
+          <span
+            className="text-2xl cursor-pointer block sm:hidden"
+            onClick={() => setIsShowProfile(false)}
+          >
+            <BiArrowBack />
+          </span>
           <div className=" my-5">
             <img
               src="https://i.pravatar.cc/150?img=1"
