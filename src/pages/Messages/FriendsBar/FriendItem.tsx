@@ -21,7 +21,7 @@ const FriendItem = ({ user }: Props) => {
       </div>
       <div className="add-friend">
         <button className="flex items-center gap-2 bg-blue-500 text-blue-100 text-sm p-2 px-4 rounded-full">
-          <span className="hidden sm:block">Add to chat</span>{" "}
+          <span className="hidden sm:block">Add to chat</span>
           <BsPlus size={20} />
         </button>
       </div>
