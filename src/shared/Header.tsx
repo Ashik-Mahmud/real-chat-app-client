@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { AiOutlineBell } from "react-icons/ai";
 import { BsChatSquareDots } from "react-icons/bs";
+import ProfileCard from "./ProfileCard";
 type Props = {};
 
 const Header = (props: Props) => {
@@ -8,6 +9,7 @@ const Header = (props: Props) => {
 
   return (
     <div>
+      <ProfileCard />
       <div className="flex items-center justify-between bg-white mb-3 p-2 px-8">
         <div className="flex items-center gap-2">
           <BsChatSquareDots size={30} /> Real Chat.

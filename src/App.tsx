@@ -4,6 +4,7 @@ import ResetPassword from "./pages/Authentication/Login/ResetPassword";
 import Register from "./pages/Authentication/Register/Register";
 import Home from "./pages/Home/Home";
 import Messages from "./pages/Messages/Messages";
+import Profile from "./pages/Profile/Profile";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
   {
     path: "/messages",
     element: <Messages />,
+  },
+  {
+    path: "/profile",
+    element: <Profile />,
   },
   {
     path: "*",
