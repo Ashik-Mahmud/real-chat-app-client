@@ -1,3 +1,4 @@
+import { BiArrowBack } from "react-icons/bi";
 import FriendItem from "./FriendItem";
 type Props = {
   showAllFriends: boolean;
@@ -78,13 +79,21 @@ const AllFriendList = ({ showAllFriends, setShowAllFriends }: Props) => {
         }`}
       ></div>
       <div
-        className={`fixed transition-all  top-0 p-5 w-[50rem] bg-white z-50 h-full shadow-sm border ${
-          showAllFriends ? "right-0" : "-right-[100%]"
+        className={`fixed transition-all  top-0 p-5 w-full sm:w-[50rem] bg-white z-50 h-full shadow-sm border ${
+          showAllFriends ? "right-0" : "-right-[200%]"
         }`}
       >
         <div className="all-friend-list z-50 relative">
           <div className="title flex items-center justify-between mb-5 bg-gray-50 p-3 px-6 rounded">
-            <h3 className="text-xl font-bold my-2 flex-1">Find Friends</h3>
+            <div className="flex items-center flex-1 gap-2">
+              <span
+                onClick={() => setShowAllFriends(false)}
+                className="text-xl cursor-pointer block sm:hidden"
+              >
+                <BiArrowBack />
+              </span>
+              <h3 className="text-xl font-bold my-2 flex-1">Find Friends</h3>
+            </div>
             <div className="search-friend flex-1">
               <input
                 type="text"

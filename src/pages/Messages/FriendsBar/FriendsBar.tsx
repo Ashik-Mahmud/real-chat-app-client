@@ -13,7 +13,7 @@ const FriendsBar = (props: Props) => {
         setShowAllFriends={setShowAllFriends}
       />
       <div className=" bg-white p-8 ">
-        <div className="title flex items-center justify-between bg-sky-100 text-sky-500  px-3 py-3 rounded">
+        <div className="title flex flex-col md:flex-row items-center justify-between bg-sky-100 text-sky-500  px-3 py-3 rounded">
           <h3 className="text-xl font-bold my-2">Friends</h3>
           <button className="bg-sky-500 text-sky-100 p-2 rounded-sm px-4 flex items-center gap-2">
             Create New Group <BsPlus size={30} />
