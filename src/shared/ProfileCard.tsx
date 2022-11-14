@@ -1,12 +1,26 @@
 import { BiMinus } from "react-icons/bi";
 
-type Props = {};
+type Props = {
+  setIsShowProfile: (value: boolean) => void;
+  isShowProfile: boolean;
+};
 
-const ProfileCard = (props: Props) => {
+const ProfileCard = ({ setIsShowProfile, isShowProfile }: Props) => {
   return (
     <div>
-      <div className="modal-overlay w-full h-full fixed left-0 top-0 bg-[#ffffff69] backdrop-blur-sm z-10"></div>
-      <div className="modal fixed w-[30rem] h-full right-0 z-20 bg-white top-0 border">
+      <div
+        onClick={() => setIsShowProfile(false)}
+        className={`modal-overlay w-full h-full fixed left-0 transition-opacity top-0 bg-[#ffffff69] backdrop-blur-sm z-10 ${
+          isShowProfile
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
+        }`}
+      ></div>
+      <div
+        className={`modal fixed w-[30rem] h-full right-0 z-20 bg-white top-0 border transition-all ${
+          isShowProfile ? "right-0" : "-right-[100%]"
+        }`}
+      >
         <div className="modal-content  p-5 ">
           <div className=" my-5">
             <img

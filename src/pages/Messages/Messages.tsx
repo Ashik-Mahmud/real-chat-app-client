@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Header from "../../shared/Header";
 import FriendsBar from "./FriendsBar/FriendsBar";
 import MessageBody from "./MessageBody/MessageBody";
@@ -7,16 +8,24 @@ import MessageHeader from "./MessageHeader";
 type Props = {};
 
 const Messages = (props: Props) => {
+  const [isShowProfile, setIsShowProfile] = useState(false);
+
   return (
     <div className="bg-slate-200 h-screen py-5">
       <div className="container mx-auto">
-        <Header />
+        <Header
+          setIsShowProfile={setIsShowProfile}
+          isShowProfile={isShowProfile}
+        />
         <div className="message-container  grid grid-cols-1 sm:grid-cols-3 items-stretch gap-2">
           <div className="friends-sidebar sm:col-span-1 bg-white">
             <FriendsBar />
           </div>
           <div className="message-content sm:col-span-2 ">
-            <MessageHeader />
+            <MessageHeader
+              setIsShowProfile={setIsShowProfile}
+              isShowProfile={isShowProfile}
+            />
             <div className="message-body bg-gray-50">
               <MessageBody />
               <MessageFooter />

@@ -2,14 +2,20 @@ import { useState } from "react";
 import { AiOutlineBell } from "react-icons/ai";
 import { BsChatSquareDots } from "react-icons/bs";
 import ProfileCard from "./ProfileCard";
-type Props = {};
+type Props = {
+  setIsShowProfile: (value: boolean) => void;
+  isShowProfile: boolean;
+};
 
-const Header = (props: Props) => {
+const Header = ({ setIsShowProfile, isShowProfile }: Props) => {
   const [showNotifications, setShowNotifications] = useState(false);
 
   return (
     <div>
-      <ProfileCard />
+      <ProfileCard
+        setIsShowProfile={setIsShowProfile}
+        isShowProfile={isShowProfile}
+      />
       <div className="flex items-center justify-between bg-white mb-3 p-2 px-8">
         <div className="flex items-center gap-2">
           <BsChatSquareDots size={30} /> Real Chat.
@@ -58,7 +64,10 @@ const Header = (props: Props) => {
           </div>
           {/* notification end */}
           <div className="relative">
-            <div className="flex items-center gap-2 bg-gray-50 p-2 rounded-lg">
+            <div
+              onClick={() => setIsShowProfile(true)}
+              className="flex items-center gap-2 bg-gray-50 p-2 rounded-lg"
+            >
               <div className="bg-sky-100 text-sky-500 p-2 rounded-lg">
                 <img
                   src="https://i.pravatar.cc/150?img=1"

@@ -3,7 +3,10 @@ import { AiOutlineCloseCircle } from "react-icons/ai";
 import { BiBlock, BiUser } from "react-icons/bi";
 import { FaEllipsisV } from "react-icons/fa";
 import { HiOutlineUserRemove } from "react-icons/hi";
-type Props = {};
+type Props = {
+  setIsShowProfile: (value: boolean) => void;
+  isShowProfile: boolean;
+};
 
 const MessageHeader = (props: Props) => {
   const [isMenuShow, setIsMenuShow] = useState(false);
