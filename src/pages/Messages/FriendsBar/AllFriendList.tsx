@@ -1,5 +1,8 @@
 import FriendItem from "./FriendItem";
-type Props = {};
+type Props = {
+  showAllFriends: boolean;
+  setShowAllFriends: (value: boolean) => void;
+};
 const usersData = [
   {
     id: 1,
@@ -63,11 +66,22 @@ const usersData = [
     image: "https://i.pravatar.cc/150?img=10",
   },
 ];
-const AllFriendList = (props: Props) => {
+const AllFriendList = ({ showAllFriends, setShowAllFriends }: Props) => {
   return (
     <>
-      <div className="overlay fixed w-full h-full left-0 top-0 z-10 bg-[#0000003b] backdrop-blur-sm"></div>
-      <div className="fixed right-0 top-0 p-5 w-[50rem] bg-white z-50 h-full shadow-sm border">
+      <div
+        onClick={() => setShowAllFriends(false)}
+        className={`overlay fixed w-full transition-opacity h-full left-0 top-0 z-10 bg-[#0000003b] backdrop-blur-sm ${
+          showAllFriends
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
+        }`}
+      ></div>
+      <div
+        className={`fixed transition-all  top-0 p-5 w-[50rem] bg-white z-50 h-full shadow-sm border ${
+          showAllFriends ? "right-0" : "-right-[100%]"
+        }`}
+      >
         <div className="all-friend-list z-50 relative">
           <div className="title flex items-center justify-between mb-5 bg-gray-50 p-3 px-6 rounded">
             <h3 className="text-xl font-bold my-2 flex-1">Find Friends</h3>
