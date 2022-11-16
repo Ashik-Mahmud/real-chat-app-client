@@ -9,9 +9,11 @@ const FriendItem = ({ user }: Props) => {
       <div className="flex items-center gap-3">
         <div className="friend-image">
           <img
-            src={user?.image}
-            alt=""
-            className="w-14 h-14 rounded-full border-4 border-blue-500"
+            src={
+              user?.avatar ? user?.avatar : "https://i.pravatar.cc/150?img=1"
+            }
+            alt={user?.name}
+            className="w-14 h-14 rounded-full border-4 border-blue-500 object-cover"
           />
         </div>
         <div className="friend-info">

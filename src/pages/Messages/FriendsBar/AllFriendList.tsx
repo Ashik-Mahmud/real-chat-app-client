@@ -1,4 +1,9 @@
+import axios from "axios";
 import { BiArrowBack } from "react-icons/bi";
+import { FaUsers } from "react-icons/fa";
+import { useQuery } from "react-query";
+import { server_url } from "../../../config/config";
+import { useAppContext } from "../../../Context/AppProvider";
 import FriendItem from "./FriendItem";
 type Props = {
   showAllFriends: boolean;
@@ -68,6 +73,23 @@ const usersData = [
   },
 ];
 const AllFriendList = ({ showAllFriends, setShowAllFriends }: Props) => {
+  const { user } = useAppContext();
+
+  /* get all the friends */
+  const { data: friends, isLoading: friendsLoading } = useQuery(
+    "friends",
+    async () => {
+      const res = await axios.get(`${server_url}/user/all`, {
+        headers: {
+          Authorization: `Bearer ${user?.token}`,
+        },
+      });
+      return res?.data;
+    }
+  );
+
+  console.log(friends);
+
   return (
     <div>
       <div
@@ -103,11 +125,28 @@ const AllFriendList = ({ showAllFriends, setShowAllFriends }: Props) => {
             </div>
           </div>
 
-          <div className="friend-list grid grid-cols-1 gap-3 h-[80vh] overflow-y-auto  p-5">
-            {usersData.map((user) => (
-              <FriendItem key={user.id} user={user} />
-            ))}
-          </div>
+          {friendsLoading ? (
+            <div className="flex justify-center items-center h-full">
+              <div className="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mb-4"></div>
+            </div>
+          ) : (
+            <div className="friend-list">
+              {friends?.users?.length > 0 ? (
+                <div className="friend-list grid grid-cols-1 gap-3 h-[80vh] overflow-y-auto  p-5">
+                  {friends?.users?.map((user: any) => (
+                    <FriendItem key={user._id} user={user} />
+                  ))}
+                </div>
+              ) : (
+                <div className="flex justify-center items-center flex-col py-20 gap-4 h-full">
+                  <span>
+                    <FaUsers size={105} />
+                  </span>
+                  <h3 className="text-xl font-bold">No Friends Found</h3>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>

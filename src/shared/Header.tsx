@@ -10,7 +10,6 @@ type Props = {
 
 const Header = ({ setIsShowProfile, isShowProfile }: Props) => {
   const [showNotifications, setShowNotifications] = useState(false);
-
   const { userInfo } = useAppContext();
 
   return (
