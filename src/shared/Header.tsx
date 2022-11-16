@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { AiOutlineBell } from "react-icons/ai";
 import { BsChatSquareDots } from "react-icons/bs";
+import { useAppContext } from "../Context/AppProvider";
 import ProfileCard from "./ProfileCard";
 type Props = {
   setIsShowProfile: (value: boolean) => void;
@@ -9,6 +10,8 @@ type Props = {
 
 const Header = ({ setIsShowProfile, isShowProfile }: Props) => {
   const [showNotifications, setShowNotifications] = useState(false);
+
+  const { userInfo } = useAppContext();
 
   return (
     <div>
@@ -35,7 +38,11 @@ const Header = ({ setIsShowProfile, isShowProfile }: Props) => {
               <div className="absolute right-0 top-10 bg-white w-48 rounded-lg shadow-lg p-3 flex flex-col gap-2 border sm:w-[15rem]">
                 <div className="flex items-center gap-2  shadow hover:bg-slate-100 p-2 rounded-lg cursor-pointer">
                   <img
-                    src="https://i.pravatar.cc/150?img=1"
+                    src={
+                      userInfo?.avatar
+                        ? userInfo?.avatar
+                        : "https://i.pravatar.cc/150?img=1"
+                    }
                     alt=""
                     className="rounded-full w-8 h-8"
                   />
@@ -66,21 +73,32 @@ const Header = ({ setIsShowProfile, isShowProfile }: Props) => {
           <div className="relative">
             <div
               onClick={() => setIsShowProfile(true)}
-              className="flex items-center gap-2 bg-gray-50 p-2 rounded-lg"
+              className="flex cursor-pointer items-center gap-2 bg-gray-50 p-2 rounded-lg"
             >
               <div className="bg-sky-100 text-sky-500 p-2 rounded-lg">
                 <img
-                  src="https://i.pravatar.cc/150?img=1"
-                  alt=""
+                  src={
+                    userInfo?.avatar
+                      ? userInfo?.avatar
+                      : "https://i.pravatar.cc/150?img=1"
+                  }
+                  alt={userInfo?.name}
                   className="rounded-full w-8 h-8"
                 />
               </div>
               <div className="flex items-start flex-col cursor-pointer">
-                <span className="text-sky-500 font-bold">John Doe</span>
-                <span className="text-gray-500 flex items-center text-xs  gap-1">
-                  <i className=" w-2 h-2 block rounded-full bg-green-500"></i>{" "}
-                  Online
-                </span>
+                <span className="text-sky-500 font-bold">{userInfo?.name}</span>
+                {userInfo?.isOnline ? (
+                  <span className="text-green-500 text-xs flex items-center  gap-1">
+                    <i className=" w-2 h-2 block rounded-full bg-green-500"></i>
+                    Online
+                  </span>
+                ) : (
+                  <span className="text-gray-500 text-xs flex items-center  gap-1">
+                    <i className=" w-2 h-2 block rounded-full bg-gray-500"></i>
+                    offline
+                  </span>
+                )}
               </div>
             </div>
           </div>
