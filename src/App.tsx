@@ -1,5 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AuthRoute from "./auth/AuthRoute";
+import ProtectRoute from "./auth/ProtectRoute";
 import Login from "./pages/Authentication/Login/Login";
 import ResetPassword from "./pages/Authentication/Login/ResetPassword";
 import Register from "./pages/Authentication/Register/Register";
@@ -14,11 +15,19 @@ const router = createBrowserRouter([
   },
   {
     path: "/login",
-    element: <Login />,
+    element: (
+      <ProtectRoute>
+        <Login />
+      </ProtectRoute>
+    ),
   },
   {
     path: "/register",
-    element: <Register />,
+    element: (
+      <ProtectRoute>
+        <Register />
+      </ProtectRoute>
+    ),
   },
   {
     path: "/reset-password",

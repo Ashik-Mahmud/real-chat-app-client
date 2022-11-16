@@ -1,19 +1,16 @@
 import cogoToast from "cogo-toast";
 import { useEffect } from "react";
+import { useCookies } from "react-cookie";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import Cookie from "universal-cookie";
 import { useLoginMutation } from "../../../api/AuthenticationApi";
-import { useAppContext } from "../../../Context/AppProvider";
-const cookie = new Cookie();
 
 type Props = {};
 const Login = (props: Props) => {
+  const [cookies, setCookie] = useCookies(["user"]);
   const { handleSubmit, register } = useForm();
   const [loginAuth, { data, isLoading, error }] = useLoginMutation();
   const navigate = useNavigate();
-
-  const { user } = useAppContext();
 
   const onLoginSubmit = handleSubmit(async (data) => {
     if (!data?.email || !data?.password) {
@@ -31,24 +28,14 @@ const Login = (props: Props) => {
   });
 
   useEffect(() => {
-    if (data) {
-      cookie.set(
-        "user",
-        { token: data?.token, user: data?.user },
-        { path: "/" }
-      );
-
+    if (data?.token) {
+      setCookie("user", { ...data?.user, token: data?.token }, { path: "/" });
       navigate("/messages");
     }
-
     if (error) {
       cogoToast.error((error as any).data?.message);
     }
-
-    if (user?.token) {
-      navigate("/messages");
-    }
-  }, [data, navigate, error, user]);
+  }, [data, navigate, error, cookies, setCookie]);
 
   return (
     <div className="login grid place-items-center h-screen  bg-gray-50  sm:p-0">

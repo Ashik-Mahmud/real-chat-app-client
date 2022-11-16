@@ -77,9 +77,6 @@ const Register = (props: Props) => {
     if (error) {
       cogoToast.error((error as any)?.data?.message);
     }
-    if (user?.token) {
-      navigate("/messages");
-    }
   }, [data, navigate, error, user]);
 
   return (
