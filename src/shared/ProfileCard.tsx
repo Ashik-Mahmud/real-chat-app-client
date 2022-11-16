@@ -100,23 +100,30 @@ const ProfileCard = ({ setIsShowProfile, isShowProfile }: Props) => {
                               : "https://i.pravatar.cc/150?img=1"
                           }
                           alt=""
-                          className="rounded-full w-8 h-8"
+                          className="rounded-full w-10 h-10 border-4 border-blue-400"
                         />
                         <div className="flex items-start flex-col">
-                          <span className="text-sky-500 font-bold">
+                          <span className="text-sky-500 font-bold capitalize flex items-center gap-2">
                             {friend?.name}
+                            {friend?.isOnline ? (
+                              <span
+                                className="text-gray-500 flex items-center text-xs  gap-1 cursor-pointer"
+                                title="Online"
+                              >
+                                <i className=" w-2 h-2 block rounded-full bg-green-500"></i>
+                              </span>
+                            ) : (
+                              <span
+                                className="text-gray-500 flex items-center text-xs  gap-1 cursor-pointer"
+                                title="Offline"
+                              >
+                                <i className=" w-2 h-2 block rounded-full bg-gray-500"></i>
+                              </span>
+                            )}
                           </span>
-                          {friend?.isOnline ? (
-                            <span className="text-gray-500 flex items-center text-xs  gap-1">
-                              <i className=" w-2 h-2 block rounded-full bg-green-500"></i>
-                              Online
-                            </span>
-                          ) : (
-                            <span className="text-gray-500 flex items-center text-xs  gap-1">
-                              <i className=" w-2 h-2 block rounded-full bg-gray-500"></i>
-                              Offline
-                            </span>
-                          )}
+                          <span className="text-gray-500 text-xs">
+                            {friend?.email}
+                          </span>
                         </div>
                       </div>
                       <div className="flex items-center gap-2">

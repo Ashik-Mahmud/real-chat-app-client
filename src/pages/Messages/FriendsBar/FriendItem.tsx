@@ -1,11 +1,40 @@
+import { useEffect } from "react";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { BsPlus } from "react-icons/bs";
+import swal from "sweetalert";
+import { useCreateChatMutation } from "../../../api/ChatApi";
 type Props = {
   user: any;
 };
 
 const FriendItem = ({ user }: Props) => {
+  const [createChat, { isLoading, data, error }] = useCreateChatMutation();
+  /* handle add to chat */
+  const handleAddToChat = async (id: string) => {
+    const isConfirm = await swal("Are you sure you want add this?", {
+      buttons: ["Oh noez!", true],
+    });
+
+    if (isConfirm) {
+      console.log("add to chat", id, isConfirm);
+      await createChat({ receiverId: id });
+    }
+  };
+
+  useEffect(() => {
+    if (data) {
+      console.log(data);
+      swal("Success", "Chat created", "success");
+    }
+
+    if (error) {
+      console.log(error);
+      swal("Error", "Something went wrong", "error");
+    }
+  }, [data, error]);
+
   return (
-    <div className="friend flex h-auto items-center justify-between cursor-pointer transition-all hover:bg-slate-200 bg-slate-100 font-montserrat p-3 rounded-lg gap-3">
+    <div className="friend w-full flex h-auto items-center justify-between cursor-pointer transition-all hover:bg-slate-200 bg-slate-100 font-montserrat p-3 rounded-lg gap-3">
       <div className="flex items-center gap-3">
         <div className="friend-image w-14 h-14 rounded-full border-4 border-blue-500 overflow-hidden">
           {user?.avatar ? (
@@ -26,10 +55,19 @@ const FriendItem = ({ user }: Props) => {
         </div>
       </div>
       <div className="add-friend">
-        <button className="flex items-center gap-2 bg-blue-500 text-blue-100 text-sm p-2 px-4 rounded-full">
-          <span className="hidden sm:block">Add to chat</span>
-          <BsPlus size={20} />
-        </button>
+        {isLoading ? (
+          <button className="flex items-center gap-2 cursor-not-allowed bg-blue-500 text-blue-100 text-sm p-2 px-4 rounded-ful">
+            <AiOutlineLoading3Quarters className="animate-spin" /> Adding...
+          </button>
+        ) : (
+          <button
+            onClick={() => handleAddToChat(user?._id)}
+            className="flex items-center gap-2 bg-blue-500 text-blue-100 text-sm p-2 px-4 rounded-full"
+          >
+            <span className="hidden sm:block">Add to chat</span>
+            <BsPlus size={20} />
+          </button>
+        )}
       </div>
     </div>
   );

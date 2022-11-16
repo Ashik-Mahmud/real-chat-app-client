@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { BsPlus } from "react-icons/bs";
+import { useGetChatByUserQuery } from "../../../api/ChatApi";
 import CreateNewGroupModal from "./CreateNewGroupModal";
 import ListItem from "./ListItem";
 type Props = {
@@ -8,6 +9,9 @@ type Props = {
 
 const FriendsBar = ({ setShowAllFriends }: Props) => {
   const [isShowNewGroupModal, setIsShowNewGroupModal] = useState(false);
+  const [search, setSearch] = useState("");
+  const { data, isLoading } = useGetChatByUserQuery(search);
+
   return (
     <div>
       {isShowNewGroupModal && (
@@ -29,28 +33,22 @@ const FriendsBar = ({ setShowAllFriends }: Props) => {
             <input
               type="text"
               placeholder="Search Chat"
+              onChange={(e) => setSearch(e.target.value)}
+              value={search}
               className="w-full p-4 rounded-lg border-2 border-sky-100 focus:outline-none focus:border-sky-500"
             />
           </div>
-          <ul className="flex items-start flex-col gap-2 h-[28rem] sm:h-[30rem] overflow-y-auto">
-            <ListItem />
-            <ListItem />
-            <ListItem />
-            <ListItem />
-            <ListItem />
-            <ListItem />
-            <ListItem />
-            <ListItem />
-            <ListItem />
-            <ListItem />
-            <ListItem />
-            <ListItem />
-            <ListItem />
-            <ListItem />
-            <ListItem />
-            <ListItem />
-            <ListItem />
-          </ul>
+          {isLoading ? (
+            <div className="text-center">Loading...</div>
+          ) : data?.receivers?.length > 0 ? (
+            <ul className="flex items-start flex-col gap-2 h-[28rem] sm:h-[30rem] overflow-y-auto">
+              {data?.receivers?.map((receiver: any) => (
+                <ListItem key={receiver?._id} user={receiver} />
+              ))}
+            </ul>
+          ) : (
+            <div className="text-center">No Chat Found</div>
+          )}
         </div>
 
         <div className="find-friends mt-6">

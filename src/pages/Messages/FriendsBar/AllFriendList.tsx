@@ -19,16 +19,16 @@ const AllFriendList = ({ showAllFriends, setShowAllFriends }: Props) => {
   const { data: friends, isLoading: friendsLoading } = useQuery(
     ["friends", search, user],
     async () => {
-      const res = await axios.get(`${server_url}/user/all?q=${search}`, {
-        headers: {
-          Authorization: `Bearer ${user?.token}`,
-        },
-      });
-      return res?.data;
+      if (user?.token) {
+        const res = await axios.get(`${server_url}/user/all?q=${search}`, {
+          headers: {
+            Authorization: `Bearer ${user?.token}`,
+          },
+        });
+        return res?.data;
+      }
     }
   );
-
-  console.log(friends);
 
   return (
     <div>
@@ -74,7 +74,7 @@ const AllFriendList = ({ showAllFriends, setShowAllFriends }: Props) => {
           ) : (
             <div className="friend-list">
               {friends?.users?.length > 0 ? (
-                <div className="grid grid-cols-1 gap-3 h-[80vh] overflow-y-auto grid-rows-6  p-5">
+                <div className="flex flex-col  gap-3 h-[80vh] overflow-y-auto   p-5">
                   {friends?.users?.map((user: any) => (
                     <FriendItem key={user._id} user={user} />
                   ))}
