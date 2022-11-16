@@ -1,10 +1,17 @@
+import axios from "axios";
 import cogoToast from "cogo-toast";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useRegisterMutation } from "../../../api/AuthenticationApi";
+import { upload_api } from "../../../config/config";
 type Props = {};
 
 const Register = (props: Props) => {
   const { handleSubmit, register } = useForm();
+  const [registerAuth, { data, isLoading, error }] = useRegisterMutation();
+  const [uploadLoading, setUploadLoading] = useState(false);
+  const navigate = useNavigate();
   /* handle register */
 
   const onRegisterSubmit = handleSubmit(async (data) => {
@@ -23,9 +30,51 @@ const Register = (props: Props) => {
       return;
     }
 
-    /* handle register */
-    console.log(data);
+    if (data?.image?.length > 0) {
+      if (data?.image[0].size > 1000000) {
+        cogoToast.error("Image size should be less than 1MB");
+        return;
+      }
+      if (!data?.image[0].type.includes("image")) {
+        cogoToast.error("Please select an image");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("image", data.image[0]);
+      data.image = formData;
+    }
+    setUploadLoading(true);
+    try {
+      /* upload image in imgbb using api call */
+      const { data: imageResponse } = await axios.post(
+        `https://api.imgbb.com/1/upload?key=${upload_api}`,
+        data.image
+      );
+      data.image = imageResponse.data.url;
+
+      await registerAuth({
+        name: data.name,
+        email: data.email,
+        password: data.password,
+        avatar: data?.image,
+      });
+      setUploadLoading(false);
+    } catch (error) {
+      console.log(error);
+      setUploadLoading(false);
+    }
   });
+
+  useEffect(() => {
+    if (data) {
+      cogoToast.success(data?.message);
+      navigate("/login");
+    }
+    if (error) {
+      cogoToast.error((error as any)?.data?.message);
+    }
+  }, [data, navigate, error]);
 
   return (
     <div className="grid place-items-center h-screen bg-gray-50">
@@ -85,18 +134,31 @@ const Register = (props: Props) => {
           </div>
 
           <div className="flex flex-col gap-2">
-            <label htmlFor="file">Choose Profile </label>
+            <label htmlFor="file">
+              Choose Profile <span className="text-red-500">*</span>
+            </label>
             <input
               type="file"
               {...register("image")}
+              required
               id="file"
               className="border p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
             />
           </div>
 
-          <button className="bg-blue-500 text-white p-2 rounded-md">
-            Register account
-          </button>
+          {isLoading || uploadLoading ? (
+            <button
+              type="submit"
+              disabled
+              className="bg-blue-400 text-white p-2 rounded-md mt-4 cursor-not-allowed"
+            >
+              Registering...
+            </button>
+          ) : (
+            <button className="bg-blue-500 text-white p-2 rounded-md">
+              Register account
+            </button>
+          )}
 
           <div className="flex justify-center items-center gap-2">
             <div className="h-[1px] w-10 bg-gray-300"></div>
