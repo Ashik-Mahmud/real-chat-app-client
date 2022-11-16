@@ -10,11 +10,11 @@ const container = document.getElementById("root")!;
 const root = createRoot(container);
 
 root.render(
-  <AppProvider>
-    <Provider store={store}>
+  <Provider store={store}>
+    <AppProvider>
       <App />
-    </Provider>
-  </AppProvider>
+    </AppProvider>
+  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function
