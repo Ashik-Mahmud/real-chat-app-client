@@ -92,31 +92,45 @@ const ProfileCard = ({ setIsShowProfile, isShowProfile }: Props) => {
               </div>
               <div className="friend-list">
                 {userInfo?.friends?.length > 0 ? (
-                  userInfo?.friends?.map((friend: any, index: number) => {
-                    <div className="flex items-center justify-between gap-2 mt-5 bg-blue-50 p-4 rounded-lg">
+                  userInfo?.friends?.map((friend: any, index: number) => (
+                    <div
+                      key={friend?._id + index}
+                      className="flex items-center justify-between gap-2 mt-5 bg-blue-50 p-4 rounded-lg"
+                    >
                       <div className="flex items-center gap-2">
                         <img
-                          src="https://i.pravatar.cc/150?img=1"
+                          src={
+                            friend?.avatar
+                              ? friend?.avatar
+                              : "https://i.pravatar.cc/150?img=1"
+                          }
                           alt=""
                           className="rounded-full w-8 h-8"
                         />
                         <div className="flex items-start flex-col">
                           <span className="text-sky-500 font-bold">
-                            John Doe
+                            {friend?.name}
                           </span>
-                          <span className="text-gray-500 flex items-center text-xs  gap-1">
-                            <i className=" w-2 h-2 block rounded-full bg-green-500"></i>{" "}
-                            Online
-                          </span>
+                          {friend?.isOnline ? (
+                            <span className="text-gray-500 flex items-center text-xs  gap-1">
+                              <i className=" w-2 h-2 block rounded-full bg-green-500"></i>
+                              Online
+                            </span>
+                          ) : (
+                            <span className="text-gray-500 flex items-center text-xs  gap-1">
+                              <i className=" w-2 h-2 block rounded-full bg-gray-500"></i>
+                              Offline
+                            </span>
+                          )}
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
-                        <button className="bg-red-100 flex items-center gap-2 flex-row-reverse text-sm px-3 text-red-600 p-2 rounded-full">
+                        <button className="bg-red-100 flex cursor-not-allowed items-center gap-2 flex-row-reverse text-sm px-3 text-red-600 p-2 rounded-full">
                           Remove <BiMinus />
                         </button>
                       </div>
-                    </div>;
-                  })
+                    </div>
+                  ))
                 ) : (
                   <div className="flex items-center justify-center py-5">
                     <span className="text-gray-500">No friends</span>
