@@ -1,4 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import AuthRoute from "./auth/AuthRoute";
 import Login from "./pages/Authentication/Login/Login";
 import ResetPassword from "./pages/Authentication/Login/ResetPassword";
 import Register from "./pages/Authentication/Register/Register";
@@ -25,7 +26,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/messages",
-    element: <Messages />,
+    element: (
+      <AuthRoute>
+        <Messages />
+      </AuthRoute>
+    ),
   },
   {
     path: "/profile",
