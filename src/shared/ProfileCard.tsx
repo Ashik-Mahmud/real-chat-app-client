@@ -1,4 +1,7 @@
-import { BiArrowBack, BiMinus } from "react-icons/bi";
+import { BiArrowBack, BiLogOut, BiMinus } from "react-icons/bi";
+import { useNavigate } from "react-router-dom";
+import Cookie from "universal-cookie";
+const cookie = new Cookie();
 
 type Props = {
   setIsShowProfile: (value: boolean) => void;
@@ -6,6 +9,13 @@ type Props = {
 };
 
 const ProfileCard = ({ setIsShowProfile, isShowProfile }: Props) => {
+  const navigate = useNavigate();
+  /* handleLogout */
+  const handleLogout = () => {
+    cookie.remove("user");
+    navigate("/login");
+  };
+
   return (
     <div>
       <div
@@ -41,6 +51,12 @@ const ProfileCard = ({ setIsShowProfile, isShowProfile }: Props) => {
                 <i className=" w-2 h-2 block rounded-full bg-green-500"></i>{" "}
                 Online
               </span>
+              <button
+                onClick={handleLogout}
+                className="mt-4 flex items-center gap-2 flex-row-reverse bg-red-100 text-red-500 p-1 px-3 rounded-full"
+              >
+                Logout <BiLogOut />
+              </button>
             </div>
 
             <div className="mt-5 bg-slate-50 p-6">
