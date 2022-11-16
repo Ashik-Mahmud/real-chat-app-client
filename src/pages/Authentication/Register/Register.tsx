@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useRegisterMutation } from "../../../api/AuthenticationApi";
 import { upload_api } from "../../../config/config";
+import { useAppContext } from "../../../Context/AppProvider";
 type Props = {};
 
 const Register = (props: Props) => {
@@ -12,6 +13,9 @@ const Register = (props: Props) => {
   const [registerAuth, { data, isLoading, error }] = useRegisterMutation();
   const [uploadLoading, setUploadLoading] = useState(false);
   const navigate = useNavigate();
+
+  const { user } = useAppContext();
+
   /* handle register */
   const onRegisterSubmit = handleSubmit(async (data) => {
     if (
@@ -73,7 +77,10 @@ const Register = (props: Props) => {
     if (error) {
       cogoToast.error((error as any)?.data?.message);
     }
-  }, [data, navigate, error]);
+    if (user?.token) {
+      navigate("/messages");
+    }
+  }, [data, navigate, error, user]);
 
   return (
     <div className="grid place-items-center h-screen bg-gray-50">

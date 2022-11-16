@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import Cookie from "universal-cookie";
 import { useLoginMutation } from "../../../api/AuthenticationApi";
+import { useAppContext } from "../../../Context/AppProvider";
 const cookie = new Cookie();
 
 type Props = {};
@@ -11,6 +12,8 @@ const Login = (props: Props) => {
   const { handleSubmit, register } = useForm();
   const [loginAuth, { data, isLoading, error }] = useLoginMutation();
   const navigate = useNavigate();
+
+  const { user } = useAppContext();
 
   const onLoginSubmit = handleSubmit(async (data) => {
     if (!data?.email || !data?.password) {
@@ -41,7 +44,11 @@ const Login = (props: Props) => {
     if (error) {
       cogoToast.error((error as any).data?.message);
     }
-  }, [data, navigate, error]);
+
+    if (user?.token) {
+      navigate("/messages");
+    }
+  }, [data, navigate, error, user]);
 
   return (
     <div className="login grid place-items-center h-screen  bg-gray-50  sm:p-0">

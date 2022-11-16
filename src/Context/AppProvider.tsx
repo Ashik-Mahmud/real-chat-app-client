@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import Cookie from "universal-cookie";
-const AppContext = createContext(null);
+const AppContext = createContext<any>({});
 const cookie = new Cookie();
 
 type Props = {
