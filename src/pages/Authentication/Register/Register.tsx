@@ -13,7 +13,6 @@ const Register = (props: Props) => {
   const [uploadLoading, setUploadLoading] = useState(false);
   const navigate = useNavigate();
   /* handle register */
-
   const onRegisterSubmit = handleSubmit(async (data) => {
     if (
       !data?.name ||
