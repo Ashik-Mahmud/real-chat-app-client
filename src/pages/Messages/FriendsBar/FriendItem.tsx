@@ -5,16 +5,20 @@ type Props = {
 
 const FriendItem = ({ user }: Props) => {
   return (
-    <div className="friend flex items-center justify-between cursor-pointer transition-all hover:bg-slate-200 bg-slate-100 font-montserrat p-3 rounded-lg gap-3">
+    <div className="friend flex h-auto items-center justify-between cursor-pointer transition-all hover:bg-slate-200 bg-slate-100 font-montserrat p-3 rounded-lg gap-3">
       <div className="flex items-center gap-3">
-        <div className="friend-image">
-          <img
-            src={
-              user?.avatar ? user?.avatar : "https://i.pravatar.cc/150?img=1"
-            }
-            alt={user?.name}
-            className="w-14 h-14 rounded-full border-4 border-blue-500 object-cover"
-          />
+        <div className="friend-image w-14 h-14 rounded-full border-4 border-blue-500 overflow-hidden">
+          {user?.avatar ? (
+            <img
+              src={user?.avatar}
+              alt={user?.name}
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center text-2xl text-blue-500">
+              {user?.name?.charAt(0)}
+            </div>
+          )}
         </div>
         <div className="friend-info">
           <h4 className="friend-name text-xl font-bold">{user?.name}</h4>

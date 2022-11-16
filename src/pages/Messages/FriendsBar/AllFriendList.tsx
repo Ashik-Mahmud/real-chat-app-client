@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useState } from "react";
 import { BiArrowBack } from "react-icons/bi";
 import { FaUsers } from "react-icons/fa";
 import { useQuery } from "react-query";
@@ -9,77 +10,16 @@ type Props = {
   showAllFriends: boolean;
   setShowAllFriends: (value: boolean) => void;
 };
-const usersData = [
-  {
-    id: 1,
-    name: "John Doe",
-    email: "jhone@doe.com ",
-    image: "https://i.pravatar.cc/150?img=1",
-  },
-  {
-    id: 2,
-    name: "Sayman Doe",
-    email: "jane@doe.com ",
-    image: "https://i.pravatar.cc/150?img=2",
-  },
-  {
-    id: 3,
-    name: "Abir Doe",
-    email: "newjohone@gamil.com ",
-    image: "https://i.pravatar.cc/150?img=3",
-  },
-  {
-    id: 4,
-    name: "Mou Doe",
-    email: "bal@done.com ",
-    image: "https://i.pravatar.cc/150?img=4",
-  },
-  {
-    id: 5,
-    name: "Salma Doe",
-    email: "chat@done.com ",
 
-    image: "https://i.pravatar.cc/150?img=5",
-  },
-  {
-    id: 6,
-    name: "John Doe",
-    email: "nill@gmail.com ",
-    image: "https://i.pravatar.cc/150?img=6",
-  },
-  {
-    id: 7,
-    name: "John Doe",
-    email: "pagla@gmail.com ",
-    image: "https://i.pravatar.cc/150?img=7",
-  },
-  {
-    id: 8,
-    name: "John Doe",
-    email: "hero@gmail.com ",
-    image: "https://i.pravatar.cc/150?img=8",
-  },
-  {
-    id: 9,
-    name: "John Doe",
-    email: "sagol@gmail.com ",
-    image: "https://i.pravatar.cc/150?img=9",
-  },
-  {
-    id: 10,
-    name: "John Doe",
-    email: "tal@gmail.com ",
-    image: "https://i.pravatar.cc/150?img=10",
-  },
-];
 const AllFriendList = ({ showAllFriends, setShowAllFriends }: Props) => {
   const { user } = useAppContext();
+  const [search, setSearch] = useState("");
 
   /* get all the friends */
   const { data: friends, isLoading: friendsLoading } = useQuery(
-    "friends",
+    ["friends", search, user],
     async () => {
-      const res = await axios.get(`${server_url}/user/all`, {
+      const res = await axios.get(`${server_url}/user/all?q=${search}`, {
         headers: {
           Authorization: `Bearer ${user?.token}`,
         },
@@ -120,6 +60,8 @@ const AllFriendList = ({ showAllFriends, setShowAllFriends }: Props) => {
               <input
                 type="text"
                 placeholder="Search Friend"
+                onChange={(e) => setSearch(e.target.value)}
+                value={search}
                 className="w-full p-4 rounded-lg border-2 border-sky-100 focus:outline-none focus:border-sky-500"
               />
             </div>
@@ -132,7 +74,7 @@ const AllFriendList = ({ showAllFriends, setShowAllFriends }: Props) => {
           ) : (
             <div className="friend-list">
               {friends?.users?.length > 0 ? (
-                <div className="friend-list grid grid-cols-1 gap-3 h-[80vh] overflow-y-auto  p-5">
+                <div className="grid grid-cols-1 gap-3 h-[80vh] overflow-y-auto grid-rows-6  p-5">
                   {friends?.users?.map((user: any) => (
                     <FriendItem key={user._id} user={user} />
                   ))}
