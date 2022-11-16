@@ -1,19 +1,21 @@
 import { createRoot } from "react-dom/client";
+import { QueryClient, QueryClientProvider } from "react-query";
 import { Provider } from "react-redux";
 import App from "./App";
 import { store } from "./app/store";
 import AppProvider from "./Context/AppProvider";
 import "./index.css";
-
 import reportWebVitals from "./reportWebVitals";
 const container = document.getElementById("root")!;
 const root = createRoot(container);
-
+const queryClient = new QueryClient();
 root.render(
   <Provider store={store}>
-    <AppProvider>
-      <App />
-    </AppProvider>
+    <QueryClientProvider client={queryClient}>
+      <AppProvider>
+        <App />
+      </AppProvider>
+    </QueryClientProvider>
   </Provider>
 );
 

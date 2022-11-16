@@ -11,7 +11,11 @@ import Profile from "./pages/Profile/Profile";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home />,
+    element: (
+      <ProtectRoute>
+        <Home />
+      </ProtectRoute>
+    ),
   },
   {
     path: "/login",

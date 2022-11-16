@@ -2,8 +2,10 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 
 import axios from "axios";
 import { useCookies } from "react-cookie";
+import { useQuery } from "react-query";
 import GlobalLoading from "../components/GlobalLoading";
 import { server_url } from "../config/config";
+
 const AppContext = createContext<any>({});
 
 type Props = {
@@ -15,28 +17,29 @@ const AppProvider = ({ children }: Props) => {
 
   const [user, setUser] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
 
+  const { data: userInfoData, isLoading: userInfoLoading } = useQuery(
+    ["user", user],
+    async () => {
+      if ((user as any)?.token) {
+        const { data } = await axios.get(`${server_url}/user/me`, {
+          headers: {
+            Authorization: `Bearer ${(user as any)?.token}`,
+          },
+        });
+        return data;
+      }
+    }
+  );
   useEffect(() => {
     setUser(cookies?.user);
   }, [cookies]);
 
   useEffect(() => {
-    (async () => {
-      if (user) {
-        setIsLoading(true);
-        const { data } = await axios.get(`${server_url}/user/me`, {
-          headers: {
-            authorization: `Bearer ${(user as any).token}`,
-          },
-        });
-        setUserInfo(data?.user);
-        setIsLoading(false);
-      }
-    })();
-  }, [user]);
+    setUserInfo(userInfoData?.user);
+  }, [userInfoData]);
 
-  if (isLoading) return <GlobalLoading />;
+  if (userInfoLoading) return <GlobalLoading />;
 
   return (
     <AppContext.Provider value={{ user, userInfo, setUser } as any}>
