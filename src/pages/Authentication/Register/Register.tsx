@@ -1,8 +1,32 @@
+import cogoToast from "cogo-toast";
+import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-
 type Props = {};
 
 const Register = (props: Props) => {
+  const { handleSubmit, register } = useForm();
+  /* handle register */
+
+  const onRegisterSubmit = handleSubmit(async (data) => {
+    if (
+      !data?.name ||
+      !data?.email ||
+      !data?.password ||
+      !data?.confirmPassword
+    ) {
+      cogoToast.error("Please fill all the fields");
+      return;
+    }
+
+    if (data.password !== data.confirmPassword) {
+      cogoToast.error("Password and confirm password does not match");
+      return;
+    }
+
+    /* handle register */
+    console.log(data);
+  });
+
   return (
     <div className="grid place-items-center h-screen bg-gray-50">
       <div className="bg-white w-full sm:w-[30rem] p-8 shadow border">
@@ -10,14 +34,14 @@ const Register = (props: Props) => {
           <h3 className="text-2xl font-bold ">Register to your account</h3>
         </div>
 
-        <form className="flex flex-col gap-4">
+        <form onSubmit={onRegisterSubmit} className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
             <label htmlFor="name">
               Name <span className="text-red-500">*</span>
             </label>
             <input
               type="name"
-              name="name"
+              {...register("name")}
               id="name"
               placeholder="Enter your name"
               className="border p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
@@ -29,7 +53,7 @@ const Register = (props: Props) => {
             </label>
             <input
               type="email"
-              name="email"
+              {...register("email")}
               id="email"
               placeholder="Enter your email"
               className="border p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
@@ -41,7 +65,7 @@ const Register = (props: Props) => {
             </label>
             <input
               type="password"
-              name="password"
+              {...register("password")}
               id="password"
               placeholder="Enter your password"
               className="border p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
@@ -53,7 +77,7 @@ const Register = (props: Props) => {
             </label>
             <input
               type="password"
-              name="password"
+              {...register("confirmPassword")}
               id="password"
               placeholder="Enter your password"
               className="border p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
@@ -64,7 +88,7 @@ const Register = (props: Props) => {
             <label htmlFor="file">Choose Profile </label>
             <input
               type="file"
-              name="file"
+              {...register("image")}
               id="file"
               className="border p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
             />
