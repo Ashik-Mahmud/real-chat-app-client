@@ -1,9 +1,17 @@
 import { BiX } from "react-icons/bi";
+import Select from "react-select";
+import makeAnimated from "react-select/animated";
+const animatedComponents = makeAnimated();
 
 type Props = {
   setIsShowNewGroupModal: (value: boolean) => void;
 };
 const CreateNewGroupModal = ({ setIsShowNewGroupModal }: Props) => {
+  const options = [
+    { value: "chocolate", label: "Chocolate" },
+    { value: "strawberry", label: "Strawberry" },
+    { value: "vanilla", label: "Vanilla" },
+  ];
   return (
     <div>
       <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50 flex items-center justify-center p-5">
@@ -23,13 +31,7 @@ const CreateNewGroupModal = ({ setIsShowNewGroupModal }: Props) => {
                 className="w-full p-4 rounded-lg border-2 border-sky-100 focus:outline-none focus:border-sky-500"
               />
             </div>
-            <div className="mt-5">
-              <input
-                type="text"
-                placeholder="Group Description"
-                className="w-full p-4 rounded-lg border-2 border-sky-100 focus:outline-none focus:border-sky-500"
-              />
-            </div>
+
             <div className="mt-5">
               <input
                 type="text"
@@ -40,11 +42,15 @@ const CreateNewGroupModal = ({ setIsShowNewGroupModal }: Props) => {
 
             <div className="mt-5">
               <label htmlFor="new_users">Add Users</label>
-              <input
-                type="text"
-                placeholder="Add Users"
-                className="w-full p-4 rounded-lg border-2 border-sky-100 focus:outline-none focus:border-sky-500"
-              />
+              <div className="w-full p-2 rounded-lg border-2 border-sky-100 focus:outline-none focus:border-sky-500">
+                <Select
+                  closeMenuOnSelect={false}
+                  components={animatedComponents}
+                  defaultValue={[options[1], options[2]]}
+                  isMulti
+                  options={options}
+                />
+              </div>
             </div>
 
             <div className="mt-5">
