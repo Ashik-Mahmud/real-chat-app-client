@@ -1,7 +1,7 @@
 import { BiArrowBack, BiLogOut, BiMinus } from "react-icons/bi";
+import { useNavigate } from "react-router-dom";
 import Cookie from "universal-cookie";
 import { useLogoutMutation } from "../api/AuthenticationApi";
-import GlobalLoading from "../components/GlobalLoading";
 import { useAppContext } from "../Context/AppProvider";
 const cookie = new Cookie();
 
@@ -12,16 +12,16 @@ type Props = {
 
 const ProfileCard = ({ setIsShowProfile, isShowProfile }: Props) => {
   const { userInfo, setUser } = useAppContext();
-  const [logout, { isLoading }] = useLogoutMutation();
+  const [logout] = useLogoutMutation();
+  const navigate = useNavigate();
 
   /* handleLogout */
   const handleLogout = async () => {
-    await logout(userInfo?._id);
     setUser(null);
     cookie.remove("user", { path: "/" });
+    navigate("/login");
+    await logout(userInfo?._id);
   };
-
-  if (isLoading) return <GlobalLoading />;
 
   return (
     <div>
