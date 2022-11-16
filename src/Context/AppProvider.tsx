@@ -15,8 +15,6 @@ const AppProvider = ({ children }: Props) => {
 
   const { data, isLoading } = useGetMeQuery({});
 
-  console.log(userInfo);
-
   useEffect(() => {
     const user = cookie.get("user");
     if (user) {
@@ -30,7 +28,7 @@ const AppProvider = ({ children }: Props) => {
     return <GlobalLoading />;
   }
   return (
-    <AppContext.Provider value={{ user, setUser } as any}>
+    <AppContext.Provider value={{ user, userInfo, setUser } as any}>
       {children}
     </AppContext.Provider>
   );

@@ -1,6 +1,9 @@
 import { BiArrowBack, BiLogOut, BiMinus } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import Cookie from "universal-cookie";
+import { useLogoutMutation } from "../api/AuthenticationApi";
+import GlobalLoading from "../components/GlobalLoading";
+import { useAppContext } from "../Context/AppProvider";
 const cookie = new Cookie();
 
 type Props = {
@@ -9,13 +12,22 @@ type Props = {
 };
 
 const ProfileCard = ({ setIsShowProfile, isShowProfile }: Props) => {
+  const [logout, { isLoading }] = useLogoutMutation();
+
+  const { userInfo } = useAppContext();
+
   const navigate = useNavigate();
   /* handleLogout */
-  const handleLogout = () => {
+  const handleLogout = async () => {
     cookie.remove("user");
     navigate("/login");
+    await logout({});
   };
 
+  if (isLoading) {
+    return <GlobalLoading />;
+  }
+  console.log(userInfo);
   return (
     <div>
       <div
@@ -40,17 +52,31 @@ const ProfileCard = ({ setIsShowProfile, isShowProfile }: Props) => {
           </span>
           <div className=" my-5">
             <img
-              src="https://i.pravatar.cc/150?img=1"
-              alt=""
+              src={
+                userInfo?.avatar
+                  ? userInfo?.avatar
+                  : "https://i.pravatar.cc/150?img=1"
+              }
+              alt={userInfo?.name}
               className="rounded-full w-32 h-32 mx-auto border-4 border-blue-400"
             />
             <div className="flex items-center flex-col justify-center gap-0 mt-3">
-              <h3 className="text-sky-500 font-bold text-2xl">John Doe</h3>
-              <span>ashikmahmud@gmail.com</span>
-              <span className="text-gray-500 flex items-center text-xs  gap-1">
-                <i className=" w-2 h-2 block rounded-full bg-green-500"></i>{" "}
-                Online
-              </span>
+              <h3 className="text-sky-500 font-bold text-2xl">
+                {userInfo?.name}
+              </h3>
+              <span>{userInfo?.email}</span>
+              {userInfo?.isOnline ? (
+                <span className="text-gray-500 flex items-center text-xs  gap-1">
+                  <i className=" w-2 h-2 block rounded-full bg-green-500"></i>
+                  Online
+                </span>
+              ) : (
+                <span className="text-gray-500 flex items-center text-xs  gap-1">
+                  <i className=" w-2 h-2 block rounded-full bg-gray-500"></i>
+                  Offline
+                </span>
+              )}
+
               <button
                 onClick={handleLogout}
                 className="mt-4 flex items-center gap-2 flex-row-reverse bg-red-100 text-red-500 p-1 px-3 rounded-full"
@@ -65,27 +91,37 @@ const ProfileCard = ({ setIsShowProfile, isShowProfile }: Props) => {
                 <BiMinus className="text-2xl text-gray-500 cursor-pointer" />
               </div>
               <div className="friend-list">
-                <div className="flex items-center justify-between gap-2 mt-5 bg-blue-50 p-4 rounded-lg">
-                  <div className="flex items-center gap-2">
-                    <img
-                      src="https://i.pravatar.cc/150?img=1"
-                      alt=""
-                      className="rounded-full w-8 h-8"
-                    />
-                    <div className="flex items-start flex-col">
-                      <span className="text-sky-500 font-bold">John Doe</span>
-                      <span className="text-gray-500 flex items-center text-xs  gap-1">
-                        <i className=" w-2 h-2 block rounded-full bg-green-500"></i>{" "}
-                        Online
-                      </span>
-                    </div>
+                {userInfo?.friends?.length > 0 ? (
+                  userInfo?.friends?.map((friend: any, index: number) => {
+                    <div className="flex items-center justify-between gap-2 mt-5 bg-blue-50 p-4 rounded-lg">
+                      <div className="flex items-center gap-2">
+                        <img
+                          src="https://i.pravatar.cc/150?img=1"
+                          alt=""
+                          className="rounded-full w-8 h-8"
+                        />
+                        <div className="flex items-start flex-col">
+                          <span className="text-sky-500 font-bold">
+                            John Doe
+                          </span>
+                          <span className="text-gray-500 flex items-center text-xs  gap-1">
+                            <i className=" w-2 h-2 block rounded-full bg-green-500"></i>{" "}
+                            Online
+                          </span>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <button className="bg-red-100 flex items-center gap-2 flex-row-reverse text-sm px-3 text-red-600 p-2 rounded-full">
+                          Remove <BiMinus />
+                        </button>
+                      </div>
+                    </div>;
+                  })
+                ) : (
+                  <div className="flex items-center justify-center py-5">
+                    <span className="text-gray-500">No friends</span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <button className="bg-red-100 flex items-center gap-2 flex-row-reverse text-sm px-3 text-red-600 p-2 rounded-full">
-                      Remove <BiMinus />
-                    </button>
-                  </div>
-                </div>
+                )}
               </div>
             </div>
           </div>
