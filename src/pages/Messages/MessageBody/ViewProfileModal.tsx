@@ -1,4 +1,5 @@
 import { BiX } from "react-icons/bi";
+import { useAppContext } from "../../../Context/AppProvider";
 
 type Props = {
   setIsShowProfileModal: (value: boolean) => void;
@@ -9,6 +10,9 @@ const ViewProfileModal = ({
   setIsShowProfileModal,
   isShowProfileModal,
 }: Props) => {
+  const { selectedChat } = useAppContext();
+
+  console.log(selectedChat);
   return (
     <>
       <div
@@ -19,7 +23,7 @@ const ViewProfileModal = ({
         }`}
       >
         <div
-          className={`modal-container  w-[40rem]  bg-white z-20 rounded-md shadow-lg transition-transform ${
+          className={`modal-container w-full md:w-[40rem]  bg-white z-20 rounded-md shadow-lg transition-transform ${
             isShowProfileModal ? "scale-100" : "scale-75"
           }`}
         >
@@ -33,9 +37,23 @@ const ViewProfileModal = ({
             </button>
           </div>
           <div className="modal-body flex flex-col items-center justify-center p-8">
-            <div className="profile-image w-32 h-32 rounded-full bg-gray-200"></div>
-            <h3 className="text-xl font-semibold mt-4">John Doe</h3>
-            <p>ashikmahmud@gmail.com</p>
+            <div className="profile-image overflow-hidden w-32 h-32 border-4 rounded-full bg-gray-200 text-3xl font-bold grid place-items-center uppercase">
+              {selectedChat?.receiver?.avatar ? (
+                <img
+                  src={selectedChat?.receiver?.avatar}
+                  alt={selectedChat?.receiver?.name}
+                  className="w-32 h-32 object-cover"
+                />
+              ) : (
+                selectedChat?.receiver?.name
+                  ?.split(" ")
+                  .map((name: string) => name.at(0))
+              )}
+            </div>
+            <h3 className="text-xl font-semibold mt-4">
+              {selectedChat?.receiver?.name}
+            </h3>
+            <p>{selectedChat?.receiver?.email}</p>
 
             {/* friend list */}
             <div className="friend-list w-full mt-4">
