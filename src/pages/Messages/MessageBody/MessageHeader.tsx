@@ -16,7 +16,14 @@ type Props = {
 const MessageHeader = ({ setIsShowChatList }: Props) => {
   const [isMenuShow, setIsMenuShow] = useState(false);
 
-  const { selectedChat, user, refetchFunc, setSelectedChat } = useAppContext();
+  const {
+    selectedChat,
+    user,
+    refetchFunc,
+    setSelectedChat,
+    userInfo,
+    userInfoRefetch,
+  } = useAppContext();
 
   /* handle remove chat */
   const removeFriendAndChatList = async (id: string) => {
@@ -44,8 +51,6 @@ const MessageHeader = ({ setIsShowChatList }: Props) => {
             },
           }
         );
-
-        console.log(data);
         refetchFunc.msgRefetch();
         refetchFunc.chatRefetch();
         setSelectedChat({});
@@ -54,6 +59,33 @@ const MessageHeader = ({ setIsShowChatList }: Props) => {
         });
       } else {
         swal("Your imaginary file is safe!");
+      }
+    }
+  };
+
+  /* handle block/unblock user */
+  const handleBlockUser = async (id: string, permission: boolean) => {
+    const isConfirm = await swal("Are you sure you want to do this?", {
+      buttons: ["Oh noez!", "Aww yiss!"],
+    });
+
+    if (isConfirm) {
+      const { data } = await axios.get(
+        `${server_url}/user/block/${id}?block=${permission}`,
+        {
+          headers: {
+            Authorization: `Bearer ${user?.token}`,
+          },
+        }
+      );
+
+      if (data?.success) {
+        swal("Poof! User has been blocked!", {
+          icon: "success",
+        });
+        refetchFunc.msgRefetch();
+        refetchFunc.chatRefetch();
+        userInfoRefetch();
       }
     }
   };
@@ -106,9 +138,26 @@ const MessageHeader = ({ setIsShowChatList }: Props) => {
               <li className="hover:bg-gray-100 flex items-center gap-2 transition-all p-2 rounded-lg cursor-pointer">
                 <BiUser /> <p className="text-sm">View Profile</p>
               </li>
-              <li className="hover:bg-gray-100 flex items-center gap-2 transition-all p-2 rounded-lg cursor-pointer">
-                <BiBlock /> <p className="text-sm">Block</p>
-              </li>
+              {userInfo?.blockedBy?.includes(selectedChat?.receiver?._id) ? (
+                <li
+                  onClick={() =>
+                    handleBlockUser(selectedChat?.receiver?._id, false)
+                  }
+                  className="hover:bg-gray-100 flex items-center gap-2 transition-all p-2 rounded-lg cursor-pointer"
+                >
+                  <BiUser /> <p className="text-sm">Unblock User</p>
+                </li>
+              ) : (
+                <li
+                  onClick={() =>
+                    handleBlockUser(selectedChat?.receiver?._id, true)
+                  }
+                  className="hover:bg-gray-100 flex items-center gap-2 transition-all p-2 rounded-lg cursor-pointer"
+                >
+                  <BiBlock /> <p className="text-sm">Block</p>
+                </li>
+              )}
+
               <li
                 onClick={() => removeFriendAndChatList(selectedChat?._id)}
                 className="hover:bg-gray-100 flex items-center gap-2 transition-all p-2 rounded-lg cursor-pointer"

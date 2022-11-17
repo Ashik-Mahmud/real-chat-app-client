@@ -23,19 +23,20 @@ const AppProvider = ({ children }: Props) => {
     chatRefetch: () => {},
   });
 
-  const { data: userInfoData, isLoading: userInfoLoading } = useQuery(
-    ["user", user],
-    async () => {
-      if ((user as any)?.token) {
-        const { data } = await axios.get(`${server_url}/user/me`, {
-          headers: {
-            Authorization: `Bearer ${(user as any)?.token}`,
-          },
-        });
-        return data;
-      }
+  const {
+    data: userInfoData,
+    isLoading: userInfoLoading,
+    refetch: userInfoRefetch,
+  } = useQuery(["user", user], async () => {
+    if ((user as any)?.token) {
+      const { data } = await axios.get(`${server_url}/user/me`, {
+        headers: {
+          Authorization: `Bearer ${(user as any)?.token}`,
+        },
+      });
+      return data;
     }
-  );
+  });
 
   useEffect(() => {
     setUser(cookies?.user);
@@ -58,6 +59,7 @@ const AppProvider = ({ children }: Props) => {
           setSelectedChat,
           refetchFunc,
           setRefetchFunc,
+          userInfoRefetch,
         } as any
       }
     >
