@@ -20,7 +20,7 @@ const FriendsBar = ({ setShowAllFriends }: Props) => {
     data,
     isLoading,
     refetch: friendsRefetch,
-  } = useQuery(["friends", user], async () => {
+  } = useQuery(["friends", user, search], async () => {
     const { data } = await axios.get(
       `${server_url}/chat/user?search=${search}`,
       {

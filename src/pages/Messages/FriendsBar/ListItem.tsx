@@ -1,56 +1,72 @@
+import { formatDistance } from "date-fns";
 import { useAppContext } from "../../../Context/AppProvider";
 
 type Props = {
   user: any;
 };
 
-const ListItem = ({ user }: Props) => {
-  const { setSelectedChat } = useAppContext();
+const ListItem = ({ user: chat }: Props) => {
+  const { setSelectedChat, user } = useAppContext();
+
+  const lastActive = formatDistance(
+    new Date(),
+    new Date(chat?.receiver?.updatedAt),
+    { includeSeconds: true }
+  );
 
   return (
     <li
-      onClick={() => setSelectedChat(user)}
+      onClick={() => setSelectedChat(chat)}
       className="bg-sky-50 cursor-pointer hover:bg-sky-200 transition-all w-full p-2 rounded-lg"
     >
       <div className="flex items-center">
         <div className="avatar w-14 h-14 rounded-full border-4 overflow-hidden">
-          {user?.isGroup ? (
+          {chat?.isGroup ? (
             <img
               src={
-                user?.groupImage
-                  ? user?.groupImage
+                chat?.groupImage
+                  ? chat?.groupImage
                   : "https://www.vippng.com/png/full/416-4161690_empty-profile-picture-blank-avatar-image-circle.png"
               }
-              alt={user?.groupName}
+              alt={chat?.groupName}
               className="w-full h-full object-cover "
             />
           ) : (
             <img
               src={
-                user?.receiver?.avatar
-                  ? user?.receiver?.avatar
+                chat?.receiver?.avatar
+                  ? chat?.receiver?.avatar
                   : "https://www.vippng.com/png/full/416-4161690_empty-profile-picture-blank-avatar-image-circle.png"
               }
-              alt={user?.receiver?.name}
+              alt={chat?.receiver?.name}
               className="object-cover w-full h-full rounded-full"
             />
           )}
         </div>
         <div className="w-full ml-3">
-          <div className="flex items-center gap-4 w-full">
+          <div className="flex items-center gap-2 w-full">
             <h4 className="text-md text-gray-600 font-bold capitalize">
-              {user?.isGroup ? user?.groupName : user?.receiver?.name}
+              {chat?.isGroup ? chat?.groupName : chat?.receiver?.name}
             </h4>
-            <p className="text-xs text-gray-500">Active 1h ago</p>
+            {chat?.receiver?.isOnline ? (
+              <p className="text-xs w-2 h-2 rounded-full bg-green-500"></p>
+            ) : (
+              <p className="text-xs text-gray-500">Active {lastActive} ago</p>
+            )}
           </div>
           <div className="lastMessage text-sm">
             <p className="text-xs text-gray-500">
-              {user?.lastMessage ? (
+              {chat?.lastMessage?.msg ? (
                 <>
-                  <b>Ashik Mahmud</b> : {user?.lastMessage}
+                  <b>
+                    {chat?.lastMessage?.sender?._id === user?._id
+                      ? "You"
+                      : chat?.lastMessage?.sender?.name}
+                  </b>
+                  : {chat?.lastMessage?.msg}
                 </>
               ) : (
-                user?.receiver?.email
+                chat?.receiver?.email
               )}
             </p>
           </div>

@@ -1,5 +1,4 @@
 import axios from "axios";
-import cogoToast from "cogo-toast";
 import { useState } from "react";
 import { AiOutlineSend } from "react-icons/ai";
 import { BiSmile } from "react-icons/bi";
@@ -30,8 +29,8 @@ const MessageFooter = (props: Props) => {
     );
 
     if (data?.success) {
-      cogoToast.success(data?.message);
       refetchFunc.msgRefetch();
+      refetchFunc.chatRefetch();
       setMessage("");
     }
   };
