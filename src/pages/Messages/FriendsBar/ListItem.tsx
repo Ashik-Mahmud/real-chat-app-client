@@ -3,8 +3,6 @@ type Props = {
 };
 
 const ListItem = ({ user }: Props) => {
-  console.log(user?.receiver);
-
   return (
     <li className="bg-sky-50 cursor-pointer hover:bg-sky-200 transition-all w-full p-2 rounded-lg">
       <div className="flex items-center">

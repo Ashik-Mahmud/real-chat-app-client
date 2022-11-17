@@ -12,8 +12,6 @@ const FriendsBar = ({ setShowAllFriends }: Props) => {
   const [search, setSearch] = useState("");
   const { data, isLoading } = useGetChatByUserQuery(search);
 
-  console.log(data);
-
   return (
     <div>
       {isShowNewGroupModal && (
