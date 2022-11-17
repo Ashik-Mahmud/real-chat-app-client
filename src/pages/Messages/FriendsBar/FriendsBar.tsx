@@ -35,7 +35,7 @@ const FriendsBar = ({ setShowAllFriends }: Props) => {
             <input
               type="text"
               placeholder="Search Chat"
-              onChange={(e) => setSearch(e.target.value)}
+              onInput={(e) => setSearch(e.currentTarget.value)}
               value={search}
               className="w-full p-4 rounded-lg border-2 border-sky-100 focus:outline-none focus:border-sky-500"
             />

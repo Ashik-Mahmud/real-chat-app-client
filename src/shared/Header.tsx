@@ -82,7 +82,7 @@ const Header = ({ setIsShowProfile, isShowProfile }: Props) => {
                       : "https://i.pravatar.cc/150?img=1"
                   }
                   alt={userInfo?.name}
-                  className="rounded-full w-8 h-8"
+                  className="rounded-full w-8 h-8 object-cover"
                 />
               </div>
               <div className="flex items-start flex-col cursor-pointer">

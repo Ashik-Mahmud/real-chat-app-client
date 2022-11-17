@@ -99,8 +99,8 @@ const ProfileCard = ({ setIsShowProfile, isShowProfile }: Props) => {
                               ? friend?.avatar
                               : "https://i.pravatar.cc/150?img=1"
                           }
-                          alt=""
-                          className="rounded-full w-10 h-10 border-4 border-blue-400"
+                          alt={friend?.name}
+                          className="rounded-full w-10 h-10 border-4 object-cover border-blue-400"
                         />
                         <div className="flex items-start flex-col">
                           <span className="text-sky-500 font-bold capitalize flex items-center gap-2">
