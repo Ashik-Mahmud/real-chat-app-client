@@ -18,7 +18,7 @@ const ViewProfileModal = ({
   const { data, isLoading } = useQuery(
     ["user", user, selectedChat],
     async () => {
-      if ((user as any)?.token) {
+      if (selectedChat?.receiver?._id) {
         const { data } = await axios.get(
           `${server_url}/user/me/${selectedChat?.receiver?._id}`,
           {
@@ -89,10 +89,29 @@ const ViewProfileModal = ({
                   {data?.user?.friends?.map((friend: any) => (
                     <div
                       key={friend._id}
-                      className="friend-item w-full h-20 flex items-start gap-3 bg-gray-200 border bg-center bg-no-repeat rounded-md p-3 backdrop-blur-sm"
+                      className={`friend-item w-full h-20 flex items-start gap-3  border bg-center bg-no-repeat rounded-md p-3 backdrop-blur-sm ${
+                        friend?._id === user?._id ? "bg-sky-200" : "bg-gray-200"
+                      }`}
+                      title={
+                        friend?._id === user?._id ? "It's you" : null || ""
+                      }
                     >
                       <div className="flex flex-col items-start z-20">
-                        <span className="font-bold">{friend?.name}</span>
+                        <span className="font-bold flex items-center gap-3">
+                          {friend?.name}
+
+                          {friend?.isOnline ? (
+                            <small
+                              title="Online"
+                              className="w-2 h-2 rounded-full bg-green-500 block cursor-pointer"
+                            ></small>
+                          ) : (
+                            <small
+                              title="Offline"
+                              className="w-2 h-2 rounded-full bg-gray-500 block cursor-pointer"
+                            ></small>
+                          )}
+                        </span>
                         <small>{friend?.email}</small>
                       </div>
                     </div>
