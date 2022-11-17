@@ -7,6 +7,7 @@ import FriendsBar from "./FriendsBar/FriendsBar";
 import MessageBody from "./MessageBody/MessageBody";
 import MessageFooter from "./MessageBody/MessageFooter";
 import MessageHeader from "./MessageBody/MessageHeader";
+import ViewProfileModal from "./MessageBody/ViewProfileModal";
 
 type Props = {};
 
@@ -20,6 +21,7 @@ const Messages = (props: Props) => {
 
   return (
     <>
+      <ViewProfileModal />
       <AllFriendList
         showAllFriends={showAllFriends}
         setShowAllFriends={setShowAllFriends}
