@@ -77,7 +77,12 @@ const AllFriendList = ({ showAllFriends, setShowAllFriends }: Props) => {
               {friends?.users?.length > 0 ? (
                 <div className="flex flex-col  gap-3 h-[80vh] overflow-y-auto   p-5">
                   {friends?.users?.map((user: any) => (
-                    <FriendItem key={user._id} user={user} refetch={refetch} />
+                    <FriendItem
+                      key={user._id}
+                      user={user}
+                      refetch={refetch}
+                      setShowAllFriends={setShowAllFriends}
+                    />
                   ))}
                 </div>
               ) : (

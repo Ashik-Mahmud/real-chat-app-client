@@ -7,9 +7,10 @@ import { useAppContext } from "../../../Context/AppProvider";
 type Props = {
   user: any;
   refetch: () => void;
+  setShowAllFriends: (value: boolean) => void;
 };
 
-const FriendItem = ({ user, refetch }: Props) => {
+const FriendItem = ({ user, refetch, setShowAllFriends }: Props) => {
   const [createChat, { isLoading, data, error }] = useCreateChatMutation();
   const { refetchFunc } = useAppContext();
   /* handle add to chat */
@@ -19,7 +20,6 @@ const FriendItem = ({ user, refetch }: Props) => {
     });
 
     if (isConfirm) {
-      console.log("add to chat", id, isConfirm);
       await createChat({ receiverId: id });
       refetch();
       refetchFunc.chatRefetch();
@@ -28,15 +28,14 @@ const FriendItem = ({ user, refetch }: Props) => {
 
   useEffect(() => {
     if (data) {
-      console.log(data);
       swal("Success", "Chat created", "success");
+      setShowAllFriends(false);
     }
 
     if (error) {
-      console.log(error);
       swal("Error", "Something went wrong", "error");
     }
-  }, [data, error]);
+  }, [data, error, setShowAllFriends]);
 
   return (
     <div className="friend w-full flex h-auto items-center justify-between cursor-pointer transition-all hover:bg-slate-200 bg-slate-100 font-montserrat p-3 rounded-lg gap-3">

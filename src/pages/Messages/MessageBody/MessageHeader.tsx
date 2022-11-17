@@ -1,8 +1,11 @@
+import axios from "axios";
 import { useState } from "react";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { BiArrowBack, BiBlock, BiUser } from "react-icons/bi";
 import { FaEllipsisV } from "react-icons/fa";
 import { HiOutlineUserRemove } from "react-icons/hi";
+import swal from "sweetalert";
+import { server_url } from "../../../config/config";
 import { useAppContext } from "../../../Context/AppProvider";
 type Props = {
   setIsShowProfile: (value: boolean) => void;
@@ -13,7 +16,47 @@ type Props = {
 const MessageHeader = ({ setIsShowChatList }: Props) => {
   const [isMenuShow, setIsMenuShow] = useState(false);
 
-  const { selectedChat } = useAppContext();
+  const { selectedChat, user, refetchFunc, setSelectedChat } = useAppContext();
+
+  /* handle remove chat */
+  const removeFriendAndChatList = async (id: string) => {
+    const isConfirm = await swal("Are you sure you want to do this?", {
+      buttons: ["Oh noez!", "Aww yiss!"],
+    });
+
+    if (isConfirm) {
+      const againConfirm = await swal({
+        title: "Hey Look?",
+        text: "Once deleted, you will lost your messages, friends and all history, then you ready? It's not recommended whatever ☹",
+        icon: "warning",
+        buttons: ["Cancel", "Okay, delete it"],
+        dangerMode: true,
+      });
+
+      if (againConfirm) {
+        console.log(id);
+
+        const { data } = await axios.delete(
+          `${server_url}/chat/delete/${selectedChat?._id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${user?.token}`,
+            },
+          }
+        );
+
+        console.log(data);
+        refetchFunc.msgRefetch();
+        refetchFunc.chatRefetch();
+        setSelectedChat({});
+        swal("Poof! Your friendship has been deleted!", {
+          icon: "success",
+        });
+      } else {
+        swal("Your imaginary file is safe!");
+      }
+    }
+  };
 
   return (
     <div className="flex items-center justify-between bg-white p-4 border shadow">
@@ -40,7 +83,11 @@ const MessageHeader = ({ setIsShowChatList }: Props) => {
             <h4 className="text-xl font-bold">
               {selectedChat?.receiver?.name}
             </h4>
-            <p className="text-sm text-gray-500">Active 1h ago</p>
+            {selectedChat?.receiver?.isOnline ? (
+              <p className="text-sm text-green-500">Active</p>
+            ) : (
+              <p className="text-sm text-gray-500">Inactive</p>
+            )}
           </div>
         </div>
       </div>
@@ -62,7 +109,10 @@ const MessageHeader = ({ setIsShowChatList }: Props) => {
               <li className="hover:bg-gray-100 flex items-center gap-2 transition-all p-2 rounded-lg cursor-pointer">
                 <BiBlock /> <p className="text-sm">Block</p>
               </li>
-              <li className="hover:bg-gray-100 flex items-center gap-2 transition-all p-2 rounded-lg cursor-pointer">
+              <li
+                onClick={() => removeFriendAndChatList(selectedChat?._id)}
+                className="hover:bg-gray-100 flex items-center gap-2 transition-all p-2 rounded-lg cursor-pointer"
+              >
                 <HiOutlineUserRemove />
                 <p className="text-sm">Remove</p>
               </li>

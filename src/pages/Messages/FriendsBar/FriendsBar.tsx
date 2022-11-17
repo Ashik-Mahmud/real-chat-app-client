@@ -21,15 +21,17 @@ const FriendsBar = ({ setShowAllFriends }: Props) => {
     isLoading,
     refetch: friendsRefetch,
   } = useQuery(["friends", user, search], async () => {
-    const { data } = await axios.get(
-      `${server_url}/chat/user?search=${search}`,
-      {
-        headers: {
-          Authorization: `Bearer ${user?.token}`,
-        },
-      }
-    );
-    return data;
+    if (user) {
+      const { data } = await axios.get(
+        `${server_url}/chat/user?search=${search}`,
+        {
+          headers: {
+            Authorization: `Bearer ${user?.token}`,
+          },
+        }
+      );
+      return data;
+    }
   });
 
   useEffect(() => {
