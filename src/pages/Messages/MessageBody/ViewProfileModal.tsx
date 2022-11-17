@@ -89,14 +89,19 @@ const ViewProfileModal = ({
                   {data?.user?.friends?.map((friend: any) => (
                     <div
                       key={friend._id}
-                      className="friend-item w-full h-20 bg-gray-200 rounded-md"
+                      className="friend-item w-full h-20 flex items-start gap-3 bg-gray-200 border bg-center bg-no-repeat rounded-md p-3 backdrop-blur-sm"
                     >
-                      <span>{friend?.name}</span>
+                      <div className="flex flex-col items-start z-20">
+                        <span className="font-bold">{friend?.name}</span>
+                        <small>{friend?.email}</small>
+                      </div>
                     </div>
                   ))}
                 </div>
               ) : (
-                <div>no friends found</div>
+                <div className="p-4 text-center text-xl font-medium">
+                  no friends found
+                </div>
               )}
             </div>
           </div>
