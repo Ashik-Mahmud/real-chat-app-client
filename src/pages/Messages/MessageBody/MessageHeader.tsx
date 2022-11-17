@@ -1,7 +1,13 @@
 import axios from "axios";
 import { useState } from "react";
 import { AiOutlineCloseCircle } from "react-icons/ai";
-import { BiArrowBack, BiBlock, BiLogOut, BiUser } from "react-icons/bi";
+import {
+  BiArrowBack,
+  BiBlock,
+  BiLogOut,
+  BiTrash,
+  BiUser,
+} from "react-icons/bi";
 import { FaEllipsisV, FaUsers } from "react-icons/fa";
 import { HiOutlineUserRemove } from "react-icons/hi";
 import swal from "sweetalert";
@@ -204,6 +210,11 @@ const MessageHeader = ({ setIsShowChatList, setIsShowProfileModal }: Props) => {
                     <li className="hover:bg-gray-100 flex items-center gap-2 transition-all p-2 rounded-lg cursor-pointer">
                       <BiLogOut /> <p className="text-sm">Leave group</p>
                     </li>
+                    {selectedChat?.creator === user?._id && (
+                      <li className="hover:bg-gray-100 flex items-center gap-2 text-red-400 transition-all p-2 rounded-lg cursor-pointer">
+                        <BiTrash /> <p className="text-sm">delete group</p>
+                      </li>
+                    )}
                   </ul>
                 </>
               )}

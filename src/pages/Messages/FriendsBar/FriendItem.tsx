@@ -32,12 +32,12 @@ const FriendItem = ({ user, refetch, setShowAllFriends }: Props) => {
           },
         }
       );
-
-      console.log("inside friend item component", data);
-      refetch();
-      setIsLoading(false);
-      refetchFunc.chatRefetch();
-      setShowAllFriends(false);
+      if (data?.success) {
+        refetch();
+        setIsLoading(false);
+        refetchFunc.chatRefetch();
+        setShowAllFriends(false);
+      }
     }
   };
 
