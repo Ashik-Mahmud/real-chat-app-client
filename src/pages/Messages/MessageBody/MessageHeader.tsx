@@ -1,8 +1,8 @@
 import axios from "axios";
 import { useState } from "react";
 import { AiOutlineCloseCircle } from "react-icons/ai";
-import { BiArrowBack, BiBlock, BiUser } from "react-icons/bi";
-import { FaEllipsisV } from "react-icons/fa";
+import { BiArrowBack, BiBlock, BiLogOut, BiUser } from "react-icons/bi";
+import { FaEllipsisV, FaUsers } from "react-icons/fa";
 import { HiOutlineUserRemove } from "react-icons/hi";
 import swal from "sweetalert";
 import { server_url } from "../../../config/config";
@@ -152,41 +152,61 @@ const MessageHeader = ({ setIsShowChatList, setIsShowProfileModal }: Props) => {
           </button>
           {isMenuShow && (
             <div className="menus border bg-white p-3   rounded-lg shadow-lg absolute -left-40 top-5 w-40">
-              <ul className=" ">
-                <li
-                  onClick={() => setIsShowProfileModal(true)}
-                  className="hover:bg-gray-100 flex items-center gap-2 transition-all p-2 rounded-lg cursor-pointer"
-                >
-                  <BiUser /> <p className="text-sm">View Profile</p>
-                </li>
-                {userInfo?.blockedBy?.includes(selectedChat?.receiver?._id) ? (
+              {!selectedChat?.isGroup && (
+                <ul className=" ">
                   <li
-                    onClick={() =>
-                      handleBlockUser(selectedChat?.receiver?._id, false)
-                    }
+                    onClick={() => setIsShowProfileModal(true)}
                     className="hover:bg-gray-100 flex items-center gap-2 transition-all p-2 rounded-lg cursor-pointer"
                   >
-                    <BiUser /> <p className="text-sm">Unblock User</p>
+                    <BiUser /> <p className="text-sm">View Profile</p>
                   </li>
-                ) : (
-                  <li
-                    onClick={() =>
-                      handleBlockUser(selectedChat?.receiver?._id, true)
-                    }
-                    className="hover:bg-gray-100 flex items-center gap-2 transition-all p-2 rounded-lg cursor-pointer"
-                  >
-                    <BiBlock /> <p className="text-sm">Block</p>
-                  </li>
-                )}
+                  {userInfo?.blockedBy?.includes(
+                    selectedChat?.receiver?._id
+                  ) ? (
+                    <li
+                      onClick={() =>
+                        handleBlockUser(selectedChat?.receiver?._id, false)
+                      }
+                      className="hover:bg-gray-100 flex items-center gap-2 transition-all p-2 rounded-lg cursor-pointer"
+                    >
+                      <BiUser /> <p className="text-sm">Unblock User</p>
+                    </li>
+                  ) : (
+                    <li
+                      onClick={() =>
+                        handleBlockUser(selectedChat?.receiver?._id, true)
+                      }
+                      className="hover:bg-gray-100 flex items-center gap-2 transition-all p-2 rounded-lg cursor-pointer"
+                    >
+                      <BiBlock /> <p className="text-sm">Block</p>
+                    </li>
+                  )}
 
-                <li
-                  onClick={() => removeFriendAndChatList(selectedChat?._id)}
-                  className="hover:bg-gray-100 flex items-center gap-2 transition-all p-2 rounded-lg cursor-pointer"
-                >
-                  <HiOutlineUserRemove />
-                  <p className="text-sm">Remove</p>
-                </li>
-              </ul>
+                  <li
+                    onClick={() => removeFriendAndChatList(selectedChat?._id)}
+                    className="hover:bg-gray-100 flex items-center gap-2 transition-all p-2 rounded-lg cursor-pointer"
+                  >
+                    <HiOutlineUserRemove />
+                    <p className="text-sm">Remove</p>
+                  </li>
+                </ul>
+              )}
+
+              {selectedChat?.isGroup && (
+                <>
+                  <ul>
+                    <li
+                      onClick={() => setIsShowProfileModal(true)}
+                      className="hover:bg-gray-100 flex items-center gap-2 transition-all p-2 rounded-lg cursor-pointer"
+                    >
+                      <FaUsers /> <p className="text-sm">View Group</p>
+                    </li>
+                    <li className="hover:bg-gray-100 flex items-center gap-2 transition-all p-2 rounded-lg cursor-pointer">
+                      <BiLogOut /> <p className="text-sm">Leave group</p>
+                    </li>
+                  </ul>
+                </>
+              )}
             </div>
           )}
         </div>

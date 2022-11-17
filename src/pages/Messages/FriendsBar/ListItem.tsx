@@ -82,7 +82,7 @@ const ListItem = ({ user: chat }: Props) => {
               ) : !chat?.isGroup ? (
                 chat?.receiver?.email
               ) : chat?.lastMessage?.msg ? (
-                chat?.lastMessage?.msg?.slice(0, 35) + "..."
+                chat?.lastMessage?.msg?.slice(0, 10) + "..."
               ) : (
                 "not available"
               )}
