@@ -38,7 +38,7 @@ const SingleMessage = ({ message, me, data, refetch }: Props) => {
       }`}
     >
       {!me && (
-        <div className="avatar">
+        <div className="avatar cursor-pointer" title={data?.sender?.name}>
           <img
             src={
               data?.sender?.avatar
@@ -80,6 +80,7 @@ const SingleMessage = ({ message, me, data, refetch }: Props) => {
             >
               <ul className="flex flex-col gap-2">
                 <li
+                  onClick={() => navigator.clipboard.writeText(message)}
                   className="bg-blue-50 text-blue-500 p-1 text-xs rounded-lg cursor-pointer"
                   title="Copy Message"
                 >

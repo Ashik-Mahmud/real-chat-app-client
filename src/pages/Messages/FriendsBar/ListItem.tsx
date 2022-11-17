@@ -10,7 +10,7 @@ const ListItem = ({ user: chat }: Props) => {
 
   const lastActive = formatDistance(
     new Date(),
-    new Date(chat?.receiver?.updatedAt),
+    new Date(!chat?.isGroup && chat?.receiver?.updatedAt),
     { includeSeconds: true }
   );
 
@@ -18,23 +18,19 @@ const ListItem = ({ user: chat }: Props) => {
     <li
       onClick={() => setSelectedChat(chat)}
       className={` cursor-pointer hover:bg-sky-200 transition-all w-full p-2 rounded-lg ${
-        chat.receiver?._id === selectedChat?.receiver?._id
+        !chat?.isGroup && chat.receiver?._id === selectedChat?.receiver?._id
           ? "bg-sky-200"
           : "bg-sky-50"
       }`}
     >
-      <div className="flex items-center">
-        <div className="avatar w-14 h-14 rounded-full border-4 overflow-hidden">
+      <div className="flex items-center ">
+        <div className="avatar w-12 h-12 rounded-full border-4 overflow-hidden">
           {chat?.isGroup ? (
-            <img
-              src={
-                chat?.groupImage
-                  ? chat?.groupImage
-                  : "https://www.vippng.com/png/full/416-4161690_empty-profile-picture-blank-avatar-image-circle.png"
-              }
-              alt={chat?.groupName}
-              className="w-full h-full object-cover "
-            />
+            <>
+              <div className="text-2xl grid place-items-center font-bold bg-gray-50 text-gray-500 h-full w-full">
+                {chat?.groupName?.split(" ").map((l: string) => l.at(0))}
+              </div>
+            </>
           ) : (
             <img
               src={
@@ -47,15 +43,29 @@ const ListItem = ({ user: chat }: Props) => {
             />
           )}
         </div>
-        <div className="w-full ml-3">
-          <div className="flex items-center gap-2 w-full">
-            <h4 className="text-md text-gray-600 font-bold capitalize">
+        <div className=" ml-2 relative">
+          <div className="flex items-center gap-2 w-full ">
+            <h4 className="text-md text-gray-600 font-bold capitalize flex items-center gap-2">
               {chat?.isGroup ? chat?.groupName : chat?.receiver?.name}
+              {chat?.isGroup && (
+                <span
+                  className="text-xs font-bold cursor-pointer text-gray-500 grid place-items-center bg-gray-100 w-4 h-4 rounded-full"
+                  title="Group"
+                >
+                  G
+                </span>
+              )}
             </h4>
-            {chat?.receiver?.isOnline ? (
-              <p className="text-xs w-2 h-2 rounded-full bg-green-500"></p>
-            ) : (
-              <p className="text-xs text-gray-500">Active {lastActive} ago</p>
+            {!chat?.isGroup && (
+              <>
+                {chat?.receiver?.isOnline ? (
+                  <p className="text-xs w-2 h-2 rounded-full bg-green-500"></p>
+                ) : (
+                  <p className="text-xs text-gray-500">
+                    Active {lastActive} ago
+                  </p>
+                )}
+              </>
             )}
           </div>
           <div className="lastMessage text-sm">
@@ -69,8 +79,12 @@ const ListItem = ({ user: chat }: Props) => {
                   </b>
                   : {chat?.lastMessage?.msg?.slice(0, 35) + "..."}
                 </>
-              ) : (
+              ) : !chat?.isGroup ? (
                 chat?.receiver?.email
+              ) : chat?.lastMessage?.msg ? (
+                chat?.lastMessage?.msg?.slice(0, 35) + "..."
+              ) : (
+                "not available"
               )}
             </p>
           </div>

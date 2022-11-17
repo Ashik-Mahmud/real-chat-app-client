@@ -72,11 +72,21 @@ const FriendsBar = ({ setShowAllFriends }: Props) => {
           {isLoading ? (
             <div className="text-center">Loading...</div>
           ) : data?.chats?.length > 0 ? (
-            <ul className="flex items-start flex-col gap-2 h-[28rem] sm:h-[30rem] overflow-y-auto">
-              {data?.chats?.map((receiver: any) => (
-                <ListItem key={receiver?._id} user={receiver} />
-              ))}
-            </ul>
+            <>
+              <ul className="flex items-start flex-col gap-2 h-[28rem] sm:h-[30rem] overflow-y-auto">
+                {data?.chats?.map((receiver: any) => (
+                  <ListItem key={receiver?._id} user={receiver} />
+                ))}
+
+                {data?.groupChats?.length > 0 && (
+                  <>
+                    {data?.groupChats?.map((chat: any) => (
+                      <ListItem key={chat?._id} user={chat} />
+                    ))}
+                  </>
+                )}
+              </ul>
+            </>
           ) : (
             <div className="text-center">No Chat Found</div>
           )}
