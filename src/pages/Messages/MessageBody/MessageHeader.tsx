@@ -11,9 +11,10 @@ type Props = {
   setIsShowProfile: (value: boolean) => void;
   isShowProfile: boolean;
   setIsShowChatList: (value: boolean) => void;
+  setIsShowProfileModal: (value: boolean) => void;
 };
 
-const MessageHeader = ({ setIsShowChatList }: Props) => {
+const MessageHeader = ({ setIsShowChatList, setIsShowProfileModal }: Props) => {
   const [isMenuShow, setIsMenuShow] = useState(false);
 
   const {
@@ -133,7 +134,10 @@ const MessageHeader = ({ setIsShowChatList }: Props) => {
           {isMenuShow && (
             <div className="menus border bg-white p-3   rounded-lg shadow-lg absolute -left-40 top-5 w-40">
               <ul className=" ">
-                <li className="hover:bg-gray-100 flex items-center gap-2 transition-all p-2 rounded-lg cursor-pointer">
+                <li
+                  onClick={() => setIsShowProfileModal(true)}
+                  className="hover:bg-gray-100 flex items-center gap-2 transition-all p-2 rounded-lg cursor-pointer"
+                >
                   <BiUser /> <p className="text-sm">View Profile</p>
                 </li>
                 {userInfo?.blockedBy?.includes(selectedChat?.receiver?._id) ? (

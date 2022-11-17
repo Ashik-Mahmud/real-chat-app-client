@@ -1,15 +1,34 @@
 import { BiX } from "react-icons/bi";
 
-type Props = {};
+type Props = {
+  setIsShowProfileModal: (value: boolean) => void;
+  isShowProfileModal: boolean;
+};
 
-const ViewProfileModal = (props: Props) => {
+const ViewProfileModal = ({
+  setIsShowProfileModal,
+  isShowProfileModal,
+}: Props) => {
   return (
     <>
-      <div className="fixed left-0 top-0 z-20 grid place-items-center bg-[#ffffff9c] backdrop-blur-sm w-full h-full">
-        <div className="modal-container  w-[40rem]  bg-white z-20 rounded-md shadow-lg">
+      <div
+        className={`fixed left-0 transition-all top-0 z-20 grid place-items-center bg-[#ffffff9c] backdrop-blur-sm w-full h-full  ${
+          isShowProfileModal
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
+        }`}
+      >
+        <div
+          className={`modal-container  w-[40rem]  bg-white z-20 rounded-md shadow-lg transition-transform ${
+            isShowProfileModal ? "scale-100" : "scale-75"
+          }`}
+        >
           <div className="modal-header flex justify-between items-center p-4 border-b border-gray-200">
             <h3 className="text-xl font-semibold">View Profile</h3>
-            <button className="text-2xl font-semibold">
+            <button
+              onClick={() => setIsShowProfileModal(false)}
+              className="text-2xl font-semibold"
+            >
               <BiX />
             </button>
           </div>

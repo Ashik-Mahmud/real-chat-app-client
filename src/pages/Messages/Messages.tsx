@@ -15,13 +15,18 @@ const Messages = (props: Props) => {
   const [isShowProfile, setIsShowProfile] = useState(false);
   const [isShowChatList, setIsShowChatList] = useState(false);
   const [showAllFriends, setShowAllFriends] = useState(false);
+  const [isShowProfileModal, setIsShowProfileModal] = useState(false);
 
   /* handle Get All the chat */
   const { selectedChat } = useAppContext();
 
   return (
     <>
-      <ViewProfileModal />
+      <ViewProfileModal
+        isShowProfileModal={isShowProfileModal}
+        setIsShowProfileModal={setIsShowProfileModal}
+      />
+
       <AllFriendList
         showAllFriends={showAllFriends}
         setShowAllFriends={setShowAllFriends}
@@ -51,6 +56,7 @@ const Messages = (props: Props) => {
               {selectedChat?._id ? (
                 <>
                   <MessageHeader
+                    setIsShowProfileModal={setIsShowProfileModal}
                     setIsShowChatList={setIsShowChatList}
                     setIsShowProfile={setIsShowProfile}
                     isShowProfile={isShowProfile}
