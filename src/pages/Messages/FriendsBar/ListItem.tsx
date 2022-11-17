@@ -3,24 +3,38 @@ type Props = {
 };
 
 const ListItem = ({ user }: Props) => {
+  console.log(user?.receiver);
+
   return (
     <li className="bg-sky-50 cursor-pointer hover:bg-sky-200 transition-all w-full p-2 rounded-lg">
       <div className="flex items-center">
-        <div className="avatar">
-          <img
-            src={
-              user?.avatar
-                ? user?.avatar
-                : "https://www.vippng.com/png/full/416-4161690_empty-profile-picture-blank-avatar-image-circle.png"
-            }
-            alt={user?.name}
-            className="w-12 h-12 rounded-full object-cover border-4"
-          />
+        <div className="avatar w-14 h-14 rounded-full border-4 overflow-hidden">
+          {user?.isGroup ? (
+            <img
+              src={
+                user?.groupImage
+                  ? user?.groupImage
+                  : "https://www.vippng.com/png/full/416-4161690_empty-profile-picture-blank-avatar-image-circle.png"
+              }
+              alt={user?.groupName}
+              className="w-full h-full object-cover "
+            />
+          ) : (
+            <img
+              src={
+                user?.receiver?.avatar
+                  ? user?.receiver?.avatar
+                  : "https://www.vippng.com/png/full/416-4161690_empty-profile-picture-blank-avatar-image-circle.png"
+              }
+              alt={user?.receiver?.name}
+              className="object-cover w-full h-full rounded-full"
+            />
+          )}
         </div>
         <div className="w-full ml-3">
           <div className="flex items-center gap-4 w-full">
             <h4 className="text-md text-gray-600 font-bold capitalize">
-              {user?.name || "No Name"}
+              {user?.isGroup ? user?.groupName : user?.receiver?.name}
             </h4>
             <p className="text-xs text-gray-500">Active 1h ago</p>
           </div>

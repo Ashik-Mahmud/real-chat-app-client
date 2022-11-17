@@ -16,19 +16,20 @@ const AllFriendList = ({ showAllFriends, setShowAllFriends }: Props) => {
   const [search, setSearch] = useState("");
 
   /* get all the friends */
-  const { data: friends, isLoading: friendsLoading } = useQuery(
-    ["friends", search, user],
-    async () => {
-      if (user?.token) {
-        const res = await axios.get(`${server_url}/user/all?q=${search}`, {
-          headers: {
-            Authorization: `Bearer ${user?.token}`,
-          },
-        });
-        return res?.data;
-      }
+  const {
+    data: friends,
+    isLoading: friendsLoading,
+    refetch,
+  } = useQuery(["friends", search, user], async () => {
+    if (user?.token) {
+      const res = await axios.get(`${server_url}/user/all?q=${search}`, {
+        headers: {
+          Authorization: `Bearer ${user?.token}`,
+        },
+      });
+      return res?.data;
     }
-  );
+  });
 
   return (
     <div>
@@ -76,7 +77,7 @@ const AllFriendList = ({ showAllFriends, setShowAllFriends }: Props) => {
               {friends?.users?.length > 0 ? (
                 <div className="flex flex-col  gap-3 h-[80vh] overflow-y-auto   p-5">
                   {friends?.users?.map((user: any) => (
-                    <FriendItem key={user._id} user={user} />
+                    <FriendItem key={user._id} user={user} refetch={refetch} />
                   ))}
                 </div>
               ) : (

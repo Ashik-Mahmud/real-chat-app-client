@@ -53,7 +53,7 @@ const ProfileCard = ({ setIsShowProfile, isShowProfile }: Props) => {
                   : "https://i.pravatar.cc/150?img=1"
               }
               alt={userInfo?.name}
-              className="rounded-full w-32 h-32 mx-auto border-4 border-blue-400"
+              className="rounded-full w-32 h-32 object-cover mx-auto border-4 border-blue-400"
             />
             <div className="flex items-center flex-col justify-center gap-0 mt-3">
               <h3 className="text-sky-500 font-bold text-2xl">

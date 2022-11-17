@@ -42,8 +42,8 @@ const Header = ({ setIsShowProfile, isShowProfile }: Props) => {
                         ? userInfo?.avatar
                         : "https://i.pravatar.cc/150?img=1"
                     }
-                    alt=""
-                    className="rounded-full w-8 h-8"
+                    alt={userInfo?.name}
+                    className="rounded-full w-8 h-8 object-cover"
                   />
                   <div className="flex items-start flex-col">
                     <span className="text-sky-500 font-bold">John Doe</span>

@@ -5,9 +5,10 @@ import swal from "sweetalert";
 import { useCreateChatMutation } from "../../../api/ChatApi";
 type Props = {
   user: any;
+  refetch: () => void;
 };
 
-const FriendItem = ({ user }: Props) => {
+const FriendItem = ({ user, refetch }: Props) => {
   const [createChat, { isLoading, data, error }] = useCreateChatMutation();
   /* handle add to chat */
   const handleAddToChat = async (id: string) => {
@@ -18,6 +19,7 @@ const FriendItem = ({ user }: Props) => {
     if (isConfirm) {
       console.log("add to chat", id, isConfirm);
       await createChat({ receiverId: id });
+      refetch();
     }
   };
 

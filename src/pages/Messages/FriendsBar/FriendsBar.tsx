@@ -12,6 +12,8 @@ const FriendsBar = ({ setShowAllFriends }: Props) => {
   const [search, setSearch] = useState("");
   const { data, isLoading } = useGetChatByUserQuery(search);
 
+  console.log(data);
+
   return (
     <div>
       {isShowNewGroupModal && (
@@ -40,9 +42,9 @@ const FriendsBar = ({ setShowAllFriends }: Props) => {
           </div>
           {isLoading ? (
             <div className="text-center">Loading...</div>
-          ) : data?.receivers?.length > 0 ? (
+          ) : data?.chats?.length > 0 ? (
             <ul className="flex items-start flex-col gap-2 h-[28rem] sm:h-[30rem] overflow-y-auto">
-              {data?.receivers?.map((receiver: any) => (
+              {data?.chats?.map((receiver: any) => (
                 <ListItem key={receiver?._id} user={receiver} />
               ))}
             </ul>
