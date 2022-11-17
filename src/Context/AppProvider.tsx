@@ -17,6 +17,7 @@ const AppProvider = ({ children }: Props) => {
 
   const [user, setUser] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
+  const [selectedChat, setSelectedChat] = useState(null);
 
   const { data: userInfoData, isLoading: userInfoLoading } = useQuery(
     ["user", user],
@@ -31,6 +32,7 @@ const AppProvider = ({ children }: Props) => {
       }
     }
   );
+
   useEffect(() => {
     setUser(cookies?.user);
   }, [cookies]);
@@ -42,7 +44,9 @@ const AppProvider = ({ children }: Props) => {
   if (userInfoLoading) return <GlobalLoading />;
 
   return (
-    <AppContext.Provider value={{ user, userInfo, setUser } as any}>
+    <AppContext.Provider
+      value={{ user, userInfo, setUser, selectedChat, setSelectedChat } as any}
+    >
       {children}
     </AppContext.Provider>
   );

@@ -86,7 +86,9 @@ const Header = ({ setIsShowProfile, isShowProfile }: Props) => {
                 />
               </div>
               <div className="flex items-start flex-col cursor-pointer">
-                <span className="text-sky-500 font-bold">{userInfo?.name}</span>
+                <span className="text-sky-500 font-bold capitalize">
+                  {userInfo?.name}
+                </span>
                 {userInfo?.isOnline ? (
                   <span className="text-green-500 text-xs flex items-center  gap-1">
                     <i className=" w-2 h-2 block rounded-full bg-green-500"></i>

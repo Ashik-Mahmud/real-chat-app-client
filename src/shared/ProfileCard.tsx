@@ -56,7 +56,7 @@ const ProfileCard = ({ setIsShowProfile, isShowProfile }: Props) => {
               className="rounded-full w-32 h-32 object-cover mx-auto border-4 border-blue-400"
             />
             <div className="flex items-center flex-col justify-center gap-0 mt-3">
-              <h3 className="text-sky-500 font-bold text-2xl">
+              <h3 className="text-sky-500 font-bold text-2xl capitalize">
                 {userInfo?.name}
               </h3>
               <span>{userInfo?.email}</span>
@@ -103,7 +103,7 @@ const ProfileCard = ({ setIsShowProfile, isShowProfile }: Props) => {
                           className="rounded-full w-10 h-10 border-4 object-cover border-blue-400"
                         />
                         <div className="flex items-start flex-col">
-                          <span className="text-sky-500 font-bold capitalize flex items-center gap-2">
+                          <span className="text-sky-500 font-bold capitalize flex items-center gap-2 ">
                             {friend?.name}
                             {friend?.isOnline ? (
                               <span

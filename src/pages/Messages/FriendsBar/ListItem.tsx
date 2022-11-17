@@ -1,10 +1,17 @@
+import { useAppContext } from "../../../Context/AppProvider";
+
 type Props = {
   user: any;
 };
 
 const ListItem = ({ user }: Props) => {
+  const { setSelectedChat } = useAppContext();
+
   return (
-    <li className="bg-sky-50 cursor-pointer hover:bg-sky-200 transition-all w-full p-2 rounded-lg">
+    <li
+      onClick={() => setSelectedChat(user)}
+      className="bg-sky-50 cursor-pointer hover:bg-sky-200 transition-all w-full p-2 rounded-lg"
+    >
       <div className="flex items-center">
         <div className="avatar w-14 h-14 rounded-full border-4 overflow-hidden">
           {user?.isGroup ? (

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { BiArrowBack } from "react-icons/bi";
+import { useAppContext } from "../../Context/AppProvider";
 import Header from "../../shared/Header";
 import AllFriendList from "./FriendsBar/AllFriendList";
 import FriendsBar from "./FriendsBar/FriendsBar";
@@ -13,6 +14,11 @@ const Messages = (props: Props) => {
   const [isShowProfile, setIsShowProfile] = useState(false);
   const [isShowChatList, setIsShowChatList] = useState(false);
   const [showAllFriends, setShowAllFriends] = useState(false);
+
+  /* handle Get All the chat */
+  const { selectedChat } = useAppContext();
+
+  console.log(selectedChat);
 
   return (
     <>
@@ -42,16 +48,26 @@ const Messages = (props: Props) => {
               <FriendsBar setShowAllFriends={setShowAllFriends} />
             </div>
             <div className="message-content order-1 md:order-2 md:col-span-2">
-              <MessageHeader
-                setIsShowChatList={setIsShowChatList}
-                setIsShowProfile={setIsShowProfile}
-                isShowProfile={isShowProfile}
-              />
+              {selectedChat?._id ? (
+                <>
+                  <MessageHeader
+                    setIsShowChatList={setIsShowChatList}
+                    setIsShowProfile={setIsShowProfile}
+                    isShowProfile={isShowProfile}
+                  />
 
-              <div className="message-body bg-gray-50">
-                <MessageBody />
-                <MessageFooter />
-              </div>
+                  <div className="message-body bg-gray-50">
+                    <MessageBody />
+                    <MessageFooter />
+                  </div>
+                </>
+              ) : (
+                <div className="h-full bg-white grid place-items-center font-montserrat">
+                  <h2 className="text-xl font-medium text-gray-500">
+                    Click to Continue chat
+                  </h2>
+                </div>
+              )}
             </div>
           </div>
         </div>

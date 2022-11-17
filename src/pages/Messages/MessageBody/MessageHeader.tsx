@@ -3,6 +3,7 @@ import { AiOutlineCloseCircle } from "react-icons/ai";
 import { BiArrowBack, BiBlock, BiUser } from "react-icons/bi";
 import { FaEllipsisV } from "react-icons/fa";
 import { HiOutlineUserRemove } from "react-icons/hi";
+import { useAppContext } from "../../../Context/AppProvider";
 type Props = {
   setIsShowProfile: (value: boolean) => void;
   isShowProfile: boolean;
@@ -11,6 +12,10 @@ type Props = {
 
 const MessageHeader = ({ setIsShowChatList }: Props) => {
   const [isMenuShow, setIsMenuShow] = useState(false);
+
+  const { selectedChat } = useAppContext();
+  console.log(selectedChat);
+
   return (
     <div className="flex items-center justify-between bg-white p-4 border shadow">
       <div className="flex items-center gap-3">
@@ -23,13 +28,19 @@ const MessageHeader = ({ setIsShowChatList }: Props) => {
         <div className="flex items-center">
           <div className="avatar">
             <img
-              src="https://www.vippng.com/png/full/416-4161690_empty-profile-picture-blank-avatar-image-circle.png"
-              alt="avatar"
+              src={
+                selectedChat?.receiver?.avatar
+                  ? selectedChat?.receiver?.avatar
+                  : "https://www.vippng.com/png/full/416-4161690_empty-profile-picture-blank-avatar-image-circle.png"
+              }
+              alt={selectedChat?.receiver?.name}
               className="w-12 h-12 rounded-full object-cover border-4"
             />
           </div>
           <div className="ml-3">
-            <h4 className="text-xl font-bold">John Doe</h4>
+            <h4 className="text-xl font-bold">
+              {selectedChat?.receiver?.name}
+            </h4>
             <p className="text-sm text-gray-500">Active 1h ago</p>
           </div>
         </div>
