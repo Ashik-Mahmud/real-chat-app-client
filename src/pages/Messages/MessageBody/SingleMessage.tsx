@@ -15,9 +15,7 @@ type Props = {
 const SingleMessage = ({ message, me, data, refetch }: Props) => {
   const [showActionMessage, setShowActionMessage] = useState(false);
   const { user } = useAppContext();
-
   const time = new Date(data?.createdAt).toLocaleTimeString();
-
   /* handle delete message for */
   const handleMessage = async (id: string) => {
     const isConfirm = await swal("Are you sure you want delete this?", {

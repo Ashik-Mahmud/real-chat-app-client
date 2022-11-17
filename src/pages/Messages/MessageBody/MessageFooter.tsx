@@ -9,7 +9,7 @@ import { useAppContext } from "../../../Context/AppProvider";
 type Props = {};
 
 const MessageFooter = (props: Props) => {
-  const { selectedChat, user, setChatList } = useAppContext();
+  const { selectedChat, user, sentMsgRefetch } = useAppContext();
   const [message, setMessage] = useState("");
 
   /* handle send Message */
@@ -28,12 +28,10 @@ const MessageFooter = (props: Props) => {
         },
       }
     );
-    console.log(data?.sentMessage);
-
-    setChatList((prev: any) => [...prev, data?.sentMessage]);
 
     if (data?.success) {
       cogoToast.success(data?.message);
+      sentMsgRefetch.refetch();
     }
   };
 
