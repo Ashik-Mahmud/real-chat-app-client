@@ -100,24 +100,43 @@ const MessageHeader = ({ setIsShowChatList, setIsShowProfileModal }: Props) => {
           </span>
           <div className="flex items-center">
             <div className="avatar">
-              <img
-                src={
-                  selectedChat?.receiver?.avatar
-                    ? selectedChat?.receiver?.avatar
-                    : "https://www.vippng.com/png/full/416-4161690_empty-profile-picture-blank-avatar-image-circle.png"
-                }
-                alt={selectedChat?.receiver?.name}
-                className="w-12 h-12 rounded-full object-cover border-4"
-              />
+              {selectedChat?.isGroup ? (
+                <div
+                  title={selectedChat?.groupName}
+                  className="text-3xl w-12 h-12 rounded-full bg-gray-100 grid place-items-center font-bold"
+                >
+                  {selectedChat?.groupName
+                    ?.split(" ")
+                    .map((l: string) => l.at(0))}
+                </div>
+              ) : (
+                <img
+                  src={
+                    selectedChat?.receiver?.avatar
+                      ? selectedChat?.receiver?.avatar
+                      : "https://www.vippng.com/png/full/416-4161690_empty-profile-picture-blank-avatar-image-circle.png"
+                  }
+                  alt={selectedChat?.receiver?.name}
+                  className="w-12 h-12 rounded-full object-cover border-4"
+                />
+              )}
             </div>
             <div className="ml-3">
               <h4 className="text-xl font-bold">
-                {selectedChat?.receiver?.name}
+                {selectedChat?.isGroup
+                  ? selectedChat?.groupName
+                  : selectedChat?.receiver?.name}
               </h4>
-              {selectedChat?.receiver?.isOnline ? (
-                <p className="text-sm text-green-500">Active</p>
+              {selectedChat?.isGroup ? (
+                <p className="text-sm text-gray-500">Group chat</p>
               ) : (
-                <p className="text-sm text-gray-500">Inactive</p>
+                <>
+                  {selectedChat?.receiver?.isOnline ? (
+                    <p className="text-sm text-green-500">Active</p>
+                  ) : (
+                    <p className="text-sm text-gray-500">Inactive</p>
+                  )}
+                </>
               )}
             </div>
           </div>
