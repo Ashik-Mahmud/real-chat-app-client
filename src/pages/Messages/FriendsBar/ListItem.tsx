@@ -6,7 +6,7 @@ type Props = {
 };
 
 const ListItem = ({ user: chat }: Props) => {
-  const { setSelectedChat, user } = useAppContext();
+  const { setSelectedChat, user, selectedChat } = useAppContext();
 
   const lastActive = formatDistance(
     new Date(),
@@ -17,7 +17,11 @@ const ListItem = ({ user: chat }: Props) => {
   return (
     <li
       onClick={() => setSelectedChat(chat)}
-      className="bg-sky-50 cursor-pointer hover:bg-sky-200 transition-all w-full p-2 rounded-lg"
+      className={` cursor-pointer hover:bg-sky-200 transition-all w-full p-2 rounded-lg ${
+        chat.receiver?._id === selectedChat?.receiver?._id
+          ? "bg-sky-200"
+          : "bg-sky-50"
+      }`}
     >
       <div className="flex items-center">
         <div className="avatar w-14 h-14 rounded-full border-4 overflow-hidden">
@@ -55,7 +59,7 @@ const ListItem = ({ user: chat }: Props) => {
             )}
           </div>
           <div className="lastMessage text-sm">
-            <p className="text-xs text-gray-500">
+            <p className="text-xs text-gray-500" title={chat?.lastMessage?.msg}>
               {chat?.lastMessage?.msg ? (
                 <>
                   <b>
@@ -63,7 +67,7 @@ const ListItem = ({ user: chat }: Props) => {
                       ? "You"
                       : chat?.lastMessage?.sender?.name}
                   </b>
-                  : {chat?.lastMessage?.msg}
+                  : {chat?.lastMessage?.msg?.slice(0, 35) + "..."}
                 </>
               ) : (
                 chat?.receiver?.email
