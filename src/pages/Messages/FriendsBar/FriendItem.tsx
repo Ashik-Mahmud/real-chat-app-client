@@ -1,8 +1,9 @@
-import { useEffect } from "react";
+import axios from "axios";
+import { useState } from "react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { BsPlus } from "react-icons/bs";
 import swal from "sweetalert";
-import { useCreateChatMutation } from "../../../api/ChatApi";
+import { server_url } from "../../../config/config";
 import { useAppContext } from "../../../Context/AppProvider";
 type Props = {
   user: any;
@@ -11,8 +12,9 @@ type Props = {
 };
 
 const FriendItem = ({ user, refetch, setShowAllFriends }: Props) => {
-  const [createChat, { isLoading, data, error }] = useCreateChatMutation();
-  const { refetchFunc } = useAppContext();
+  const { refetchFunc, user: cookieUser } = useAppContext();
+  const [isLoading, setIsLoading] = useState(false);
+
   /* handle add to chat */
   const handleAddToChat = async (id: string) => {
     const isConfirm = await swal("Are you sure you want add this?", {
@@ -20,22 +22,24 @@ const FriendItem = ({ user, refetch, setShowAllFriends }: Props) => {
     });
 
     if (isConfirm) {
-      await createChat({ receiverId: id });
-      refetch();
-      refetchFunc.chatRefetch();
-    }
-  };
+      setIsLoading(true);
+      const { data } = await axios.post(
+        `${server_url}/chat/create`,
+        { receiverId: id },
+        {
+          headers: {
+            authorization: `Bearer ${cookieUser?.token}`,
+          },
+        }
+      );
 
-  useEffect(() => {
-    if (data) {
-      swal("Success", "Chat created", "success");
+      console.log("inside friend item component", data);
+      refetch();
+      setIsLoading(false);
+      refetchFunc.chatRefetch();
       setShowAllFriends(false);
     }
-
-    if (error) {
-      swal("Error", "Something went wrong", "error");
-    }
-  }, [data, error, setShowAllFriends]);
+  };
 
   return (
     <div className="friend w-full flex h-auto items-center justify-between cursor-pointer transition-all hover:bg-slate-200 bg-slate-100 font-montserrat p-3 rounded-lg gap-3">

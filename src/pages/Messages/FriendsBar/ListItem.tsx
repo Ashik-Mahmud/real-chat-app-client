@@ -10,8 +10,7 @@ const ListItem = ({ user: chat }: Props) => {
 
   const lastActive = formatDistance(
     new Date(),
-    new Date(!chat?.isGroup && chat?.receiver?.updatedAt),
-    { includeSeconds: true }
+    new Date(!chat?.isGroup && chat?.receiver?.updatedAt)
   );
 
   return (

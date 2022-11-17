@@ -146,11 +146,12 @@ const ViewProfileModal = ({
             <div className="friend-list w-full mt-4">
               <div className="friend-list-header flex bg-gray-100 p-2 rounded px-4 justify-between items-center">
                 <h3 className="text-lg font-semibold flex items-center gap-2">
-                  {selectedChat?.isGroup && (
-                    <span className="flex items-center gap-1 bg-blue-200 cursor-pointer text-blue-600 p-1 rounded-full px-2 capitalize text-sm">
-                      <BiPlus /> add
-                    </span>
-                  )}
+                  {selectedChat?.isGroup &&
+                    selectedChat?.creator === user?._id && (
+                      <span className="flex items-center gap-1 bg-blue-200 cursor-pointer text-blue-600 p-1 rounded-full px-2 capitalize text-sm">
+                        <BiPlus /> add
+                      </span>
+                    )}
                   {selectedChat?.isGroup ? "Members" : "Friends"}
                 </h3>
                 {!selectedChat?.isGroup && (
