@@ -14,7 +14,6 @@ const MessageHeader = ({ setIsShowChatList }: Props) => {
   const [isMenuShow, setIsMenuShow] = useState(false);
 
   const { selectedChat } = useAppContext();
-  console.log(selectedChat);
 
   return (
     <div className="flex items-center justify-between bg-white p-4 border shadow">

@@ -18,6 +18,7 @@ const AppProvider = ({ children }: Props) => {
   const [user, setUser] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
   const [selectedChat, setSelectedChat] = useState(null);
+  const [chatList, setChatList] = useState([]);
 
   const { data: userInfoData, isLoading: userInfoLoading } = useQuery(
     ["user", user],
@@ -45,7 +46,17 @@ const AppProvider = ({ children }: Props) => {
 
   return (
     <AppContext.Provider
-      value={{ user, userInfo, setUser, selectedChat, setSelectedChat } as any}
+      value={
+        {
+          user,
+          userInfo,
+          setUser,
+          selectedChat,
+          setSelectedChat,
+          chatList,
+          setChatList,
+        } as any
+      }
     >
       {children}
     </AppContext.Provider>

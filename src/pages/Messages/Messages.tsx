@@ -18,8 +18,6 @@ const Messages = (props: Props) => {
   /* handle Get All the chat */
   const { selectedChat } = useAppContext();
 
-  console.log(selectedChat);
-
   return (
     <>
       <AllFriendList
