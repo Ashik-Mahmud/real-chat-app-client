@@ -45,7 +45,13 @@ const ListItem = ({ user }: Props) => {
           </div>
           <div className="lastMessage text-sm">
             <p className="text-xs text-gray-500">
-              <b>Ashik Mahmud</b> : Hey where are you now?
+              {user?.lastMessage ? (
+                <>
+                  <b>Ashik Mahmud</b> : {user?.lastMessage}
+                </>
+              ) : (
+                user?.receiver?.email
+              )}
             </p>
           </div>
         </div>

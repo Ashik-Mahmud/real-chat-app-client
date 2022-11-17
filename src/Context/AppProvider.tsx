@@ -18,8 +18,9 @@ const AppProvider = ({ children }: Props) => {
   const [user, setUser] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
   const [selectedChat, setSelectedChat] = useState(null);
-  const [sentMsgRefetch, setSentMsgRefetch] = useState({
-    refetch: () => {},
+  const [refetchFunc, setRefetchFunc] = useState({
+    msgRefetch: () => {},
+    chatRefetch: () => {},
   });
 
   const { data: userInfoData, isLoading: userInfoLoading } = useQuery(
@@ -55,8 +56,8 @@ const AppProvider = ({ children }: Props) => {
           setUser,
           selectedChat,
           setSelectedChat,
-          setSentMsgRefetch,
-          sentMsgRefetch,
+          refetchFunc,
+          setRefetchFunc,
         } as any
       }
     >

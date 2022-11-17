@@ -1,6 +1,9 @@
-import { useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { BsPlus } from "react-icons/bs";
-import { useGetChatByUserQuery } from "../../../api/ChatApi";
+import { useQuery } from "react-query";
+import { server_url } from "../../../config/config";
+import { useAppContext } from "../../../Context/AppProvider";
 import CreateNewGroupModal from "./CreateNewGroupModal";
 import ListItem from "./ListItem";
 type Props = {
@@ -10,7 +13,33 @@ type Props = {
 const FriendsBar = ({ setShowAllFriends }: Props) => {
   const [isShowNewGroupModal, setIsShowNewGroupModal] = useState(false);
   const [search, setSearch] = useState("");
-  const { data, isLoading } = useGetChatByUserQuery(search);
+  const { user, setRefetchFunc } = useAppContext();
+
+  /* get all the chat for particular user */
+  const {
+    data,
+    isLoading,
+    refetch: friendsRefetch,
+  } = useQuery(["friends", user], async () => {
+    const { data } = await axios.get(
+      `${server_url}/chat/user?search=${search}`,
+      {
+        headers: {
+          Authorization: `Bearer ${user?.token}`,
+        },
+      }
+    );
+    return data;
+  });
+
+  useEffect(() => {
+    setRefetchFunc((prev: any) => {
+      return {
+        ...prev,
+        chatRefetch: friendsRefetch,
+      };
+    });
+  }, [friendsRefetch, setRefetchFunc]);
 
   return (
     <div>

@@ -3,6 +3,7 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { BsPlus } from "react-icons/bs";
 import swal from "sweetalert";
 import { useCreateChatMutation } from "../../../api/ChatApi";
+import { useAppContext } from "../../../Context/AppProvider";
 type Props = {
   user: any;
   refetch: () => void;
@@ -10,6 +11,7 @@ type Props = {
 
 const FriendItem = ({ user, refetch }: Props) => {
   const [createChat, { isLoading, data, error }] = useCreateChatMutation();
+  const { refetchFunc } = useAppContext();
   /* handle add to chat */
   const handleAddToChat = async (id: string) => {
     const isConfirm = await swal("Are you sure you want add this?", {
@@ -20,6 +22,7 @@ const FriendItem = ({ user, refetch }: Props) => {
       console.log("add to chat", id, isConfirm);
       await createChat({ receiverId: id });
       refetch();
+      refetchFunc.chatRefetch();
     }
   };
 

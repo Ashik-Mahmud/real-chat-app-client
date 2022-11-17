@@ -8,7 +8,7 @@ import SingleMessage from "./SingleMessage";
 
 type Props = {};
 const MessageBody = (props: Props) => {
-  const { selectedChat, user, setSentMsgRefetch } = useAppContext();
+  const { selectedChat, user, setRefetchFunc } = useAppContext();
 
   const {
     data: messageList,
@@ -34,10 +34,13 @@ const MessageBody = (props: Props) => {
     (messageBodyRef as any).current.scrollTop = (
       messageBodyRef as any
     ).current.scrollHeight;
-    setSentMsgRefetch({
-      refetch: refetch,
+    setRefetchFunc((prev: any) => {
+      return {
+        ...prev,
+        msgRefetch: refetch,
+      };
     });
-  }, [messageList, refetch, setSentMsgRefetch]);
+  }, [messageList, refetch, setRefetchFunc]);
 
   return (
     <div
