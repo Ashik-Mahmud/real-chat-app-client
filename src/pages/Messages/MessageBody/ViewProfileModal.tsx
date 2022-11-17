@@ -1,4 +1,7 @@
+import axios from "axios";
 import { BiX } from "react-icons/bi";
+import { useQuery } from "react-query";
+import { server_url } from "../../../config/config";
 import { useAppContext } from "../../../Context/AppProvider";
 
 type Props = {
@@ -10,9 +13,25 @@ const ViewProfileModal = ({
   setIsShowProfileModal,
   isShowProfileModal,
 }: Props) => {
-  const { selectedChat } = useAppContext();
+  const { selectedChat, user } = useAppContext();
 
-  console.log(selectedChat);
+  const { data, isLoading } = useQuery(
+    ["user", user, selectedChat],
+    async () => {
+      if ((user as any)?.token) {
+        const { data } = await axios.get(
+          `${server_url}/user/me/${selectedChat?.receiver?._id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${(user as any)?.token}`,
+            },
+          }
+        );
+        return data;
+      }
+    }
+  );
+
   return (
     <>
       <div
@@ -61,14 +80,24 @@ const ViewProfileModal = ({
                 <h3 className="text-lg font-semibold">Friends</h3>
                 <button className="text-sm font-semibold">See All</button>
               </div>
-              <div className="friend-list-body grid grid-cols-3 gap-2 mt-4">
-                <div className="friend-item w-full h-20 bg-gray-200 rounded-md"></div>
-                <div className="friend-item w-full h-20 bg-gray-200 rounded-md"></div>
-                <div className="friend-item w-full h-20 bg-gray-200 rounded-md"></div>
-                <div className="friend-item w-full h-20 bg-gray-200 rounded-md"></div>
-                <div className="friend-item w-full h-20 bg-gray-200 rounded-md"></div>
-                <div className="friend-item w-full h-20 bg-gray-200 rounded-md"></div>
-              </div>
+              {isLoading ? (
+                <>
+                  <div>loading....</div>
+                </>
+              ) : data?.user?.friends?.length > 0 ? (
+                <div className="friend-list-body grid grid-cols-3 gap-2 mt-4">
+                  {data?.user?.friends?.map((friend: any) => (
+                    <div
+                      key={friend._id}
+                      className="friend-item w-full h-20 bg-gray-200 rounded-md"
+                    >
+                      <span>{friend?.name}</span>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div>no friends found</div>
+              )}
             </div>
           </div>
           <div className="modal-footer flex justify-end items-center p-4 border-t border-gray-200">
