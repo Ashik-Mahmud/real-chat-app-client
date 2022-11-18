@@ -78,7 +78,7 @@ const ViewProfileModal = ({
         const { data } = await axios.patch(
           `${server_url}/chat/group/remove-member/${selectedChat?._id}`,
           {
-            id,
+            memberId: id,
           },
           {
             headers: {
@@ -89,6 +89,7 @@ const ViewProfileModal = ({
         if (data.success) {
           refetchFunc?.chatRefetch();
           cogoToast.success("Member removed successfully");
+          setIsShowProfileModal(false);
         }
       } catch (error) {
         console.log(error);
