@@ -135,8 +135,13 @@ const ViewProfileModal = ({
 
             <div>
               {selectedChat?.isGroup && (
-                <span className="my-1 text-sm bg-teal-50 p-1 px-3 rounded cursor-pointer text-teal-600 flex items-center gap-2">
-                  Share joining Link{" "}
+                <span
+                  onClick={() =>
+                    navigator.clipboard.writeText(selectedChat?._id)
+                  }
+                  className="my-1 text-sm bg-teal-50 p-1 px-3 rounded cursor-pointer text-teal-600 flex items-center gap-2"
+                >
+                  Copy Group ID{" "}
                   <span>
                     <BiCopy />
                   </span>

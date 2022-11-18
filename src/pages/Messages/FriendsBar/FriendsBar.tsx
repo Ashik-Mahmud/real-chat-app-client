@@ -5,6 +5,7 @@ import { useQuery } from "react-query";
 import { server_url } from "../../../config/config";
 import { useAppContext } from "../../../Context/AppProvider";
 import CreateNewGroupModal from "./CreateNewGroupModal";
+import JoinGroupViaIDModal from "./JoinGroupViaIDModal";
 import ListItem from "./ListItem";
 type Props = {
   setShowAllFriends: (value: boolean) => void;
@@ -12,6 +13,7 @@ type Props = {
 
 const FriendsBar = ({ setShowAllFriends }: Props) => {
   const [isShowNewGroupModal, setIsShowNewGroupModal] = useState(false);
+  const [isShowJoinModal, setIsShowJoinModal] = useState(false);
   const [search, setSearch] = useState("");
   const { user, setRefetchFunc } = useAppContext();
 
@@ -48,16 +50,28 @@ const FriendsBar = ({ setShowAllFriends }: Props) => {
       {isShowNewGroupModal && (
         <CreateNewGroupModal setIsShowNewGroupModal={setIsShowNewGroupModal} />
       )}
+      {isShowJoinModal && (
+        <JoinGroupViaIDModal setIsShowJoinModal={setIsShowJoinModal} />
+      )}
 
       <div className=" bg-white p-8 mt-5 md:mt-0">
         <div className="title flex flex-col md:flex-row items-center justify-between bg-sky-100 text-sky-500  px-3 py-3 rounded">
           <h3 className="text-xl font-bold my-2">Friends</h3>
-          <button
-            onClick={() => setIsShowNewGroupModal(true)}
-            className="bg-sky-500 text-sky-100 p-2 rounded-sm px-4 flex items-center gap-2"
-          >
-            Create New Group <BsPlus size={30} />
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setIsShowNewGroupModal(true)}
+              className="bg-sky-500 text-sm text-sky-100 p-2 rounded-sm px-4 flex items-center gap-2"
+            >
+              Create Group <BsPlus size={20} />
+            </button>
+            <button
+              onClick={() => setIsShowJoinModal(true)}
+              title="Join Group via group code"
+              className="bg-sky-200 text-sky-500 text-sm  p-2 rounded-sm px-4 flex items-center gap-2"
+            >
+              Join
+            </button>
+          </div>
         </div>
         <div className="chatLists mt-5">
           <div className="search-chatList mb-3">
