@@ -96,7 +96,6 @@ const MessageHeader = ({ setIsShowChatList, setIsShowProfileModal }: Props) => {
 
   /* handle leave group */
   const handleLeaveGroup = async () => {
-    console.log(user?._id);
     const isConfirm = await swal({
       text: "are you want leave this group?",
       buttons: ["Oh noez!", "Aww yiss!"],
@@ -114,6 +113,32 @@ const MessageHeader = ({ setIsShowChatList, setIsShowProfileModal }: Props) => {
 
       if (data?.success) {
         swal("Poof! You have been leave this group!", {
+          icon: "success",
+        });
+        refetchFunc.msgRefetch();
+        refetchFunc.chatRefetch();
+        setSelectedChat({});
+      }
+    }
+  };
+
+  /* handle delete group */
+  const handleDeleteGroup = async () => {
+    const isConfirm = await swal({
+      text: "are you want delete this group?",
+      buttons: ["Oh noez!", "Aww yiss!"],
+    });
+    if (isConfirm) {
+      const { data } = await axios.delete(
+        `${server_url}/chat/group/delete-group/${selectedChat?._id}`,
+        {
+          headers: {
+            authorization: `Bearer ${user?.token}`,
+          },
+        }
+      );
+      if (data?.success) {
+        swal("Poof! You have been delete this group!", {
           icon: "success",
         });
         refetchFunc.msgRefetch();
@@ -236,14 +261,19 @@ const MessageHeader = ({ setIsShowChatList, setIsShowProfileModal }: Props) => {
                     >
                       <FaUsers /> <p className="text-sm">View Group</p>
                     </li>
+
                     <li
                       onClick={handleLeaveGroup}
                       className="hover:bg-gray-100 flex items-center gap-2 transition-all p-2 rounded-lg cursor-pointer"
                     >
                       <BiLogOut /> <p className="text-sm">Leave group</p>
                     </li>
+
                     {selectedChat?.creator === user?._id && (
-                      <li className="hover:bg-gray-100 flex items-center gap-2 text-red-400 transition-all p-2 rounded-lg cursor-pointer">
+                      <li
+                        onClick={handleDeleteGroup}
+                        className="hover:bg-gray-100 flex items-center gap-2 text-red-400 transition-all p-2 rounded-lg cursor-pointer"
+                      >
                         <BiTrash /> <p className="text-sm">delete group</p>
                       </li>
                     )}
