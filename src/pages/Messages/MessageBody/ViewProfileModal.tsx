@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
-import { BiCheck, BiLogOut, BiPen, BiPlus, BiX } from "react-icons/bi";
+import { BiCheck, BiCopy, BiLogOut, BiPen, BiPlus, BiX } from "react-icons/bi";
 import { FaUsers } from "react-icons/fa";
 import { useQuery } from "react-query";
 import { server_url } from "../../../config/config";
@@ -135,8 +135,11 @@ const ViewProfileModal = ({
 
             <div>
               {selectedChat?.isGroup && (
-                <span className="my-1 text-sm text-gray-600">
-                  Group Public chat
+                <span className="my-1 text-sm bg-teal-50 p-1 px-3 rounded cursor-pointer text-teal-600 flex items-center gap-2">
+                  Share joining Link{" "}
+                  <span>
+                    <BiCopy />
+                  </span>
                 </span>
               )}
               {!selectedChat?.isGroup && selectedChat?.receiver?.email}
