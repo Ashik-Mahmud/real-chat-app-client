@@ -57,7 +57,7 @@ const SingleMessage = ({ message, me, data, refetch }: Props) => {
         }`}
       >
         <p
-          className={` rounded-lg leading-6  font-poppins text-sm  p-3  ${
+          className={` rounded-lg leading-6  font-poppins text-sm  p-2 px-3  ${
             message?.length > 100 ? "w-full md:w-[35rem]" : ""
           } 
            ${me ? "bg-blue-400 text-blue-50" : "bg-blue-100 text-blue-800"}`}
