@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BiCheck, BiCopy, BiLogOut, BiPen, BiPlus, BiX } from "react-icons/bi";
 import { FaUsers } from "react-icons/fa";
 import { useQuery } from "react-query";
@@ -15,7 +15,8 @@ const ViewProfileModal = ({
   setIsShowProfileModal,
   isShowProfileModal,
 }: Props) => {
-  const { selectedChat, user } = useAppContext();
+  const { selectedChat, user, refetchFunc } = useAppContext();
+  const [groupName, setGroupName] = useState(selectedChat?.groupName);
 
   const [isEditGroupName, setIsEditGroupName] = useState(false);
 
@@ -35,6 +36,37 @@ const ViewProfileModal = ({
       }
     }
   );
+
+  /* handle edit the group name */
+  const handleEditGroupName = async () => {
+    setIsEditGroupName(true);
+    if (!groupName) setGroupName(selectedChat?.groupName);
+
+    try {
+      const { data } = await axios.patch(
+        `${server_url}/chat/group/edit/${selectedChat?._id}`,
+        {
+          name: groupName,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${(user as any)?.token}`,
+          },
+        }
+      );
+
+      if (data.success) {
+        refetchFunc?.chatRefetch();
+        setIsEditGroupName(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    setGroupName(selectedChat?.groupName);
+  }, [selectedChat?.groupName]);
 
   return (
     <>
@@ -82,9 +114,11 @@ const ViewProfileModal = ({
                 </>
               ) : (
                 <>
-                  {selectedChat?.groupName
-                    ?.split(" ")
-                    .map((l: string) => l.at(0))}
+                  {groupName
+                    ? groupName?.split(" ").map((l: string) => l.at(0))
+                    : selectedChat?.groupName
+                        ?.split(" ")
+                        .map((l: string) => l.at(0))}
                 </>
               )}
             </div>
@@ -94,17 +128,19 @@ const ViewProfileModal = ({
                   <div>
                     <input
                       type="text"
-                      defaultValue={selectedChat?.groupName}
+                      onChange={(e) => setGroupName(e.target.value)}
+                      value={groupName}
                       className="border p-2 text-sm rounded outline-none"
                     />
                   </div>
                 ) : (
-                  selectedChat?.groupName
+                  groupName || selectedChat?.groupName
                 )}
                 {isEditGroupName ? (
                   <>
                     <span
                       title="Save"
+                      onClick={handleEditGroupName}
                       className="edit text-2xl bg-blue-50 p-1 cursor-pointer text-blue-600"
                     >
                       <BiCheck />
@@ -118,13 +154,15 @@ const ViewProfileModal = ({
                     </span>
                   </>
                 ) : (
-                  <span
-                    title="Edit"
-                    onClick={() => setIsEditGroupName(true)}
-                    className="edit cursor-pointer text-blue-600"
-                  >
-                    <BiPen />
-                  </span>
+                  selectedChat?.creator === user?._id && (
+                    <span
+                      title="Edit"
+                      onClick={() => setIsEditGroupName(true)}
+                      className="edit cursor-pointer text-blue-600"
+                    >
+                      <BiPen />
+                    </span>
+                  )
                 )}
               </h3>
             ) : (
