@@ -7,6 +7,7 @@ import { useQuery } from "react-query";
 import swal from "sweetalert";
 import { server_url } from "../../../config/config";
 import { useAppContext } from "../../../Context/AppProvider";
+import AddMembersModal from "./AddMembersModal";
 
 type Props = {
   setIsShowProfileModal: (value: boolean) => void;
@@ -19,6 +20,7 @@ const ViewProfileModal = ({
 }: Props) => {
   const { selectedChat, user, refetchFunc } = useAppContext();
   const [groupName, setGroupName] = useState(selectedChat?.groupName);
+  const [isOpenAddMembersModal, setIsOpenAddMembersModal] = useState(false);
 
   const [isEditGroupName, setIsEditGroupName] = useState(false);
 
@@ -103,6 +105,9 @@ const ViewProfileModal = ({
 
   return (
     <>
+      {isOpenAddMembersModal && (
+        <AddMembersModal setIsOpenAddMembersModal={setIsOpenAddMembersModal} />
+      )}
       <div
         className={`fixed left-0 transition-all top-0 z-20 grid place-items-center bg-[#ffffff9c] backdrop-blur-sm w-full h-full  ${
           isShowProfileModal
@@ -227,7 +232,10 @@ const ViewProfileModal = ({
                 <h3 className="text-lg font-semibold flex items-center gap-2">
                   {selectedChat?.isGroup &&
                     selectedChat?.creator === user?._id && (
-                      <span className="flex items-center gap-1 bg-blue-200 cursor-pointer text-blue-600 p-1 rounded-full px-2 capitalize text-sm">
+                      <span
+                        onClick={() => setIsOpenAddMembersModal(true)}
+                        className="flex items-center gap-1 bg-blue-200 cursor-pointer text-blue-600 p-1 rounded-full px-2 capitalize text-sm"
+                      >
                         <BiPlus /> add
                       </span>
                     )}
