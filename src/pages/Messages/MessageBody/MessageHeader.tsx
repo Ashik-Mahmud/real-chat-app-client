@@ -94,6 +94,35 @@ const MessageHeader = ({ setIsShowChatList, setIsShowProfileModal }: Props) => {
     }
   };
 
+  /* handle leave group */
+  const handleLeaveGroup = async () => {
+    console.log(user?._id);
+    const isConfirm = await swal({
+      text: "are you want leave this group?",
+      buttons: ["Oh noez!", "Aww yiss!"],
+    });
+
+    if (isConfirm) {
+      const { data } = await axios.get(
+        `${server_url}/chat/group/leave-group/${selectedChat?._id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${user?.token}`,
+          },
+        }
+      );
+
+      if (data?.success) {
+        swal("Poof! You have been leave this group!", {
+          icon: "success",
+        });
+        refetchFunc.msgRefetch();
+        refetchFunc.chatRefetch();
+        setSelectedChat({});
+      }
+    }
+  };
+
   return (
     <>
       <div className="flex items-center justify-between bg-white p-4 border shadow">
@@ -207,7 +236,10 @@ const MessageHeader = ({ setIsShowChatList, setIsShowProfileModal }: Props) => {
                     >
                       <FaUsers /> <p className="text-sm">View Group</p>
                     </li>
-                    <li className="hover:bg-gray-100 flex items-center gap-2 transition-all p-2 rounded-lg cursor-pointer">
+                    <li
+                      onClick={handleLeaveGroup}
+                      className="hover:bg-gray-100 flex items-center gap-2 transition-all p-2 rounded-lg cursor-pointer"
+                    >
                       <BiLogOut /> <p className="text-sm">Leave group</p>
                     </li>
                     {selectedChat?.creator === user?._id && (
