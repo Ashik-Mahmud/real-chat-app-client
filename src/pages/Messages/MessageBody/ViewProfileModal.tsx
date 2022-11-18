@@ -1,8 +1,10 @@
 import axios from "axios";
+import cogoToast from "cogo-toast";
 import { useEffect, useState } from "react";
 import { BiCheck, BiCopy, BiLogOut, BiPen, BiPlus, BiX } from "react-icons/bi";
 import { FaUsers } from "react-icons/fa";
 import { useQuery } from "react-query";
+import swal from "sweetalert";
 import { server_url } from "../../../config/config";
 import { useAppContext } from "../../../Context/AppProvider";
 
@@ -58,9 +60,39 @@ const ViewProfileModal = ({
       if (data.success) {
         refetchFunc?.chatRefetch();
         setIsEditGroupName(false);
+        cogoToast.success("Group name updated successfully");
       }
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  /* handle remove particular member to the group by creator */
+  const handleRemoveMember = async (id: string) => {
+    const isConfirm = await swal({
+      text: "Once remove, it will remove from this group!",
+      buttons: ["Cancel", "Yes, remove it!"],
+    });
+    if (isConfirm) {
+      try {
+        const { data } = await axios.patch(
+          `${server_url}/chat/group/remove-member/${selectedChat?._id}`,
+          {
+            id,
+          },
+          {
+            headers: {
+              authorization: `Bearer ${(user as any)?.token}`,
+            },
+          }
+        );
+        if (data.success) {
+          refetchFunc?.chatRefetch();
+          cogoToast.success("Member removed successfully");
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
@@ -179,7 +211,7 @@ const ViewProfileModal = ({
                   }
                   className="my-1 text-sm bg-teal-50 p-1 px-3 rounded cursor-pointer text-teal-600 flex items-center gap-2"
                 >
-                  Copy Group Code{" "}
+                  Copy Group Code
                   <span>
                     <BiCopy />
                   </span>
@@ -302,6 +334,9 @@ const ViewProfileModal = ({
                                 <span
                                   title={"let you leave " + member?.email}
                                   className="cursor-pointer text-red-600"
+                                  onClick={() =>
+                                    handleRemoveMember(member?._id)
+                                  }
                                 >
                                   <BiLogOut />
                                 </span>
