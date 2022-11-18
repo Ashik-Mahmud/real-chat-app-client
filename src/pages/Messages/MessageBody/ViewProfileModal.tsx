@@ -310,12 +310,21 @@ const ViewProfileModal = ({
                             >
                               <div className="flex items-center gap-2">
                                 {member?.name}
+
                                 {member?._id === user?._id && (
                                   <span
                                     title="It's you"
                                     className="bg-blue-100 text-xs px-2 py-0 rounded-full cursor-pointer text-blue-500"
                                   >
                                     you
+                                  </span>
+                                )}
+                                {member?._id === selectedChat?.creator && (
+                                  <span
+                                    title="Admin"
+                                    className="bg-sky-100 text-xs px-2 py-0 rounded-full cursor-pointer text-sky-500"
+                                  >
+                                    creator
                                   </span>
                                 )}
                               </div>
