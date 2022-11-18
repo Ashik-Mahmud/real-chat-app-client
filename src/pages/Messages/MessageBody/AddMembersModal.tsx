@@ -9,9 +9,13 @@ import { useAppContext } from "../../../Context/AppProvider";
 const animatedComponents = makeAnimated();
 type Props = {
   setIsOpenAddMembersModal: (value: boolean) => void;
+  setIsShowProfileModal: (value: boolean) => void;
 };
-const AddMembersModal = ({ setIsOpenAddMembersModal }: Props) => {
-  const { user, refetchFunc, selectedChat } = useAppContext();
+const AddMembersModal = ({
+  setIsOpenAddMembersModal,
+  setIsShowProfileModal,
+}: Props) => {
+  const { user, refetchFunc, selectedChat, setSelectedChat } = useAppContext();
   const [selectedUsers, setSelectedUsers] = useState<any>([]);
   /* get all the friends */
   const { data, isLoading } = useQuery(["friends", user], async () => {
@@ -59,6 +63,8 @@ const AddMembersModal = ({ setIsOpenAddMembersModal }: Props) => {
         cogoToast.success(`Members added successfully`);
         refetchFunc.chatRefetch();
         setIsOpenAddMembersModal(false);
+        setIsShowProfileModal(false);
+        setSelectedChat({});
       }
     } catch (error) {
       console.log(error);

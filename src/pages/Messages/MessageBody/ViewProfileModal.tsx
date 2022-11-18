@@ -18,7 +18,7 @@ const ViewProfileModal = ({
   setIsShowProfileModal,
   isShowProfileModal,
 }: Props) => {
-  const { selectedChat, user, refetchFunc } = useAppContext();
+  const { selectedChat, setSelectedChat, user, refetchFunc } = useAppContext();
   const [groupName, setGroupName] = useState(selectedChat?.groupName);
   const [isOpenAddMembersModal, setIsOpenAddMembersModal] = useState(false);
 
@@ -92,6 +92,7 @@ const ViewProfileModal = ({
           refetchFunc?.chatRefetch();
           cogoToast.success("Member removed successfully");
           setIsShowProfileModal(false);
+          setSelectedChat({});
         }
       } catch (error) {
         console.log(error);
@@ -106,7 +107,10 @@ const ViewProfileModal = ({
   return (
     <>
       {isOpenAddMembersModal && (
-        <AddMembersModal setIsOpenAddMembersModal={setIsOpenAddMembersModal} />
+        <AddMembersModal
+          setIsShowProfileModal={setIsShowProfileModal}
+          setIsOpenAddMembersModal={setIsOpenAddMembersModal}
+        />
       )}
       <div
         className={`fixed left-0 transition-all top-0 z-20 grid place-items-center bg-[#ffffff9c] backdrop-blur-sm w-full h-full  ${
