@@ -1,8 +1,43 @@
+import axios from "axios";
+import cogoToast from "cogo-toast";
+import { useState } from "react";
+import { server_url } from "../../../config/config";
+import { useAppContext } from "../../../Context/AppProvider";
 type Props = {
   setIsShowJoinModal: (value: boolean) => void;
 };
 
 const JoinGroupViaIDModal = ({ setIsShowJoinModal }: Props) => {
+  const [id, setId] = useState("");
+  const { user, refetchFunc } = useAppContext();
+  const [isLoading, setIsLoading] = useState(false);
+
+  /* handle join by code  */
+  const handleJoiByCode = async () => {
+    try {
+      setIsLoading(true);
+      const { data } = await axios.post(
+        `${server_url}/chat/group/join-by-code`,
+        { joinId: id },
+        {
+          headers: {
+            authorization: `Bearer ${user?.token}`,
+          },
+        }
+      );
+      if (data?.success) {
+        cogoToast.success("Joined successfully");
+        setIsShowJoinModal(false);
+        refetchFunc?.chatRefetch();
+        setIsLoading(false);
+      }
+    } catch (error) {
+      setIsLoading(false);
+      const { data } = (error as any).response;
+      cogoToast.error(data.message);
+    }
+  };
+
   return (
     <div>
       {/* modal */}
@@ -42,6 +77,8 @@ const JoinGroupViaIDModal = ({ setIsShowJoinModal }: Props) => {
                     </p>
                     <input
                       type="text"
+                      onChange={(e) => setId(e.target.value)}
+                      value={id}
                       className="w-full p-4 rounded-lg border-2  border-sky-100 focus:outline-none focus:border-sky-500"
                     />
                   </div>
@@ -50,10 +87,35 @@ const JoinGroupViaIDModal = ({ setIsShowJoinModal }: Props) => {
             </div>
             <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
               <button
+                onClick={handleJoiByCode}
+                disabled={isLoading}
                 type="button"
-                className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-sky-500 text-base font-medium text-white hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 sm:ml-3 sm:w-auto sm:text-sm"
+                className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-sky-500 text-base font-medium text-white hover:bg-sky-600 items-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 sm:ml-3 sm:w-auto sm:text-sm"
               >
-                Join
+                {isLoading && (
+                  <svg
+                    className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8v1a7 7 0 00-7 7h1z"
+                    ></path>
+                  </svg>
+                )}
+
+                {isLoading ? "Joining..." : "Join"}
               </button>
             </div>
           </div>
