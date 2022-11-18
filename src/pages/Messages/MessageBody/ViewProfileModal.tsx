@@ -331,17 +331,25 @@ const ViewProfileModal = ({
                                   </small>
                                 )}
                               </span>
-                              {selectedChat?.creator === user?._id && (
-                                <span
-                                  title={"let you leave " + member?.email}
-                                  className="cursor-pointer text-red-600"
-                                  onClick={() =>
-                                    handleRemoveMember(member?._id)
-                                  }
-                                >
-                                  <BiLogOut />
-                                </span>
-                              )}
+                              {selectedChat?.creator === user?._id &&
+                                (user?._id === member?._id ? (
+                                  <span
+                                    title="You can't remove yourself"
+                                    className="cursor-not-allowed opacity-70 text-red-600"
+                                  >
+                                    <BiLogOut />
+                                  </span>
+                                ) : (
+                                  <span
+                                    title={"let you leave " + member?.email}
+                                    className="cursor-pointer text-red-600"
+                                    onClick={() =>
+                                      handleRemoveMember(member?._id)
+                                    }
+                                  >
+                                    <BiLogOut />
+                                  </span>
+                                ))}
                             </li>
                           ))}
                         </ul>
