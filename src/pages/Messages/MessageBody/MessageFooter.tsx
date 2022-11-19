@@ -8,7 +8,7 @@ import { useAppContext } from "../../../Context/AppProvider";
 type Props = {};
 
 const MessageFooter = (props: Props) => {
-  const { selectedChat, user, refetchFunc, userInfo } = useAppContext();
+  const { selectedChat, user, refetchFunc, userInfo, socket } = useAppContext();
   const [message, setMessage] = useState("");
 
   /* handle send Message */
@@ -27,7 +27,7 @@ const MessageFooter = (props: Props) => {
         },
       }
     );
-
+    socket.emit("new_message", data?.sentMessage);
     if (data?.success) {
       refetchFunc.msgRefetch();
       refetchFunc.chatRefetch();

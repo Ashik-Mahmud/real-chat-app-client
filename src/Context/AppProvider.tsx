@@ -3,21 +3,24 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import { useQuery } from "react-query";
+import io from "socket.io-client";
 import GlobalLoading from "../components/GlobalLoading";
 import { server_url } from "../config/config";
+const ENDPOINTS = "http://localhost:5000";
 
 const AppContext = createContext<any>({});
 
 type Props = {
   children: React.ReactNode;
 };
-
+const socket = io(ENDPOINTS);
 const AppProvider = ({ children }: Props) => {
   const [cookies] = useCookies(["user"]);
 
   const [user, setUser] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
   const [selectedChat, setSelectedChat] = useState(null);
+  const [isSocketConnected, setIsSocketConnected] = useState(false);
   const [refetchFunc, setRefetchFunc] = useState({
     msgRefetch: () => {},
     chatRefetch: () => {},
@@ -46,6 +49,13 @@ const AppProvider = ({ children }: Props) => {
     setUserInfo(userInfoData?.user);
   }, [userInfoData]);
 
+  useEffect(() => {
+    if (userInfo) {
+      socket.emit("setup", userInfo);
+      socket.on("connect", () => setIsSocketConnected(true));
+    }
+  }, [userInfo]);
+
   if (userInfoLoading) return <GlobalLoading />;
 
   return (
@@ -60,6 +70,8 @@ const AppProvider = ({ children }: Props) => {
           refetchFunc,
           setRefetchFunc,
           userInfoRefetch,
+          socket,
+          isSocketConnected,
         } as any
       }
     >

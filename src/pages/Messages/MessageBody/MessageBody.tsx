@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useQuery } from "react-query";
 import GlobalLoading from "../../../components/GlobalLoading";
 import { server_url } from "../../../config/config";
@@ -8,7 +8,9 @@ import SingleMessage from "./SingleMessage";
 
 type Props = {};
 const MessageBody = (props: Props) => {
-  const { selectedChat, user, setRefetchFunc } = useAppContext();
+  const { selectedChat, user, setRefetchFunc, socket } = useAppContext();
+
+  const [allMessages, setAllMessage] = useState<any>([]);
 
   const {
     data: messageList,
@@ -42,6 +44,35 @@ const MessageBody = (props: Props) => {
     });
   }, [messageList, refetch, setRefetchFunc]);
 
+  /* after fetching data we store here */
+  useEffect(() => {
+    setAllMessage(messageList?.messages);
+  }, [messageList]);
+
+  /* joining to the selected user to the room in socket.io */
+  useEffect(() => {
+    socket.emit("join_chat", selectedChat?._id);
+  }, [socket, selectedChat]);
+
+  /* for received message to the backend */
+  useEffect(() => {
+    let compareSelectedChat = selectedChat;
+    socket.on("message_received", (message: any) => {
+      if (
+        !compareSelectedChat ||
+        compareSelectedChat?._id !== message?.chat?._id
+      ) {
+        console.log("give notification");
+      } else {
+        setAllMessage((prev: any) => [...prev, message]);
+      }
+    });
+
+    return () => {
+      setAllMessage([]);
+    };
+  }, [socket, selectedChat]);
+
   return (
     <div
       className="message-body h-[60vh] sm:h-[40rem] overflow-y-auto p-3 md:p-10"
@@ -51,9 +82,9 @@ const MessageBody = (props: Props) => {
         <GlobalLoading />
       ) : (
         <>
-          {messageList?.messages?.length > 0 ? (
+          {allMessages?.length > 0 ? (
             <>
-              {messageList?.messages?.map((message: any) => (
+              {allMessages?.map((message: any) => (
                 <SingleMessage
                   key={message?._id}
                   message={message?.message}
