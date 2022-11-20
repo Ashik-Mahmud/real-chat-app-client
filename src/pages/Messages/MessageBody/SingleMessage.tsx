@@ -16,6 +16,7 @@ const SingleMessage = ({ message, me, data, refetch }: Props) => {
   const [showActionMessage, setShowActionMessage] = useState(false);
   const { user } = useAppContext();
   const time = new Date(data?.createdAt).toLocaleTimeString();
+  const date = new Date(data?.createdAt).toDateString() + " at " + time;
   /* handle delete message for */
   const handleMessage = async (id: string) => {
     const isConfirm = await swal("Are you sure you want delete this?", {
@@ -64,7 +65,9 @@ const SingleMessage = ({ message, me, data, refetch }: Props) => {
         >
           {message}
         </p>
-        <small className="text-xs text-slate-500">{time}</small>
+        <small className="text-xs text-slate-500" title={date}>
+          {time}
+        </small>
 
         <div
           className="relative transition-all scale-0 group-hover:scale-100 "
