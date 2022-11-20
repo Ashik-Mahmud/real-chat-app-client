@@ -3,6 +3,7 @@ import { BiArrowBack } from "react-icons/bi";
 import { useAppContext } from "../../Context/AppProvider";
 import Header from "../../shared/Header";
 import AllFriendList from "./FriendsBar/AllFriendList";
+import CreateNewGroupModal from "./FriendsBar/CreateNewGroupModal";
 import FriendsBar from "./FriendsBar/FriendsBar";
 import JoinGroupViaIDModal from "./FriendsBar/JoinGroupViaIDModal";
 import MessageBody from "./MessageBody/MessageBody";
@@ -18,9 +19,9 @@ const Messages = (props: Props) => {
   const [showAllFriends, setShowAllFriends] = useState(false);
   const [isShowProfileModal, setIsShowProfileModal] = useState(false);
   const [isShowJoinModal, setIsShowJoinModal] = useState(false);
+  const [isShowNewGroupModal, setIsShowNewGroupModal] = useState(false);
   /* handle Get All the chat */
   const { selectedChat } = useAppContext();
-
   return (
     <>
       <ViewProfileModal
@@ -36,6 +37,11 @@ const Messages = (props: Props) => {
       {isShowJoinModal && (
         <JoinGroupViaIDModal setIsShowJoinModal={setIsShowJoinModal} />
       )}
+
+      {isShowNewGroupModal && (
+        <CreateNewGroupModal setIsShowNewGroupModal={setIsShowNewGroupModal} />
+      )}
+
       <div className="bg-slate-200 md:h-screen py-5 z-5">
         <div className="container mx-auto">
           <Header
@@ -56,6 +62,7 @@ const Messages = (props: Props) => {
                 <BiArrowBack size={20} />
               </span>
               <FriendsBar
+                setIsShowNewGroupModal={setIsShowNewGroupModal}
                 setIsShowJoinModal={setIsShowJoinModal}
                 setShowAllFriends={setShowAllFriends}
               />

@@ -12,12 +12,14 @@ const MessageFooter = (props: Props) => {
   const { selectedChat, user, refetchFunc, userInfo, socket, setIsTyping } =
     useAppContext();
   const [message, setMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   /* handle send Message */
   const handleSendMessage = async (e: any) => {
     e.preventDefault();
     if (!message) return cogoToast.error(`Write message`);
     setIsTyping("");
+    setIsLoading(true);
     const messageContent = {
       chatId: selectedChat?._id,
       message: message,
@@ -37,6 +39,7 @@ const MessageFooter = (props: Props) => {
       refetchFunc.msgRefetch();
       refetchFunc.chatRefetch();
       setMessage("");
+      setIsLoading(false);
     }
   };
 
@@ -84,9 +87,19 @@ const MessageFooter = (props: Props) => {
                     placeholder="Type a message"
                   />
                 </div>
-                <button className="flex items-center justify-center w-14 h-14 bg-gray-100 hover:bg-gray-200 transition-all">
-                  <AiOutlineSend size={20} />
-                </button>
+
+                {isLoading ? (
+                  <button
+                    disabled
+                    className="flex cursor-not-allowed  items-center justify-center w-14 h-14 bg-gray-100 hover:bg-gray-200 transition-all"
+                  >
+                    <div className="animate-spin ease-linear rounded-full border-4 border-t-4 border-t-blue-400 border-gray-400 h-5 w-5"></div>
+                  </button>
+                ) : (
+                  <button className="flex items-center justify-center w-14 h-14 bg-gray-100 hover:bg-gray-200 transition-all">
+                    <AiOutlineSend size={20} />
+                  </button>
+                )}
               </>
             )}
           </>

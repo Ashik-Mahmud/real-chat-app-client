@@ -6,7 +6,7 @@ import { useQuery } from "react-query";
 import io from "socket.io-client";
 import GlobalLoading from "../components/GlobalLoading";
 import { server_url } from "../config/config";
-const ENDPOINTS = "http://localhost:5000";
+const ENDPOINTS = "https://real-chat-app.onrender.com";
 
 const AppContext = createContext<any>({});
 

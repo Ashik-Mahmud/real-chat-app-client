@@ -4,16 +4,18 @@ import { BsPlus } from "react-icons/bs";
 import { useQuery } from "react-query";
 import { server_url } from "../../../config/config";
 import { useAppContext } from "../../../Context/AppProvider";
-import CreateNewGroupModal from "./CreateNewGroupModal";
 import ListItem from "./ListItem";
 type Props = {
   setShowAllFriends: (value: boolean) => void;
   setIsShowJoinModal: (value: boolean) => void;
+  setIsShowNewGroupModal: (value: boolean) => void;
 };
 
-const FriendsBar = ({ setShowAllFriends, setIsShowJoinModal }: Props) => {
-  const [isShowNewGroupModal, setIsShowNewGroupModal] = useState(false);
-
+const FriendsBar = ({
+  setShowAllFriends,
+  setIsShowJoinModal,
+  setIsShowNewGroupModal,
+}: Props) => {
   const [search, setSearch] = useState("");
   const { user, setRefetchFunc } = useAppContext();
 
@@ -47,10 +49,6 @@ const FriendsBar = ({ setShowAllFriends, setIsShowJoinModal }: Props) => {
 
   return (
     <div>
-      {isShowNewGroupModal && (
-        <CreateNewGroupModal setIsShowNewGroupModal={setIsShowNewGroupModal} />
-      )}
-
       <div className=" bg-white p-8 mt-5 md:mt-0">
         <div className="title flex flex-col md:flex-row items-center justify-between bg-sky-100 text-sky-500  px-3 py-3 rounded">
           <h3 className="text-xl font-bold my-2">Friends</h3>
