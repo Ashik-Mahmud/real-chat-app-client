@@ -1,8 +1,9 @@
 import axios from "axios";
 import cogoToast from "cogo-toast";
+import EmojiPicker from "emoji-picker-react";
 import { useState } from "react";
 import { AiOutlineSend } from "react-icons/ai";
-import { BiSmile } from "react-icons/bi";
+import { BiSmile, BiX } from "react-icons/bi";
 import { FiPaperclip } from "react-icons/fi";
 import { server_url } from "../../../config/config";
 import { useAppContext } from "../../../Context/AppProvider";
@@ -13,6 +14,7 @@ const MessageFooter = (props: Props) => {
     useAppContext();
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState(false);
 
   /* handle send Message */
   const handleSendMessage = async (e: any) => {
@@ -53,8 +55,17 @@ const MessageFooter = (props: Props) => {
       {/* send message input */}
       <form
         onSubmit={handleSendMessage}
-        className="flex items-stretch justify-center p-3 bg-white border-t shadow-sm"
+        className="flex items-stretch justify-center p-3 bg-white border-t shadow-sm relative w-full"
       >
+        <div
+          className={`absolute left-0 w-full transition-all ${
+            isEmojiPickerOpen
+              ? "opacity-100 pointer-events-auto -top-[28rem]"
+              : "opacity-0 pointer-events-none -top-[25rem]"
+          }`}
+        >
+          <EmojiPicker width={"100%"} />
+        </div>
         {userInfo?.blockedBy?.includes(selectedChat?.receiver?._id) ? (
           <div className="flex items-center justify-center w-full py-3">
             <h1 className="text-red-500">You have been blocked by this user</h1>
@@ -69,9 +80,16 @@ const MessageFooter = (props: Props) => {
               </div>
             ) : (
               <>
-                <div className="additional flex items-center gap-3">
-                  <div className="emoji cursor-pointer">
-                    <BiSmile size={20} />
+                <div className="additional flex items-center gap-3 relative">
+                  <div
+                    className="emoji cursor-pointer select-none"
+                    onClick={() => setIsEmojiPickerOpen((prev) => !prev)}
+                  >
+                    {isEmojiPickerOpen ? (
+                      <BiX className="text-2xl" />
+                    ) : (
+                      <BiSmile className="text-2xl" />
+                    )}
                   </div>
                   <div className="attachment cursor-pointer">
                     <FiPaperclip size={20} />
@@ -87,7 +105,6 @@ const MessageFooter = (props: Props) => {
                     placeholder="Type a message"
                   />
                 </div>
-
                 {isLoading ? (
                   <button
                     disabled
