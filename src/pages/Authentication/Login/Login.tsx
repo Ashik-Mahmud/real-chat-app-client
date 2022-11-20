@@ -39,9 +39,9 @@ const Login = (props: Props) => {
 
   return (
     <div className="login grid place-items-center h-screen  bg-gray-50  sm:p-0">
-      <div className="login-wrapper  bg-white w-full sm:w-[30rem] p-8 shadow border">
+      <div className="login-wrapper  bg-white w-full sm:w-[36rem] p-8 shadow border">
         <div className="logo my-4">
-          <h3 className="text-2xl font-bold ">Login to your account</h3>
+          <h3 className="text-2xl font-bold mb-4">Login to your account</h3>
         </div>
 
         <form className="flex flex-col gap-4" onSubmit={onLoginSubmit}>
@@ -52,7 +52,7 @@ const Login = (props: Props) => {
               {...register("email")}
               id="email"
               placeholder="Enter your email"
-              className="border p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+              className="border p-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
             />
           </div>
           <div className="flex flex-col gap-2">
@@ -62,7 +62,7 @@ const Login = (props: Props) => {
               {...register("password")}
               id="password"
               placeholder="Enter your password"
-              className="border p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+              className="border p-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
             />
           </div>
           <div className="flex flex-col sm:flex-row justify-between sm:items-center">
@@ -79,7 +79,7 @@ const Login = (props: Props) => {
             <button
               type="submit"
               disabled
-              className="bg-blue-500 text-white p-2 rounded-md mt-4 cursor-not-allowed flex items-center justify-center gap-2"
+              className="bg-blue-500 text-white p-4 rounded-md mt-4 cursor-not-allowed flex items-center justify-center gap-2"
             >
               <svg
                 className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
@@ -106,7 +106,7 @@ const Login = (props: Props) => {
           ) : (
             <button
               type="submit"
-              className="bg-blue-500 text-white p-2 rounded-md mt-4"
+              className="bg-blue-500 text-white p-4 rounded-md mt-4"
             >
               Login
             </button>

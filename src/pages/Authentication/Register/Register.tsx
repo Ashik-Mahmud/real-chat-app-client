@@ -81,7 +81,7 @@ const Register = (props: Props) => {
 
   return (
     <div className="grid place-items-center h-screen bg-gray-50">
-      <div className="bg-white w-full sm:w-[30rem] p-8 shadow border">
+      <div className="bg-white w-full sm:w-[36rem] p-12 shadow border">
         <div className="logo my-4">
           <h3 className="text-2xl font-bold ">Register to your account</h3>
         </div>
@@ -96,7 +96,7 @@ const Register = (props: Props) => {
               {...register("name")}
               id="name"
               placeholder="Enter your name"
-              className="border p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+              className="border p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
             />
           </div>
           <div className="flex flex-col gap-2">
@@ -108,7 +108,7 @@ const Register = (props: Props) => {
               {...register("email")}
               id="email"
               placeholder="Enter your email"
-              className="border p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+              className="border p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
             />
           </div>
           <div className="flex flex-col gap-2">
@@ -120,7 +120,7 @@ const Register = (props: Props) => {
               {...register("password")}
               id="password"
               placeholder="Enter your password"
-              className="border p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+              className="border p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
             />
           </div>
           <div className="flex flex-col gap-2">
@@ -132,7 +132,7 @@ const Register = (props: Props) => {
               {...register("confirmPassword")}
               id="password"
               placeholder="Enter your password"
-              className="border p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+              className="border p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
             />
           </div>
 
@@ -145,7 +145,7 @@ const Register = (props: Props) => {
               {...register("image")}
               required
               id="file"
-              className="border p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+              className="border p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
             />
           </div>
 
@@ -153,12 +153,12 @@ const Register = (props: Props) => {
             <button
               type="submit"
               disabled
-              className="bg-blue-400 text-white p-2 rounded-md mt-4 cursor-not-allowed"
+              className="bg-blue-400 text-white p-3 rounded-md mt-4 cursor-not-allowed"
             >
-              Registering...
+              Registering Account...
             </button>
           ) : (
-            <button className="bg-blue-500 text-white p-2 rounded-md">
+            <button className="bg-blue-500 text-white p-3 rounded-md">
               Register account
             </button>
           )}

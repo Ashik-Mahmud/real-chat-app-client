@@ -20,11 +20,11 @@ const ResetPassword = (props: Props) => {
               name="email"
               id="email"
               placeholder="Enter your email"
-              className="border p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+              className="border p-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
             />
           </div>
 
-          <button className="bg-blue-500 text-white p-2 rounded-md">
+          <button className="bg-blue-500 text-white p-4 rounded-md">
             Reset Password
           </button>
 
