@@ -1,6 +1,7 @@
 import axios from "axios";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
+import ScrollToBottom from "react-scroll-to-bottom";
 import GlobalLoading from "../../../components/GlobalLoading";
 import { server_url } from "../../../config/config";
 import { useAppContext } from "../../../Context/AppProvider";
@@ -30,12 +31,8 @@ const MessageBody = (props: Props) => {
     }
   });
 
-  const messageBodyRef = useRef(null);
   /* make scroll to bottom */
   useEffect(() => {
-    (messageBodyRef as any).current.scrollTop = (
-      messageBodyRef as any
-    ).current.scrollHeight;
     setRefetchFunc((prev: any) => {
       return {
         ...prev,
@@ -74,32 +71,31 @@ const MessageBody = (props: Props) => {
   }, [socket, selectedChat]);
 
   return (
-    <div
-      className="message-body h-[60vh] sm:h-[40rem] overflow-y-auto p-3 md:p-10"
-      ref={messageBodyRef}
-    >
-      {isLoading ? (
-        <GlobalLoading />
-      ) : (
-        <>
-          {allMessages?.length > 0 ? (
-            <>
-              {allMessages?.map((message: any) => (
-                <SingleMessage
-                  key={message?._id}
-                  message={message?.message}
-                  me={message?.sender?._id === user?._id}
-                  data={message}
-                  refetch={refetch}
-                />
-              ))}
-            </>
-          ) : (
-            <div>No Message Found.</div>
-          )}
-        </>
-      )}
-    </div>
+    <ScrollToBottom className="message-body h-[60vh] sm:h-[40rem] overflow-y-auto p-2">
+      <div className="p-5 md:p-8">
+        {isLoading ? (
+          <GlobalLoading />
+        ) : (
+          <>
+            {allMessages?.length > 0 ? (
+              <>
+                {allMessages?.map((message: any) => (
+                  <SingleMessage
+                    key={message?._id}
+                    message={message?.message}
+                    me={message?.sender?._id === user?._id}
+                    data={message}
+                    refetch={refetch}
+                  />
+                ))}
+              </>
+            ) : (
+              <div>No Message Found.</div>
+            )}
+          </>
+        )}
+      </div>
+    </ScrollToBottom>
   );
 };
 
