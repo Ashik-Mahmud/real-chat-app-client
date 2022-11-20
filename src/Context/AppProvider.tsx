@@ -21,6 +21,7 @@ const AppProvider = ({ children }: Props) => {
   const [userInfo, setUserInfo] = useState(null);
   const [selectedChat, setSelectedChat] = useState(null);
   const [isSocketConnected, setIsSocketConnected] = useState(false);
+  const [notificationList, setNotificationList] = useState<any>([]);
   const [refetchFunc, setRefetchFunc] = useState({
     msgRefetch: () => {},
     chatRefetch: () => {},
@@ -72,6 +73,8 @@ const AppProvider = ({ children }: Props) => {
           userInfoRefetch,
           socket,
           isSocketConnected,
+          notificationList,
+          setNotificationList,
         } as any
       }
     >

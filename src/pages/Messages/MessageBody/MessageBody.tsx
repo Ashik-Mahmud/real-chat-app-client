@@ -9,7 +9,8 @@ import SingleMessage from "./SingleMessage";
 
 type Props = {};
 const MessageBody = (props: Props) => {
-  const { selectedChat, user, setRefetchFunc, socket } = useAppContext();
+  const { selectedChat, user, setRefetchFunc, socket, setNotificationList } =
+    useAppContext();
 
   const [allMessages, setAllMessage] = useState<any>([]);
 
@@ -60,6 +61,7 @@ const MessageBody = (props: Props) => {
         compareSelectedChat?._id !== message?.chat?._id
       ) {
         console.log("give notification");
+        setNotificationList((prev: any) => [...prev, message]);
       } else {
         setAllMessage((prev: any) => [...prev, message]);
       }
@@ -68,7 +70,7 @@ const MessageBody = (props: Props) => {
     return () => {
       setAllMessage([]);
     };
-  }, [socket, selectedChat]);
+  }, [socket, selectedChat, setNotificationList]);
 
   return (
     <ScrollToBottom className="message-body h-[60vh] sm:h-[40rem] overflow-y-auto p-2">

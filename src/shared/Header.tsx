@@ -10,7 +10,23 @@ type Props = {
 
 const Header = ({ setIsShowProfile, isShowProfile }: Props) => {
   const [showNotifications, setShowNotifications] = useState(false);
-  const { userInfo } = useAppContext();
+  const { userInfo, notificationList, setSelectedChat, setNotificationList } =
+    useAppContext();
+
+  /* handle notification click */
+  const handleNotificationClick = (item: any) => {
+    setSelectedChat(item?.chat);
+    console.log(
+      notificationList.filter(
+        (notification: any) => notification._id !== item._id
+      )
+    );
+    setNotificationList(
+      notificationList.filter(
+        (notification: any) => notification._id !== item._id
+      )
+    );
+  };
 
   return (
     <div>
@@ -29,42 +45,47 @@ const Header = ({ setIsShowProfile, isShowProfile }: Props) => {
               onClick={() => setShowNotifications((state) => !state)}
             >
               <AiOutlineBell size={30} />
-              <div className="dot absolute w-5 h-5 text-xs rounded-full grid place-items-center bg-blue-500 text-blue-100 -top-1 -right-1">
-                4
-              </div>
+              {notificationList?.length > 0 && (
+                <div className="dot absolute w-5 h-5 text-xs rounded-full grid place-items-center bg-blue-500 text-blue-100 -top-1 -right-1">
+                  {notificationList?.length}
+                </div>
+              )}
             </div>
             {showNotifications && (
               <div className="absolute right-0 top-10 bg-white w-48 rounded-lg shadow-lg p-3 flex flex-col gap-2 border sm:w-[15rem]">
-                <div className="flex items-center gap-2  shadow hover:bg-slate-100 p-2 rounded-lg cursor-pointer">
-                  <img
-                    src={
-                      userInfo?.avatar
-                        ? userInfo?.avatar
-                        : "https://i.pravatar.cc/150?img=1"
-                    }
-                    alt={userInfo?.name}
-                    className="rounded-full w-8 h-8 object-cover"
-                  />
-                  <div className="flex items-start flex-col">
-                    <span className="text-sky-500 font-bold">John Doe</span>
-                    <span className="text-gray-500 flex items-center text-xs  gap-1">
-                      send you a message
-                    </span>
+                {notificationList?.length > 0 ? (
+                  notificationList?.map((item: any) => {
+                    return (
+                      <div
+                        onClick={() => handleNotificationClick(item)}
+                        key={item?._id}
+                        className="flex items-center gap-2  shadow hover:bg-slate-100 p-2 rounded-lg cursor-pointer"
+                      >
+                        <img
+                          src={
+                            item?.sender?.avatar
+                              ? item?.sender?.avatar
+                              : "https://i.pravatar.cc/150?img=1"
+                          }
+                          alt={item?.sender?.name}
+                          className="rounded-full w-8 h-8 object-cover"
+                        />
+                        <div className="flex items-start flex-col">
+                          <span className="text-sky-500 font-bold">
+                            {item?.sender?.name}
+                          </span>
+                          <span className="text-gray-500 flex items-center text-xs  gap-1">
+                            {item?.message}
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  })
+                ) : (
+                  <div className="text-center text-gray-500 py-6">
+                    No Notification
                   </div>
-                </div>
-                <div className="flex items-center gap-2  shadow hover:bg-slate-100 p-2 rounded-lg cursor-pointer">
-                  <img
-                    src="https://i.pravatar.cc/150?img=1"
-                    alt=""
-                    className="rounded-full w-8 h-8"
-                  />
-                  <div className="flex items-start flex-col">
-                    <span className="text-sky-500 font-bold">John Doe</span>
-                    <span className="text-gray-500 flex items-center text-xs  gap-1">
-                      send you a message
-                    </span>
-                  </div>
-                </div>
+                )}
               </div>
             )}
           </div>
