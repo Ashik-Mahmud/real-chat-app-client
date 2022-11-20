@@ -270,7 +270,7 @@ const ViewProfileModal = ({
                           {data?.user?.friends?.map((friend: any) => (
                             <div
                               key={friend._id}
-                              className={`friend-item w-full h-20 flex items-start gap-3  border bg-center bg-no-repeat rounded-md p-3 backdrop-blur-sm ${
+                              className={`friend-item overflow-hidden w-full h-20 flex items-start gap-3  border bg-center bg-no-repeat rounded-md p-3 backdrop-blur-sm ${
                                 friend?._id === user?._id
                                   ? "bg-sky-200"
                                   : "bg-gray-200"
@@ -281,7 +281,7 @@ const ViewProfileModal = ({
                                   : null || ""
                               }
                             >
-                              <div className="flex flex-col items-start z-20">
+                              <div className="flex flex-col items-start z-20 whitespace-pre-wrap">
                                 <span className="font-bold flex items-center gap-3">
                                   {friend?.name}
 
@@ -297,7 +297,18 @@ const ViewProfileModal = ({
                                     ></small>
                                   )}
                                 </span>
-                                <small>{friend?.email}</small>
+                                <small
+                                  className="whitespace-pre"
+                                  title={friend?.email || ""}
+                                >
+                                  {friend?.email?.length > 16 ? (
+                                    <span>
+                                      {friend?.email?.slice(0, 16)}...
+                                    </span>
+                                  ) : (
+                                    friend?.email
+                                  )}
+                                </small>
                               </div>
                             </div>
                           ))}
