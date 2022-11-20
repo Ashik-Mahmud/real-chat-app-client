@@ -211,7 +211,7 @@ const MessageHeader = ({ setIsShowChatList, setIsShowProfileModal }: Props) => {
             )}
           </button>
           {isMenuShow && (
-            <div className="menus border bg-white p-3   rounded-lg shadow-lg absolute -left-40 top-5 w-40">
+            <div className="menus border bg-white p-3 z-50  rounded-lg shadow-lg absolute -left-40 top-5 w-40">
               {!selectedChat?.isGroup && (
                 <ul className=" ">
                   <li

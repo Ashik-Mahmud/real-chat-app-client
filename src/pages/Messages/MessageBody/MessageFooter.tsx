@@ -35,6 +35,14 @@ const MessageFooter = (props: Props) => {
     }
   };
 
+  /* handle typing */
+  const handleTyping = () => {
+    socket.emit("typing", {
+      chatId: selectedChat?._id,
+      sender: userInfo?._id,
+    });
+  };
+
   return (
     <div className="">
       {/* send message input */}
@@ -69,6 +77,7 @@ const MessageFooter = (props: Props) => {
                     onChange={(e) => setMessage(e.target.value)}
                     value={message}
                     type="text"
+                    onInput={handleTyping}
                     className="w-full h-12 outline-none  px-4"
                     placeholder="Type a message"
                   />
