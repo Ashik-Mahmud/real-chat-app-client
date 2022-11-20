@@ -65,11 +65,15 @@ const MessageFooter = (props: Props) => {
         <div
           className={`absolute left-0 w-full transition-all ${
             isEmojiPickerOpen
-              ? "opacity-100 pointer-events-auto -top-[28rem]"
-              : "opacity-0 pointer-events-none -top-[25rem]"
+              ? "opacity-100 pointer-events-auto -top-[25rem]"
+              : "opacity-0 pointer-events-none -top-[22rem]"
           }`}
         >
-          <EmojiPicker width={"100%"} onEmojiClick={handleEmojiPick} />
+          <EmojiPicker
+            height={400}
+            width={"100%"}
+            onEmojiClick={handleEmojiPick}
+          />
         </div>
         {userInfo?.blockedBy?.includes(selectedChat?.receiver?._id) ? (
           <div className="flex items-center justify-center w-full py-3">
@@ -96,7 +100,7 @@ const MessageFooter = (props: Props) => {
                       <BiSmile className="text-2xl" />
                     )}
                   </div>
-                  <div className="attachment cursor-pointer">
+                  <div className="attachment cursor-not-allowed opacity-75">
                     <FiPaperclip size={20} />
                   </div>
                 </div>
