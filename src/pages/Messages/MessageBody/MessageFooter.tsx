@@ -50,6 +50,11 @@ const MessageFooter = (props: Props) => {
     socket.emit("typing", selectedChat?._id);
   };
 
+  /* handle emoji pick */
+  const handleEmojiPick = (e: any, emojiObject: any) => {
+    setMessage(message + e.emoji);
+  };
+
   return (
     <div className="">
       {/* send message input */}
@@ -64,7 +69,7 @@ const MessageFooter = (props: Props) => {
               : "opacity-0 pointer-events-none -top-[25rem]"
           }`}
         >
-          <EmojiPicker width={"100%"} />
+          <EmojiPicker width={"100%"} onEmojiClick={handleEmojiPick} />
         </div>
         {userInfo?.blockedBy?.includes(selectedChat?.receiver?._id) ? (
           <div className="flex items-center justify-center w-full py-3">
