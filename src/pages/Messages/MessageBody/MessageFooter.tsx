@@ -1,4 +1,5 @@
 import axios from "axios";
+import cogoToast from "cogo-toast";
 import { useState } from "react";
 import { AiOutlineSend } from "react-icons/ai";
 import { BiSmile } from "react-icons/bi";
@@ -14,6 +15,8 @@ const MessageFooter = (props: Props) => {
   /* handle send Message */
   const handleSendMessage = async (e: any) => {
     e.preventDefault();
+    if (!message) return cogoToast.error(`Write message`);
+
     const messageContent = {
       chatId: selectedChat?._id,
       message: message,
@@ -37,10 +40,7 @@ const MessageFooter = (props: Props) => {
 
   /* handle typing */
   const handleTyping = () => {
-    socket.emit("typing", {
-      chatId: selectedChat?._id,
-      sender: userInfo?._id,
-    });
+    socket.emit("typing", selectedChat?._id);
   };
 
   return (

@@ -14,7 +14,7 @@ const MessageBody = (props: Props) => {
     useAppContext();
 
   const [allMessages, setAllMessage] = useState<any>([]);
-  const [isTyping, setIsTyping] = useState(false);
+  const [isTyping, setIsTyping] = useState<string>("");
 
   const {
     data: messageList,
@@ -69,23 +69,21 @@ const MessageBody = (props: Props) => {
       }
     });
 
-    socket.on("typing", (data: any) => {
-      if (data?.chatId) {
-        setIsTyping(true);
+    socket.on("isTyping", (chat: any) => {
+      if (chat) {
+        setIsTyping(chat);
       }
     });
-
     return () => {
+      socket.off("isTyping");
       socket.off("message_received");
-      socket.off("typing");
       setAllMessage([]);
-      setIsTyping(false);
     };
   }, [socket, selectedChat, setNotificationList]);
 
   useEffect(() => {
     setTimeout(() => {
-      setIsTyping(false);
+      setIsTyping("");
     }, 2000);
   }, [isTyping]);
 
@@ -107,7 +105,7 @@ const MessageBody = (props: Props) => {
                     refetch={refetch}
                   />
                 ))}
-                {isTyping && (
+                {isTyping === selectedChat?._id && (
                   <div>
                     <div
                       className={`single-message   font-montserrat group flex  gap-2 mb-2`}
