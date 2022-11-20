@@ -48,8 +48,6 @@ const MessageHeader = ({ setIsShowChatList, setIsShowProfileModal }: Props) => {
       });
 
       if (againConfirm) {
-        console.log(id);
-
         await axios.delete(`${server_url}/chat/delete/${selectedChat?._id}`, {
           headers: {
             Authorization: `Bearer ${user?.token}`,

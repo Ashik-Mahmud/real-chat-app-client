@@ -48,16 +48,12 @@ const CreateNewGroupModal = ({ setIsShowNewGroupModal }: Props) => {
     };
 
     try {
-      const { data } = await axios.post(
-        `${server_url}/chat/group/create`,
-        sendingData,
-        {
-          headers: {
-            authorization: `Bearer ${user?.token}`,
-          },
-        }
-      );
-      console.log(data);
+      await axios.post(`${server_url}/chat/group/create`, sendingData, {
+        headers: {
+          authorization: `Bearer ${user?.token}`,
+        },
+      });
+
       refetchFunc.chatRefetch();
       refetchFunc.msgRefetch();
       setIsShowNewGroupModal(false);

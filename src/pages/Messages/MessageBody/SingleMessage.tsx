@@ -76,7 +76,7 @@ const SingleMessage = ({ message, me, data, refetch }: Props) => {
           {showActionMessage && (
             <div
               onMouseLeave={() => setShowActionMessage(false)}
-              className="popovers text-xs border bg-white p-2 shadow-sm rounded absolute -top-8 left-5 z-40 "
+              className="popovers text-xs border bg-white p-2 shadow-sm rounded absolute -top-8 left-5 z-10 "
             >
               <ul className="flex flex-col gap-2">
                 <li

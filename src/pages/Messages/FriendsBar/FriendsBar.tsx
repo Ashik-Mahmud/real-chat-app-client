@@ -5,15 +5,15 @@ import { useQuery } from "react-query";
 import { server_url } from "../../../config/config";
 import { useAppContext } from "../../../Context/AppProvider";
 import CreateNewGroupModal from "./CreateNewGroupModal";
-import JoinGroupViaIDModal from "./JoinGroupViaIDModal";
 import ListItem from "./ListItem";
 type Props = {
   setShowAllFriends: (value: boolean) => void;
+  setIsShowJoinModal: (value: boolean) => void;
 };
 
-const FriendsBar = ({ setShowAllFriends }: Props) => {
+const FriendsBar = ({ setShowAllFriends, setIsShowJoinModal }: Props) => {
   const [isShowNewGroupModal, setIsShowNewGroupModal] = useState(false);
-  const [isShowJoinModal, setIsShowJoinModal] = useState(false);
+
   const [search, setSearch] = useState("");
   const { user, setRefetchFunc } = useAppContext();
 
@@ -49,9 +49,6 @@ const FriendsBar = ({ setShowAllFriends }: Props) => {
     <div>
       {isShowNewGroupModal && (
         <CreateNewGroupModal setIsShowNewGroupModal={setIsShowNewGroupModal} />
-      )}
-      {isShowJoinModal && (
-        <JoinGroupViaIDModal setIsShowJoinModal={setIsShowJoinModal} />
       )}
 
       <div className=" bg-white p-8 mt-5 md:mt-0">

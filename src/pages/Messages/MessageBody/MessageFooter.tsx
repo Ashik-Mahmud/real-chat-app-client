@@ -9,14 +9,15 @@ import { useAppContext } from "../../../Context/AppProvider";
 type Props = {};
 
 const MessageFooter = (props: Props) => {
-  const { selectedChat, user, refetchFunc, userInfo, socket } = useAppContext();
+  const { selectedChat, user, refetchFunc, userInfo, socket, setIsTyping } =
+    useAppContext();
   const [message, setMessage] = useState("");
 
   /* handle send Message */
   const handleSendMessage = async (e: any) => {
     e.preventDefault();
     if (!message) return cogoToast.error(`Write message`);
-
+    setIsTyping("");
     const messageContent = {
       chatId: selectedChat?._id,
       message: message,
@@ -30,6 +31,7 @@ const MessageFooter = (props: Props) => {
         },
       }
     );
+
     socket.emit("new_message", data?.sentMessage);
     if (data?.success) {
       refetchFunc.msgRefetch();

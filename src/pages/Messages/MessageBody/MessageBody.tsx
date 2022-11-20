@@ -10,11 +10,18 @@ import SingleMessage from "./SingleMessage";
 
 type Props = {};
 const MessageBody = (props: Props) => {
-  const { selectedChat, user, setRefetchFunc, socket, setNotificationList } =
-    useAppContext();
+  const {
+    selectedChat,
+    user,
+    setRefetchFunc,
+    socket,
+    setNotificationList,
+    notificationList,
+    setIsTyping,
+    isTyping,
+  } = useAppContext();
 
   const [allMessages, setAllMessage] = useState<any>([]);
-  const [isTyping, setIsTyping] = useState<string>("");
 
   const {
     data: messageList,
@@ -62,7 +69,7 @@ const MessageBody = (props: Props) => {
         !compareSelectedChat ||
         compareSelectedChat?._id !== message?.chat?._id
       ) {
-        console.log("give notification");
+        if (notificationList?.includes(message)) return;
         setNotificationList((prev: any) => [...prev, message]);
       } else {
         setAllMessage((prev: any) => [...prev, message]);
@@ -79,17 +86,23 @@ const MessageBody = (props: Props) => {
       socket.off("message_received");
       setAllMessage([]);
     };
-  }, [socket, selectedChat, setNotificationList]);
+  }, [
+    socket,
+    selectedChat,
+    setNotificationList,
+    notificationList,
+    setIsTyping,
+  ]);
 
   useEffect(() => {
     setTimeout(() => {
       setIsTyping("");
     }, 1000);
-  }, [isTyping]);
+  }, [isTyping, setIsTyping]);
 
   return (
-    <ScrollToBottom className="message-body h-[60vh] sm:h-[40rem] overflow-y-auto p-2">
-      <div className="p-5 md:p-8 z-0">
+    <ScrollToBottom className="message-body h-[60vh]  sm:h-[40rem] overflow-y-auto p-2">
+      <div className="p-5 md:p-8 ">
         {isLoading ? (
           <GlobalLoading />
         ) : (

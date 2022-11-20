@@ -16,11 +16,6 @@ const Header = ({ setIsShowProfile, isShowProfile }: Props) => {
   /* handle notification click */
   const handleNotificationClick = (item: any) => {
     setSelectedChat(item?.chat);
-    console.log(
-      notificationList.filter(
-        (notification: any) => notification._id !== item._id
-      )
-    );
     setNotificationList(
       notificationList.filter(
         (notification: any) => notification._id !== item._id
@@ -61,20 +56,32 @@ const Header = ({ setIsShowProfile, isShowProfile }: Props) => {
                         key={item?._id}
                         className="flex items-center gap-2  shadow hover:bg-slate-100 p-2 rounded-lg cursor-pointer"
                       >
-                        <img
-                          src={
-                            item?.sender?.avatar
-                              ? item?.sender?.avatar
-                              : "https://i.pravatar.cc/150?img=1"
-                          }
-                          alt={item?.sender?.name}
-                          className="rounded-full w-8 h-8 object-cover"
-                        />
+                        {item?.chat?.isGroup ? (
+                          <div className="w-8 h-8 rounded-full grid place-items-center border">
+                            {item?.chat?.groupName
+                              ?.split(" ")
+                              .map((item: any) => item.at(0))}
+                          </div>
+                        ) : (
+                          <img
+                            src={
+                              item?.sender?.avatar
+                                ? item?.sender?.avatar
+                                : "https://i.pravatar.cc/150?img=1"
+                            }
+                            alt={item?.sender?.name}
+                            className="rounded-full w-8 h-8 object-cover"
+                          />
+                        )}
+
                         <div className="flex items-start flex-col">
                           <span className="text-sky-500 font-bold">
-                            {item?.sender?.name}
+                            {item?.chat?.isGroup
+                              ? item?.chat?.groupName
+                              : item?.sender?.name}
                           </span>
                           <span className="text-gray-500 flex items-center text-xs  gap-1">
+                            {item?.chat?.isGroup && <b>someone: </b>}{" "}
                             {item?.message}
                           </span>
                         </div>
