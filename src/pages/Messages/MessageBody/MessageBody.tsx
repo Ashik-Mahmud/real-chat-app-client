@@ -84,7 +84,7 @@ const MessageBody = (props: Props) => {
   useEffect(() => {
     setTimeout(() => {
       setIsTyping("");
-    }, 2000);
+    }, 1000);
   }, [isTyping]);
 
   return (
