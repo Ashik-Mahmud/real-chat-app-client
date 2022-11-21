@@ -36,11 +36,19 @@ const router = createBrowserRouter([
   },
   {
     path: "/reset-password",
-    element: <ResetPassword />,
+    element: (
+      <ProtectRoute>
+        <ResetPassword />
+      </ProtectRoute>
+    ),
   },
   {
     path: "/change-password/:userId",
-    element: <ChangePassword />,
+    element: (
+      <ProtectRoute>
+        <ChangePassword />
+      </ProtectRoute>
+    ),
   },
   {
     path: "/messages",
