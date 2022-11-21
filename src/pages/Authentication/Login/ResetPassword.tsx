@@ -2,7 +2,7 @@ import axios from "axios";
 import cogoToast from "cogo-toast";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { server_url } from "../../../config/config";
+import swal from "sweetalert";
 
 type Props = {};
 
@@ -14,23 +14,24 @@ const ResetPassword = (props: Props) => {
     if (!email) return cogoToast.warn("Please enter your email");
 
     try {
-      (cogoToast.loading("Sending reset password link...") as any).then(
-        async () => {
-          const { data } = await axios.post(
-            `${server_url}/user/send-reset-password-link`,
-            {
-              email,
-            }
-          );
-
-          if (data?.success) {
-            cogoToast.success("Reset password link sent");
-          } else {
-            cogoToast.error("Something went wrong");
-          }
+      cogoToast.loading("Sending reset password link...");
+      const { data } = await axios.post(
+        `http://localhost:5000/api/user/send-reset-password-link`,
+        {
+          email,
         }
       );
-      setEmail("");
+      if (data?.success) {
+        swal({
+          title: "Reset Password Link Sent",
+          text: "Please check your email for the reset password link",
+          icon: "success",
+          buttons: ["cancel", "Ok"],
+        });
+        setEmail("");
+      } else {
+        cogoToast.error("Something went wrong");
+      }
     } catch (err) {
       const { data } = (err as any).response;
       (cogoToast.loading("Sending reset password link...") as any).then(() => {
