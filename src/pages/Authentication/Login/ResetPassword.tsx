@@ -3,6 +3,7 @@ import cogoToast from "cogo-toast";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import swal from "sweetalert";
+import { server_url } from "../../../config/config";
 
 type Props = {};
 
@@ -18,7 +19,7 @@ const ResetPassword = (props: Props) => {
       setLoading(true);
       cogoToast.loading("Sending reset password link...");
       const { data } = await axios.post(
-        `http://localhost:5000/api/user/send-reset-password-link`,
+        `${server_url}/user/send-reset-password-link`,
         {
           email,
         }

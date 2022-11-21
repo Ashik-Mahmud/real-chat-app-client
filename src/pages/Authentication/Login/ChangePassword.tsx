@@ -1,14 +1,16 @@
 import axios from "axios";
 import cogoToast from "cogo-toast";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { server_url } from "../../../config/config";
 type Props = {};
 
 const ChangePassword = (props: Props) => {
   const { userId } = useParams<string>();
   const navigate = useNavigate();
   const { handleSubmit, register } = useForm();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if ((userId as any)?.length !== 24) {
@@ -29,26 +31,34 @@ const ChangePassword = (props: Props) => {
     }
 
     try {
+      setIsLoading(true);
       const { data: result } = await axios.patch(
-        `http://localhost:5000/api/user/change-password`,
+        `${server_url}/user/change-password`,
         {
           user_id: userId,
           password: data?.password,
         }
       );
 
-      console.log(result);
+      if (result?.success) {
+        navigate("/login");
+        cogoToast.success(result?.message);
+        setIsLoading(false);
+      }
     } catch (err) {
       console.log(err);
       cogoToast.error("something went wrong");
     }
-
-    console.log(data);
   });
 
   return (
     <div className="grid place-items-center h-screen">
-      <div className="change-password-form bg-white p-12 sm:w-[28rem]">
+      <div className="change-password-form bg-white p-12  sm:w-[36rem]">
+        {userId && (
+          <div className="bg-green-50 text-green-500 p-5 rounded my-3 block ">
+            Verify successfully done
+          </div>
+        )}
         <h1 className="text-2xl my-3 mb-5">Change Password</h1>
         <form onSubmit={handleChangePassword}>
           <div className="form-group flex flex-col items-start gap-1">
@@ -71,12 +81,28 @@ const ChangePassword = (props: Props) => {
               placeholder="Confirm Password"
             />
           </div>
-          <button
-            type="submit"
-            className="btn btn-primary bg-blue-500 text-white p-3 rounded-md w-full mt-4"
+          {isLoading ? (
+            <button
+              type="submit"
+              disabled
+              className="btn cursor-not-allowed opacity-75 btn-primary bg-blue-500 text-white p-3 rounded-md w-full mt-4"
+            >
+              Password Changing...
+            </button>
+          ) : (
+            <button
+              type="submit"
+              className="btn btn-primary bg-blue-500 text-white p-3 rounded-md w-full mt-4"
+            >
+              Change Password
+            </button>
+          )}
+          <Link
+            to="/login"
+            className="my-5 text-center block text-blue-400 underline"
           >
-            Submit
-          </button>
+            Login
+          </Link>
         </form>
       </div>
     </div>
