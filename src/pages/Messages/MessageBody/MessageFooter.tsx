@@ -60,7 +60,9 @@ const MessageFooter = (props: Props) => {
       {/* send message input */}
       <form
         onSubmit={handleSendMessage}
-        className="flex items-stretch justify-center p-3 bg-white border-t shadow-sm relative w-full"
+        className={`flex items-stretch justify-center p-3 bg-white border-t shadow-sm relative w-full ${
+          isLoading && "opacity-50 cursor-not-allowed"
+        }`}
       >
         <div
           className={`absolute left-0 w-full transition-all ${
@@ -110,7 +112,10 @@ const MessageFooter = (props: Props) => {
                     value={message}
                     type="text"
                     onInput={handleTyping}
-                    className="w-full h-12 outline-none  px-4"
+                    className={`w-full h-12 outline-none  px-4 ${
+                      isLoading && "opacity-50 cursor-not-allowed"
+                    }`}
+                    disabled={isLoading}
                     placeholder="Type a message"
                   />
                 </div>
