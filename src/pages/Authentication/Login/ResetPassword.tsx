@@ -8,12 +8,14 @@ type Props = {};
 
 const ResetPassword = (props: Props) => {
   const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
 
   /* handle reset password link */
   const handleResetPassword = async () => {
     if (!email) return cogoToast.warn("Please enter your email");
 
     try {
+      setLoading(true);
       cogoToast.loading("Sending reset password link...");
       const { data } = await axios.post(
         `http://localhost:5000/api/user/send-reset-password-link`,
@@ -29,13 +31,16 @@ const ResetPassword = (props: Props) => {
           buttons: ["cancel", "Ok"],
         });
         setEmail("");
+        setLoading(false);
       } else {
         cogoToast.error("Something went wrong");
+        setLoading(false);
       }
     } catch (err) {
       const { data } = (err as any).response;
       (cogoToast.loading("Sending reset password link...") as any).then(() => {
         cogoToast.error(data.message);
+        setLoading(false);
       });
     }
   };
@@ -63,12 +68,21 @@ const ResetPassword = (props: Props) => {
             />
           </div>
 
-          <button
-            onClick={handleResetPassword}
-            className="bg-blue-500 text-white p-4 rounded-md"
-          >
-            Reset Password
-          </button>
+          {loading ? (
+            <button
+              className="bg-blue-500 text-white p-4 rounded-md cursor-not-allowed opacity-75"
+              disabled
+            >
+              Sending reset password link...
+            </button>
+          ) : (
+            <button
+              onClick={handleResetPassword}
+              className="bg-blue-500 text-white p-4 rounded-md"
+            >
+              Reset Password
+            </button>
+          )}
 
           <div className="flex justify-center items-center gap-2">
             <span>Don't have an account?</span>
