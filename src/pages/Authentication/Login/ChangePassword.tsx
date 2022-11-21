@@ -32,7 +32,7 @@ const ChangePassword = (props: Props) => {
 
     try {
       setIsLoading(true);
-      const { data: result } = await axios.patch(
+      const { data: result } = await axios.post(
         `${server_url}/user/change-password`,
         {
           user_id: userId,
