@@ -9,12 +9,14 @@ type Props = {
   setShowAllFriends: (value: boolean) => void;
   setIsShowJoinModal: (value: boolean) => void;
   setIsShowNewGroupModal: (value: boolean) => void;
+  setIsShowChatList: (value: boolean) => void;
 };
 
 const FriendsBar = ({
   setShowAllFriends,
   setIsShowJoinModal,
   setIsShowNewGroupModal,
+  setIsShowChatList,
 }: Props) => {
   const [search, setSearch] = useState("");
   const { user, setRefetchFunc } = useAppContext();
@@ -84,13 +86,21 @@ const FriendsBar = ({
             <>
               <ul className="flex items-start flex-col gap-2 h-[28rem] sm:h-[30rem] overflow-y-auto">
                 {data?.chats?.map((receiver: any) => (
-                  <ListItem key={receiver?._id} user={receiver} />
+                  <ListItem
+                    key={receiver?._id}
+                    user={receiver}
+                    setIsShowChatList={setIsShowChatList}
+                  />
                 ))}
 
                 {data?.groupChats?.length > 0 && (
                   <>
                     {data?.groupChats?.map((chat: any) => (
-                      <ListItem key={chat?._id} user={chat} />
+                      <ListItem
+                        key={chat?._id}
+                        user={chat}
+                        setIsShowChatList={setIsShowChatList}
+                      />
                     ))}
                   </>
                 )}

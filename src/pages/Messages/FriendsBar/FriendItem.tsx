@@ -42,7 +42,7 @@ const FriendItem = ({ user, refetch, setShowAllFriends }: Props) => {
   };
 
   return (
-    <div className="friend w-full flex h-auto items-center justify-between cursor-pointer transition-all hover:bg-slate-200 bg-slate-100 font-montserrat p-3 rounded-lg gap-3">
+    <div className="friend w-full flex flex-col sm:flex-row h-auto items-center justify-between cursor-pointer transition-all hover:bg-slate-200 bg-slate-100 font-montserrat p-3 rounded-lg gap-3">
       <div className="flex items-center gap-3">
         <div className="friend-image w-14 h-14 rounded-full border-4 border-blue-500 overflow-hidden">
           {user?.avatar ? (
@@ -72,7 +72,7 @@ const FriendItem = ({ user, refetch, setShowAllFriends }: Props) => {
             onClick={() => handleAddToChat(user?._id)}
             className="flex items-center gap-2 bg-blue-500 text-blue-100 text-sm p-2 px-4 rounded-full"
           >
-            <span className="hidden sm:block">Add to chat</span>
+            <span className="sm:block">Add to chat</span>
             <BsPlus size={20} />
           </button>
         )}

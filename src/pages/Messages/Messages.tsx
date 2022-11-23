@@ -51,7 +51,7 @@ const Messages = (props: Props) => {
 
           <div className="message-container  grid grid-cols-1 md:grid-cols-3 items-stretch gap-2 ">
             <div
-              className={`friends-sidebar fixed z-10 left-0 top-0 md:z-0  md:relative order-2 md:order-1 md:col-span-1 bg-white  ${
+              className={`friends-sidebar fixed h-full md:h-auto z-10 left-0 top-0 md:z-0  md:relative order-2 md:order-1 md:col-span-1 bg-white  ${
                 isShowChatList ? "block " : "hidden md:block"
               }`}
             >
@@ -65,6 +65,7 @@ const Messages = (props: Props) => {
                 setIsShowNewGroupModal={setIsShowNewGroupModal}
                 setIsShowJoinModal={setIsShowJoinModal}
                 setShowAllFriends={setShowAllFriends}
+                setIsShowChatList={setIsShowChatList}
               />
             </div>
             <div className="message-content order-1 md:order-2 md:col-span-2">

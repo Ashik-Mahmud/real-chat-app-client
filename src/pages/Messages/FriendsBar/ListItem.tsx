@@ -3,9 +3,10 @@ import { useAppContext } from "../../../Context/AppProvider";
 
 type Props = {
   user: any;
+  setIsShowChatList: (value: boolean) => void;
 };
 
-const ListItem = ({ user: chat }: Props) => {
+const ListItem = ({ user: chat, setIsShowChatList }: Props) => {
   const { setSelectedChat, user, selectedChat } = useAppContext();
 
   const lastActive = formatDistance(
@@ -15,7 +16,10 @@ const ListItem = ({ user: chat }: Props) => {
 
   return (
     <li
-      onClick={() => setSelectedChat(chat)}
+      onClick={() => {
+        setSelectedChat(chat);
+        setIsShowChatList(false);
+      }}
       className={` cursor-pointer hover:bg-sky-200 transition-all w-full p-2 rounded-lg ${
         !chat?.isGroup && chat.receiver?._id === selectedChat?.receiver?._id
           ? "bg-sky-200"
