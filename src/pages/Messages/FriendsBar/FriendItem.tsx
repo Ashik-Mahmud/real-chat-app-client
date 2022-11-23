@@ -42,8 +42,8 @@ const FriendItem = ({ user, refetch, setShowAllFriends }: Props) => {
   };
 
   return (
-    <div className="friend w-full flex flex-col sm:flex-row h-auto items-center justify-between cursor-pointer transition-all hover:bg-slate-200 bg-slate-100 font-montserrat p-3 rounded-lg gap-3">
-      <div className="flex items-center gap-3">
+    <div className="friend w-full flex flex-col sm:flex-row h-auto sm:items-center justify-between cursor-pointer transition-all hover:bg-slate-200 bg-slate-100 font-montserrat p-3 rounded-lg gap-3">
+      <div className="flex flex-col sm:flex-row sm:items-center gap-3">
         <div className="friend-image w-14 h-14 rounded-full border-4 border-blue-500 overflow-hidden">
           {user?.avatar ? (
             <img

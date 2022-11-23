@@ -84,7 +84,7 @@ const FriendsBar = ({
             <div className="text-center">Loading...</div>
           ) : data?.chats?.length || data?.groupChats?.length > 0 ? (
             <>
-              <ul className="flex items-start flex-col gap-2 h-[28rem] sm:h-[30rem] overflow-y-auto">
+              <ul className="flex items-start flex-col gap-2 h-[25rem] sm:h-[30rem] overflow-y-auto">
                 {data?.chats?.map((receiver: any) => (
                   <ListItem
                     key={receiver?._id}
