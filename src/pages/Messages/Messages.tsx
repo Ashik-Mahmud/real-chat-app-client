@@ -83,9 +83,15 @@ const Messages = (props: Props) => {
                   </div>
                 </>
               ) : (
-                <div className="h-full bg-white grid place-items-center font-montserrat">
-                  <h2 className="text-xl font-medium text-gray-500">
+                <div className="h-full bg-white grid place-items-center font-montserrat py-10">
+                  <h2 className="text-xl hidden md:block cursor-pointer md:cursor-auto font-medium text-gray-500">
                     Click to Continue chat
+                  </h2>
+                  <h2
+                    onClick={() => setIsShowChatList((prev) => !prev)}
+                    className="text-xl block md:hidden bg-gray-100 md:bg-white p-4 rounded md:p-0 cursor-pointer md:cursor-auto font-medium text-gray-500"
+                  >
+                    Click to Open Chat List
                   </h2>
                 </div>
               )}
