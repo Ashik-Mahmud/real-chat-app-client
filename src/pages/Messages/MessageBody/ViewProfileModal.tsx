@@ -266,11 +266,11 @@ const ViewProfileModal = ({
                   {!selectedChat?.isGroup && (
                     <>
                       {data?.user?.friends?.length > 0 ? (
-                        <div className="friend-list-body grid grid-cols-3 gap-2 mt-4">
+                        <div className="friend-list-body grid grid-cols-2 sm:grid-cols-3 gap-2 mt-4">
                           {data?.user?.friends?.map((friend: any) => (
                             <div
                               key={friend._id}
-                              className={`friend-item overflow-hidden w-full h-20 flex items-start gap-3  border bg-center bg-no-repeat rounded-md p-3 backdrop-blur-sm ${
+                              className={`friend-item overflow-hidden w-full sm:h-20 flex items-start gap-3  border bg-center bg-no-repeat rounded-md p-3 backdrop-blur-sm ${
                                 friend?._id === user?._id
                                   ? "bg-sky-200"
                                   : "bg-gray-200"
