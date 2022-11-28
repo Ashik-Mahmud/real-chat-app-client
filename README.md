@@ -1,14 +1,12 @@
 # Real Chat App - Client
 
 This is the client side of the Real Chat App. It is a React app that uses the [Real Chat App - Server](https://github.com/Ashik-Mahmud/real-chat-app-server)
+Where peoples can chat each others and also can create their own chat room. It's completely free and real time.
 
 ## Using Technologies
 
 ```json
 {
-  "name": "client",
-  "version": "0.1.0",
-  "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.1",
     "@testing-library/jest-dom": "^5.16.4",
@@ -67,6 +65,39 @@ This is the client side of the Real Chat App. It is a React app that uses the [R
 ```
 
 ## Required Features
+
+### In both Group and Private Chat
+
+- [x] User can create an account
+- [x] User can login
+- [x] User can create a chat room and invite other users
+- [x] User can join a chat room and chat with other users
+- [x] User can see all the chat rooms he/she has joined
+- [x] User can see all the users he/she has invited
+- [x] User can block someone from chatting with him/her
+- [x] User can see all the users he/she has blocked and also can unblock them
+- [x] User can remove a chat room with friends he/she has invited
+- [x] User also can remove him/her sent messages and also copy someone else messages and send it to someone else
+
+### In the Group Chat
+
+- [x] User can see all the users in the chat room
+- [x] User can copy the group code to share someone to join this group
+- [x] User can leave the group
+- [x] User can see all the messages in the group
+- [x] As someone admin of the group, he/she can remove any user from the group
+- [x] As someone admin of the group, he/she can remove any message from the group
+- [x] As someone admin of the group, he/she can add someone to the group
+- [x] As someone admin of the group, he/she can change the group name
+- [x] As someone admin of the group, he/she can delete the group
+
+## Live Site
+
+[Real Chat App](https://real-chat-app-client.vercel.app/)
+
+## Server Side Code
+
+[Real Chat App - Server](https://github.com/Ashik-Mahmud/real-chat-app-server)
 
 ## Preview Image
 
