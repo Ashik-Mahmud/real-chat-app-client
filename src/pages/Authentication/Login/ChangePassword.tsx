@@ -53,7 +53,7 @@ const ChangePassword = (props: Props) => {
 
   return (
     <div className="grid place-items-center h-screen">
-      <div className="change-password-form bg-white p-12  sm:w-[36rem]">
+      <div className="change-password-form bg-white p-12  sm:w-[30rem]">
         {userId && (
           <div className="bg-green-50 text-green-500 p-5 rounded my-3 block ">
             Verify successfully done

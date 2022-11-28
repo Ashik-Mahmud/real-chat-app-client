@@ -54,7 +54,7 @@ const Login = (props: Props) => {
 
   return (
     <div className="login grid place-items-center h-screen  bg-gray-50  sm:p-0">
-      <div className="login-wrapper  bg-white w-full sm:w-[36rem] p-8 shadow border">
+      <div className="login-wrapper  bg-white w-full sm:w-[30rem] p-8 shadow border">
         <div className="logo my-4">
           <h3 className="text-2xl font-bold mb-4">Login to your account</h3>
         </div>
@@ -132,7 +132,7 @@ const Login = (props: Props) => {
             onClick={handleGuestUserCredential}
             className="bg-yellow-50 shadow shadow-yellow-100 border border-yellow-200 text-yellow-600 p-2 rounded-md mt-4"
           >
-            As Guest
+            Login As Guest
           </button>
 
           <div className="flex justify-center items-center gap-2">
