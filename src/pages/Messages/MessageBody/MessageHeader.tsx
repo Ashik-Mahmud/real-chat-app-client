@@ -165,6 +165,7 @@ const MessageHeader = ({ setIsShowChatList, setIsShowProfileModal }: Props) => {
                 >
                   {selectedChat?.groupName
                     ?.split(" ")
+                    ?.slice(0, 2)
                     .map((l: string) => l.at(0))}
                 </div>
               ) : (

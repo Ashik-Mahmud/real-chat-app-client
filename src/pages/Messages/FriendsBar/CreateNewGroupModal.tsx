@@ -16,6 +16,7 @@ const CreateNewGroupModal = ({ setIsShowNewGroupModal }: Props) => {
   const { user, refetchFunc } = useAppContext();
   const [selectedUsers, setSelectedUsers] = useState<any>([]);
   const [groupName, setGroupName] = useState("");
+  const [groupLoading, setGroupLoading] = useState(false);
 
   /* get all the friends */
   const { data, isLoading } = useQuery(["friends", user], async () => {
@@ -46,6 +47,7 @@ const CreateNewGroupModal = ({ setIsShowNewGroupModal }: Props) => {
       name: groupName,
       members: selectedUsers.map((user: any) => user?.value),
     };
+    setGroupLoading(true);
 
     try {
       await axios.post(`${server_url}/chat/group/create`, sendingData, {
@@ -57,7 +59,9 @@ const CreateNewGroupModal = ({ setIsShowNewGroupModal }: Props) => {
       refetchFunc.chatRefetch();
       refetchFunc.msgRefetch();
       setIsShowNewGroupModal(false);
+      setGroupLoading(false);
     } catch (err) {
+      setGroupLoading(false);
       console.log(err);
     }
   };
@@ -107,12 +111,18 @@ const CreateNewGroupModal = ({ setIsShowNewGroupModal }: Props) => {
             </div>
 
             <div className="mt-5">
-              <button
-                onClick={() => handleCreateGroupChat()}
-                className="bg-sky-500 text-sky-100 p-4 rounded-lg w-full"
-              >
-                Create Group
-              </button>
+              {groupLoading ? (
+                <button className="bg-sky-500 text-sky-100 p-4 rounded-lg w-full opacity-75 cursor-not-allowed">
+                  Creating Group...
+                </button>
+              ) : (
+                <button
+                  onClick={() => handleCreateGroupChat()}
+                  className="bg-sky-500 text-sky-100 p-4 rounded-lg w-full"
+                >
+                  Create Group
+                </button>
+              )}
             </div>
           </div>
         </div>

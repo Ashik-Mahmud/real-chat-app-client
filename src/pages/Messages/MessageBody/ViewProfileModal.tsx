@@ -1,6 +1,7 @@
 import axios from "axios";
 import cogoToast from "cogo-toast";
 import { useEffect, useState } from "react";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { BiCheck, BiCopy, BiLogOut, BiPen, BiPlus, BiX } from "react-icons/bi";
 import { FaUsers } from "react-icons/fa";
 import { useQuery } from "react-query";
@@ -21,6 +22,7 @@ const ViewProfileModal = ({
   const { selectedChat, setSelectedChat, user, refetchFunc } = useAppContext();
   const [groupName, setGroupName] = useState(selectedChat?.groupName);
   const [isOpenAddMembersModal, setIsOpenAddMembersModal] = useState(false);
+  const [isEditLoading, setIsEditLoading] = useState(false);
 
   const [isEditGroupName, setIsEditGroupName] = useState(false);
 
@@ -47,6 +49,7 @@ const ViewProfileModal = ({
     if (!groupName) setGroupName(selectedChat?.groupName);
 
     try {
+      setIsEditLoading(true);
       const { data } = await axios.patch(
         `${server_url}/chat/group/edit/${selectedChat?._id}`,
         {
@@ -60,12 +63,14 @@ const ViewProfileModal = ({
       );
 
       if (data.success) {
+        setIsEditLoading(false);
         refetchFunc?.chatRefetch();
         setIsEditGroupName(false);
         cogoToast.success("Group name updated successfully");
       }
     } catch (error) {
       console.log(error);
+      setIsEditLoading(false);
     }
   };
 
@@ -102,7 +107,7 @@ const ViewProfileModal = ({
 
   useEffect(() => {
     setGroupName(selectedChat?.groupName);
-  }, [selectedChat?.groupName]);
+  }, [selectedChat, isEditLoading]);
 
   return (
     <>
@@ -151,16 +156,21 @@ const ViewProfileModal = ({
                   ) : (
                     selectedChat?.receiver?.name
                       ?.split(" ")
+                      .slice(0, 2)
                       .map((name: string) => name.at(0))
                   )}
                 </>
               ) : (
                 <>
                   {groupName
-                    ? groupName?.split(" ").map((l: string) => l.at(0))
+                    ? groupName
+                        ?.split(" ")
+                        .slice(0, 2)
+                        .map((l: string) => l.at(0))
                     : selectedChat?.groupName
                         ?.split(" ")
-                        .map((l: string) => l.at(0))}
+                        .slice(0, 2)
+                        .map((l: string) => l?.at(0))}
                 </>
               )}
             </div>
@@ -173,6 +183,7 @@ const ViewProfileModal = ({
                       onChange={(e) => setGroupName(e.target.value)}
                       value={groupName}
                       className="border p-2 text-sm rounded outline-none"
+                      disabled={isEditLoading}
                     />
                   </div>
                 ) : (
@@ -180,13 +191,20 @@ const ViewProfileModal = ({
                 )}
                 {isEditGroupName ? (
                   <>
-                    <span
-                      title="Save"
-                      onClick={handleEditGroupName}
-                      className="edit text-2xl bg-blue-50 p-1 cursor-pointer text-blue-600"
-                    >
-                      <BiCheck />
-                    </span>
+                    {isEditLoading ? (
+                      <span className="edit text-2xl bg-blue-50 p-1 grid place-items-center text-blue-600 cursor-not-allowed opacity-70">
+                        <AiOutlineLoading3Quarters className="animate-spin" />
+                      </span>
+                    ) : (
+                      <span
+                        title="Save"
+                        onClick={handleEditGroupName}
+                        className="edit text-2xl bg-blue-50 p-1 cursor-pointer text-blue-600"
+                      >
+                        <BiCheck />
+                      </span>
+                    )}
+
                     <span
                       title="Edit"
                       onClick={() => setIsEditGroupName(false)}
@@ -324,7 +342,7 @@ const ViewProfileModal = ({
 
                   {selectedChat?.isGroup && (
                     <>
-                      <div className="my-3">
+                      <div className="my-3 h-[18rem] overflow-x-auto">
                         <ul>
                           {selectedChat?.users?.map((member: any) => (
                             <li
