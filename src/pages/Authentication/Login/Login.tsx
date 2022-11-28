@@ -3,12 +3,13 @@ import { useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
+import swal from "sweetalert";
 import { useLoginMutation } from "../../../api/AuthenticationApi";
 
 type Props = {};
 const Login = (props: Props) => {
   const [cookies, setCookie] = useCookies(["user"]);
-  const { handleSubmit, register } = useForm();
+  const { handleSubmit, register, setValue } = useForm();
   const [loginAuth, { data, isLoading, error }] = useLoginMutation();
   const navigate = useNavigate();
 
@@ -26,6 +27,20 @@ const Login = (props: Props) => {
       cogoToast.error((error as any).data?.message);
     }
   });
+
+  /* handle guest user credentials */
+  const handleGuestUserCredential = async () => {
+    const isConfirm = await swal({
+      title: "Are you sure?",
+      text: "You want to login as a guest user",
+      icon: "warning",
+      buttons: ["Cancel", "Yes"],
+    });
+    if (isConfirm) {
+      setValue("email", "guest@user.com");
+      setValue("password", "guest@user");
+    }
+  };
 
   useEffect(() => {
     if (data?.token) {
@@ -111,6 +126,14 @@ const Login = (props: Props) => {
               Login
             </button>
           )}
+
+          <button
+            type="button"
+            onClick={handleGuestUserCredential}
+            className="bg-yellow-50 shadow shadow-yellow-100 border border-yellow-200 text-yellow-600 p-2 rounded-md mt-4"
+          >
+            As Guest
+          </button>
 
           <div className="flex justify-center items-center gap-2">
             <div className="h-[1px] w-10 bg-gray-300"></div>
