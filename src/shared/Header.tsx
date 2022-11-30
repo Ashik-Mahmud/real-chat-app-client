@@ -6,9 +6,14 @@ import ProfileCard from "./ProfileCard";
 type Props = {
   setIsShowProfile: (value: boolean) => void;
   isShowProfile: boolean;
+  setIsShowChangeImage: (value: boolean) => void;
 };
 
-const Header = ({ setIsShowProfile, isShowProfile }: Props) => {
+const Header = ({
+  setIsShowProfile,
+  isShowProfile,
+  setIsShowChangeImage,
+}: Props) => {
   const [showNotifications, setShowNotifications] = useState(false);
   const { userInfo, notificationList, setSelectedChat, setNotificationList } =
     useAppContext();
@@ -28,6 +33,7 @@ const Header = ({ setIsShowProfile, isShowProfile }: Props) => {
       <ProfileCard
         setIsShowProfile={setIsShowProfile}
         isShowProfile={isShowProfile}
+        setIsShowChangeImage={setIsShowChangeImage}
       />
       <div className="flex items-center justify-between bg-white mb-3 p-2 px-8 relative">
         <div className="flex items-center gap-2">

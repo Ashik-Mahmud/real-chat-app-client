@@ -21,6 +21,7 @@ const Messages = (props: Props) => {
   const [isShowProfileModal, setIsShowProfileModal] = useState(false);
   const [isShowJoinModal, setIsShowJoinModal] = useState(false);
   const [isShowNewGroupModal, setIsShowNewGroupModal] = useState(false);
+  const [isShowChangeImage, setIsShowChangeImage] = useState(false);
   /* handle Get All the chat */
   const { selectedChat } = useAppContext();
   return (
@@ -43,13 +44,16 @@ const Messages = (props: Props) => {
         <CreateNewGroupModal setIsShowNewGroupModal={setIsShowNewGroupModal} />
       )}
 
-      {<ChangeImageModal />}
+      {isShowChangeImage && (
+        <ChangeImageModal setIsShowChangeImage={setIsShowChangeImage} />
+      )}
 
       <div className="bg-slate-200 md:h-screen py-5 z-5">
         <div className="container mx-auto">
           <Header
             setIsShowProfile={setIsShowProfile}
             isShowProfile={isShowProfile}
+            setIsShowChangeImage={setIsShowChangeImage}
           />
 
           <div className="message-container  grid grid-cols-1 md:grid-cols-3 items-stretch gap-2 ">

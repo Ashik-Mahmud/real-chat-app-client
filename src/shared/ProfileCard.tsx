@@ -8,9 +8,14 @@ const cookie = new Cookie();
 type Props = {
   setIsShowProfile: (value: boolean) => void;
   isShowProfile: boolean;
+  setIsShowChangeImage: (value: boolean) => void;
 };
 
-const ProfileCard = ({ setIsShowProfile, isShowProfile }: Props) => {
+const ProfileCard = ({
+  setIsShowProfile,
+  isShowProfile,
+  setIsShowChangeImage,
+}: Props) => {
   const { userInfo, setUser } = useAppContext();
   const [logout] = useLogoutMutation();
   const navigate = useNavigate();
@@ -58,6 +63,7 @@ const ProfileCard = ({ setIsShowProfile, isShowProfile }: Props) => {
               />
               <div
                 className="change-photo absolute right-2 bottom-2 w-8 h-8 border rounded-full bg-blue-400 grid place-items-center text-white cursor-pointer"
+                onClick={() => setIsShowChangeImage(true)}
                 title="Change Photo"
               >
                 <BiCamera />

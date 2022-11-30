@@ -1,23 +1,40 @@
 import { useRef, useState } from "react";
 import AvatarEditor from "react-avatar-editor";
-type Props = {};
-const ChangeImageModal = (props: Props) => {
-  //   const [editorRef, setEditorRef] = useState();
+import DragUpload from "../components/DragUpload";
+type Props = {
+  setIsShowChangeImage: React.Dispatch<React.SetStateAction<boolean>>;
+};
+const ChangeImageModal = ({ setIsShowChangeImage }: Props) => {
+  /* additional states */
+  const imageRef = useRef<any>(null);
+  const [zoom, setZoom] = useState(1);
+  const [rotate, setRotate] = useState(0);
 
-  const imageRef = useRef();
-  console.log(imageRef);
+  const [image, setImage] = useState<any>([]);
+  const [previewImage, setPreviewImage] = useState<any>("");
+  const [rounded, setRounded] = useState(0);
 
-  const [zoom, setZoom] = useState(1.2);
-  const [rotate, setRotate] = useState(1);
+  if (image?.length > 0) {
+    const reader = new FileReader();
+    reader.readAsDataURL(image[0]);
+    reader.onloadend = () => {
+      setPreviewImage(reader.result);
+    };
+  }
 
-  console.log(zoom);
+  /* handle get image */
+  const handleGetImage = () => {
+    const croppedImage = imageRef?.current?.getImage().toDataURL();
+    console.log(croppedImage);
+  };
+
   return (
     <div>
       {/* modal */}
       <div className="fixed z-40 inset-0 overflow-y-auto">
         <div className="flex  z-40 items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
           <div
-            onClick={() => {}}
+            onClick={() => setIsShowChangeImage(false)}
             className="fixed inset-0 transition-opacity"
             aria-hidden="true"
           >
@@ -45,36 +62,73 @@ const ChangeImageModal = (props: Props) => {
                     Change Profile Photo
                   </h3>
                   <div className="mt-2 w-full">
-                    <p className="text-sm text-gray-500 mb-2">
-                      Enter the group code to join the group
-                    </p>
-                    <input
-                      type="text"
-                      className="w-full p-4 rounded-lg border-2  border-sky-100 focus:outline-none focus:border-sky-500"
-                    />
-                    <AvatarEditor
-                      ref={imageRef as any}
-                      image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6EL0Nq5vhvAocu_Vy6zyA87xSZ0YKTgP6QCasBWaMDg&s"
-                      width={250}
-                      height={250}
-                      border={50}
-                      scale={zoom}
-                      rotate={rotate}
-                    />
+                    <p className="text-sm text-gray-500 mb-2">Upload Or Drug</p>
 
-                    <input
-                      type={"range"}
-                      onChange={(e) => setZoom(Number(e.currentTarget.value))}
-                      min={1}
-                      max={3}
-                      step="0.2"
-                    />
+                    {!previewImage && <DragUpload setImage={setImage} />}
+
+                    {previewImage && (
+                      <div>
+                        <AvatarEditor
+                          ref={imageRef}
+                          image={previewImage}
+                          width={250}
+                          height={250}
+                          border={50}
+                          color={[0, 0, 0, 0.3]} // RGBA
+                          scale={zoom}
+                          rotate={rotate}
+                          borderRadius={rounded}
+                        />
+                        <div className="controls">
+                          <div className="flex flex-col my-5">
+                            <label htmlFor="zoom">Zoom</label>
+                            <input
+                              type="range"
+                              step={0.2}
+                              min={0}
+                              max={5}
+                              value={zoom}
+                              onChange={(e) =>
+                                setZoom(Number(e.currentTarget.value))
+                              }
+                            />
+                          </div>
+                          <div className="flex flex-col my-5">
+                            <label htmlFor="zoom">Rotate</label>
+                            <input
+                              type="range"
+                              step={1}
+                              min={0}
+                              max={360}
+                              onChange={(e) =>
+                                setRotate(Number(e.currentTarget.value))
+                              }
+                            />
+                          </div>
+                          <div className="flex flex-col my-5">
+                            <label htmlFor="zoom">Rounded</label>
+                            <input
+                              type="range"
+                              step={1}
+                              min={0}
+                              max={300}
+                              onChange={(e) =>
+                                setRounded(Number(e.currentTarget.value))
+                              }
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
             </div>
             <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-              <button className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-sky-500 text-base font-medium text-white hover:bg-sky-600 items-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 sm:ml-3 sm:w-auto sm:text-sm">
+              <button
+                onClick={() => handleGetImage()}
+                className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-sky-500 text-base font-medium text-white hover:bg-sky-600 items-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 sm:ml-3 sm:w-auto sm:text-sm"
+              >
                 Save Changes
               </button>
             </div>
