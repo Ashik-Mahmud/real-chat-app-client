@@ -8,7 +8,7 @@ const cookie = new Cookie();
 type Props = {
   setIsShowProfile: (value: boolean) => void;
   isShowProfile: boolean;
-  setIsShowChangeImage: (value: boolean) => void;
+  setIsShowChangeImage: (value: any) => void;
 };
 
 const ProfileCard = ({
@@ -63,7 +63,9 @@ const ProfileCard = ({
               />
               <div
                 className="change-photo absolute right-2 bottom-2 w-8 h-8 border rounded-full bg-blue-400 grid place-items-center text-white cursor-pointer"
-                onClick={() => setIsShowChangeImage(true)}
+                onClick={() =>
+                  setIsShowChangeImage({ isChange: true, where: "profile" })
+                }
                 title="Change Photo"
               >
                 <BiCamera />

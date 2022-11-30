@@ -31,7 +31,15 @@ const ListItem = ({ user: chat, setIsShowChatList }: Props) => {
           {chat?.isGroup ? (
             <>
               <div className="text-2xl grid place-items-center font-bold bg-gray-50 text-gray-500 h-full w-full">
-                {chat?.groupName?.split(" ").map((l: string) => l.at(0))}
+                {chat?.groupImage ? (
+                  <img
+                    src={chat?.groupImage}
+                    alt={chat?.groupName}
+                    className="object-cover w-full h-full rounded-full"
+                  />
+                ) : (
+                  chat?.groupName?.split(" ").map((l: string) => l.at(0))
+                )}
               </div>
             </>
           ) : (

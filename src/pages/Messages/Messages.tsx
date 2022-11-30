@@ -21,7 +21,11 @@ const Messages = (props: Props) => {
   const [isShowProfileModal, setIsShowProfileModal] = useState(false);
   const [isShowJoinModal, setIsShowJoinModal] = useState(false);
   const [isShowNewGroupModal, setIsShowNewGroupModal] = useState(false);
-  const [isShowChangeImage, setIsShowChangeImage] = useState(false);
+  const [isShowChangeImage, setIsShowChangeImage] = useState<any>({
+    isChange: false,
+    where: "",
+    id: "",
+  });
   /* handle Get All the chat */
   const { selectedChat } = useAppContext();
   return (
@@ -29,6 +33,7 @@ const Messages = (props: Props) => {
       <ViewProfileModal
         isShowProfileModal={isShowProfileModal}
         setIsShowProfileModal={setIsShowProfileModal}
+        setIsShowChangeImage={setIsShowChangeImage}
       />
 
       <AllFriendList
@@ -44,8 +49,12 @@ const Messages = (props: Props) => {
         <CreateNewGroupModal setIsShowNewGroupModal={setIsShowNewGroupModal} />
       )}
 
-      {isShowChangeImage && (
-        <ChangeImageModal setIsShowChangeImage={setIsShowChangeImage} />
+      {isShowChangeImage?.isChange && (
+        <ChangeImageModal
+          isShowChangeImage={isShowChangeImage}
+          setIsShowChangeImage={setIsShowChangeImage}
+          setIsShowProfileModal={setIsShowProfileModal}
+        />
       )}
 
       <div className="bg-slate-200 md:h-screen py-5 z-5">

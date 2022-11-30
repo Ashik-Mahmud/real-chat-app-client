@@ -163,10 +163,18 @@ const MessageHeader = ({ setIsShowChatList, setIsShowProfileModal }: Props) => {
                   title={selectedChat?.groupName}
                   className="text-3xl w-12 h-12 rounded-full bg-gray-100 grid place-items-center font-bold"
                 >
-                  {selectedChat?.groupName
-                    ?.split(" ")
-                    ?.slice(0, 2)
-                    .map((l: string) => l.at(0))}
+                  {selectedChat?.groupImage ? (
+                    <img
+                      src={selectedChat?.groupImage}
+                      alt={selectedChat?.groupName}
+                      className="w-12 h-12 rounded-full object-cover border-4"
+                    />
+                  ) : (
+                    selectedChat?.groupName
+                      ?.split(" ")
+                      ?.slice(0, 2)
+                      .map((l: string) => l.at(0))
+                  )}
                 </div>
               ) : (
                 <img

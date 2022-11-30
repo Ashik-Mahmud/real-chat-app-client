@@ -6,15 +6,17 @@ import DragUpload from "../components/DragUpload";
 import { server_url } from "../config/config";
 import { useAppContext } from "../Context/AppProvider";
 type Props = {
-  setIsShowChangeImage: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsShowChangeImage: React.Dispatch<React.SetStateAction<any>>;
+  isShowChangeImage: any;
+  setIsShowProfileModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
-const ChangeImageModal = ({ setIsShowChangeImage }: Props) => {
-  const {
-    user,
-    refetchFunc,
-
-    userInfoRefetch,
-  } = useAppContext();
+const ChangeImageModal = ({
+  setIsShowChangeImage,
+  isShowChangeImage,
+  setIsShowProfileModal,
+}: Props) => {
+  const { user, refetchFunc, setSelectedChat, userInfoRefetch } =
+    useAppContext();
   /* additional states */
   const [loading, setLoading] = useState(false);
   const imageRef = useRef<any>(null);
@@ -41,7 +43,7 @@ const ChangeImageModal = ({ setIsShowChangeImage }: Props) => {
     try {
       setLoading(true);
       const { data } = await axios.post(
-        `${server_url}/user/change-photo`,
+        `${server_url}/user/change-photo?where=${isShowChangeImage?.where}&id=${isShowChangeImage?.id}`,
         image,
         {
           headers: {
@@ -57,6 +59,8 @@ const ChangeImageModal = ({ setIsShowChangeImage }: Props) => {
         refetchFunc.chatRefetch();
         userInfoRefetch();
         setIsShowChangeImage(false);
+        setSelectedChat("");
+        setIsShowProfileModal(false);
       }
     } catch (err) {
       console.log(err);
@@ -69,7 +73,9 @@ const ChangeImageModal = ({ setIsShowChangeImage }: Props) => {
       <div className="fixed z-40 inset-0 overflow-y-auto">
         <div className="flex  z-40 items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
           <div
-            onClick={() => setIsShowChangeImage(false)}
+            onClick={() =>
+              setIsShowChangeImage({ isChange: false, where: "profile" })
+            }
             className="fixed inset-0 transition-opacity"
             aria-hidden="true"
           >
@@ -91,10 +97,10 @@ const ChangeImageModal = ({ setIsShowChangeImage }: Props) => {
               <div className="w-full">
                 <div className="mt-3 text-center sm:mt-0  sm:text-left">
                   <h3
-                    className="text-lg leading-6 font-medium text-gray-900"
+                    className="text-lg leading-6 font-medium text-gray-900 capitalize"
                     id="modal-headline"
                   >
-                    Change Profile Photo
+                    Change {isShowChangeImage?.where} Photo
                   </h3>
                   <div className="mt-2 w-full">
                     <p className="text-sm text-gray-500 mb-2">Upload Or Drug</p>

@@ -2,7 +2,15 @@ import axios from "axios";
 import cogoToast from "cogo-toast";
 import { useEffect, useState } from "react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { BiCheck, BiCopy, BiLogOut, BiPen, BiPlus, BiX } from "react-icons/bi";
+import {
+  BiCamera,
+  BiCheck,
+  BiCopy,
+  BiLogOut,
+  BiPen,
+  BiPlus,
+  BiX,
+} from "react-icons/bi";
 import { FaUsers } from "react-icons/fa";
 import { useQuery } from "react-query";
 import swal from "sweetalert";
@@ -13,11 +21,13 @@ import AddMembersModal from "./AddMembersModal";
 type Props = {
   setIsShowProfileModal: (value: boolean) => void;
   isShowProfileModal: boolean;
+  setIsShowChangeImage: (value: any) => void;
 };
 
 const ViewProfileModal = ({
   setIsShowProfileModal,
   isShowProfileModal,
+  setIsShowChangeImage,
 }: Props) => {
   const { selectedChat, setSelectedChat, user, refetchFunc } = useAppContext();
   const [groupName, setGroupName] = useState(selectedChat?.groupName);
@@ -143,7 +153,7 @@ const ViewProfileModal = ({
           <div className="modal-body flex flex-col items-center justify-center p-8">
             <div
               title={(selectedChat?.isGroup && selectedChat?.groupName) || ""}
-              className="profile-image overflow-hidden w-32 h-32 border-4 rounded-full bg-gray-200 text-6xl font-bold grid place-items-center uppercase"
+              className="group profile-image relative overflow-hidden w-32 h-32 border-4 rounded-full bg-gray-200 text-6xl font-bold grid place-items-center uppercase"
             >
               {!selectedChat?.isGroup ? (
                 <>
@@ -162,16 +172,33 @@ const ViewProfileModal = ({
                 </>
               ) : (
                 <>
-                  {groupName
-                    ? groupName
-                        ?.split(" ")
-                        .slice(0, 2)
-                        .map((l: string) => l.at(0))
-                    : selectedChat?.groupName
-                        ?.split(" ")
-                        .slice(0, 2)
-                        .map((l: string) => l?.at(0))}
+                  {selectedChat?.groupImage ? (
+                    <img
+                      src={selectedChat?.groupImage}
+                      alt={selectedChat?.groupName}
+                      className="w-32 h-32 object-cover"
+                    />
+                  ) : (
+                    selectedChat?.groupName
+                      ?.split(" ")
+                      .slice(0, 2)
+                      .map((l: string) => l?.at(0))
+                  )}
                 </>
+              )}
+              {selectedChat?.isGroup && selectedChat.creator === user?._id && (
+                <div
+                  onClick={() =>
+                    setIsShowChangeImage({
+                      isChange: true,
+                      where: "group",
+                      id: selectedChat._id,
+                    })
+                  }
+                  className="absolute w-full h-full left-0 top-0 z-10 bg-[#0000006b] grid place-items-center text-white backdrop-blur-sm cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity delay-75"
+                >
+                  <BiCamera />
+                </div>
               )}
             </div>
             {selectedChat?.isGroup ? (

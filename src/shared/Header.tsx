@@ -6,7 +6,7 @@ import ProfileCard from "./ProfileCard";
 type Props = {
   setIsShowProfile: (value: boolean) => void;
   isShowProfile: boolean;
-  setIsShowChangeImage: (value: boolean) => void;
+  setIsShowChangeImage: (value: any) => void;
 };
 
 const Header = ({
