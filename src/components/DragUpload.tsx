@@ -58,7 +58,7 @@ const DragUpload = ({ setImage }: Props) => {
   return (
     <div className="container">
       <div {...getRootProps({ style })}>
-        <input {...getInputProps()} />
+        <input {...getInputProps()} name="profilePhoto" />
         <p>Drag 'n' drop your photo here, or click to select </p>
       </div>
     </div>

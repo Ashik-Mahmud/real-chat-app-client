@@ -1,11 +1,22 @@
+import axios from "axios";
+import cogoToast from "cogo-toast";
 import { useRef, useState } from "react";
 import AvatarEditor from "react-avatar-editor";
 import DragUpload from "../components/DragUpload";
+import { server_url } from "../config/config";
+import { useAppContext } from "../Context/AppProvider";
 type Props = {
   setIsShowChangeImage: React.Dispatch<React.SetStateAction<boolean>>;
 };
 const ChangeImageModal = ({ setIsShowChangeImage }: Props) => {
+  const {
+    user,
+    refetchFunc,
+
+    userInfoRefetch,
+  } = useAppContext();
   /* additional states */
+  const [loading, setLoading] = useState(false);
   const imageRef = useRef<any>(null);
   const [zoom, setZoom] = useState(1);
   const [rotate, setRotate] = useState(0);
@@ -23,9 +34,33 @@ const ChangeImageModal = ({ setIsShowChangeImage }: Props) => {
   }
 
   /* handle get image */
-  const handleGetImage = () => {
+  const handleGetImage = async () => {
     const croppedImage = imageRef?.current?.getImage().toDataURL();
-    console.log(croppedImage);
+    if (!croppedImage) return cogoToast.error("select image");
+    const image = { image: croppedImage };
+    try {
+      setLoading(true);
+      const { data } = await axios.post(
+        `${server_url}/user/change-photo`,
+        image,
+        {
+          headers: {
+            authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+
+      if (data?.success) {
+        setLoading(false);
+        cogoToast.success(data?.message || "Updated");
+        refetchFunc.msgRefetch();
+        refetchFunc.chatRefetch();
+        userInfoRefetch();
+        setIsShowChangeImage(false);
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -80,20 +115,20 @@ const ChangeImageModal = ({ setIsShowChangeImage }: Props) => {
                           borderRadius={rounded}
                         />
                         <div className="controls">
-                          <div className="flex flex-col my-5">
+                          <div className="flex flex-col my-2">
                             <label htmlFor="zoom">Zoom</label>
                             <input
                               type="range"
                               step={0.2}
                               min={0}
-                              max={5}
+                              max={20}
                               value={zoom}
                               onChange={(e) =>
                                 setZoom(Number(e.currentTarget.value))
                               }
                             />
                           </div>
-                          <div className="flex flex-col my-5">
+                          <div className="flex flex-col my-2">
                             <label htmlFor="zoom">Rotate</label>
                             <input
                               type="range"
@@ -105,13 +140,13 @@ const ChangeImageModal = ({ setIsShowChangeImage }: Props) => {
                               }
                             />
                           </div>
-                          <div className="flex flex-col my-5">
+                          <div className="flex flex-col my-2">
                             <label htmlFor="zoom">Rounded</label>
                             <input
                               type="range"
                               step={1}
                               min={0}
-                              max={300}
+                              max={500}
                               onChange={(e) =>
                                 setRounded(Number(e.currentTarget.value))
                               }
@@ -125,12 +160,38 @@ const ChangeImageModal = ({ setIsShowChangeImage }: Props) => {
               </div>
             </div>
             <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-              <button
-                onClick={() => handleGetImage()}
-                className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-sky-500 text-base font-medium text-white hover:bg-sky-600 items-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 sm:ml-3 sm:w-auto sm:text-sm"
-              >
-                Save Changes
-              </button>
+              {loading ? (
+                <button className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-sky-500 text-base font-medium text-white hover:bg-sky-600 opacity-75 cursor-not-allowed items-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 sm:ml-3 sm:w-auto sm:text-sm">
+                  <svg
+                    className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8v1a7 7 0 00-7 7h1z"
+                    ></path>
+                  </svg>{" "}
+                  Waiting...
+                </button>
+              ) : (
+                <button
+                  onClick={handleGetImage}
+                  className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-sky-500 text-base font-medium text-white hover:bg-sky-600 items-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 sm:ml-3 sm:w-auto sm:text-sm"
+                >
+                  Save Changes
+                </button>
+              )}
             </div>
           </div>
         </div>

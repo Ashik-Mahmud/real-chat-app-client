@@ -60,29 +60,25 @@ const AppProvider = ({ children }: Props) => {
 
   if (userInfoLoading) return <GlobalLoading />;
 
+  const value = {
+    user,
+    userInfo,
+    setUser,
+    selectedChat,
+    setSelectedChat,
+    refetchFunc,
+    setRefetchFunc,
+    userInfoRefetch,
+    socket,
+    isSocketConnected,
+    notificationList,
+    setNotificationList,
+    isTyping,
+    setIsTyping,
+  };
+
   return (
-    <AppContext.Provider
-      value={
-        {
-          user,
-          userInfo,
-          setUser,
-          selectedChat,
-          setSelectedChat,
-          refetchFunc,
-          setRefetchFunc,
-          userInfoRefetch,
-          socket,
-          isSocketConnected,
-          notificationList,
-          setNotificationList,
-          isTyping,
-          setIsTyping,
-        } as any
-      }
-    >
-      {children}
-    </AppContext.Provider>
+    <AppContext.Provider value={value as any}>{children}</AppContext.Provider>
   );
 };
 
