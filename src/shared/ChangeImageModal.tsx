@@ -74,7 +74,7 @@ const ChangeImageModal = ({ setIsShowChangeImage }: Props) => {
                           width={250}
                           height={250}
                           border={50}
-                          color={[0, 0, 0, 0.3]} // RGBA
+                          color={[0, 0, 0, 0.5]} // RGBA
                           scale={zoom}
                           rotate={rotate}
                           borderRadius={rounded}
