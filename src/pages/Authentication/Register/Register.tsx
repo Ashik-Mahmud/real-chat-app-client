@@ -80,14 +80,14 @@ const Register = (props: Props) => {
   }, [data, navigate, error, user]);
 
   return (
-    <div className="grid place-items-center h-screen bg-gray-50">
+    <div className="sm:grid place-items-center h-screen bg-gray-50">
       <div className="bg-white w-full sm:w-[30rem] p-12 shadow border">
         <div className="logo my-4">
           <h3 className="text-2xl font-bold ">Register to your account</h3>
         </div>
 
         <form onSubmit={onRegisterSubmit} className="flex flex-col gap-4">
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 ">
             <label htmlFor="name">
               Name <span className="text-red-500">*</span>
             </label>

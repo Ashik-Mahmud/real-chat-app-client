@@ -81,16 +81,16 @@ const ProfileCard = ({ setIsShowProfile, isShowProfile }: Props) => {
             </div>
 
             <div className="mt-5 bg-slate-50 p-6">
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between pb-3">
                 <h3 className="text-sky-500 font-bold text-2xl">Friends</h3>
                 <BiMinus className="text-2xl text-gray-500 cursor-pointer" />
               </div>
-              <div className="friend-list">
+              <div className="friend-list h-[20rem] sm:min-h-[30rem] overflow-x-auto">
                 {userInfo?.friends?.length > 0 ? (
                   userInfo?.friends?.map((friend: any, index: number) => (
                     <div
                       key={friend?._id + index}
-                      className="flex items-center justify-between gap-2 mt-5 bg-blue-50 p-4 rounded-lg"
+                      className="flex items-center justify-between gap-2 mt-2 bg-blue-50 p-4 rounded-lg"
                     >
                       <div className="flex items-center gap-2">
                         <img
@@ -128,7 +128,8 @@ const ProfileCard = ({ setIsShowProfile, isShowProfile }: Props) => {
                       </div>
                       <div className="flex items-center gap-2">
                         <button className="bg-red-100 flex cursor-not-allowed items-center gap-2 flex-row-reverse text-sm px-3 text-red-600 p-2 rounded-full">
-                          Remove <BiMinus />
+                          <span className="hidden sm:block"> Remove</span>{" "}
+                          <BiMinus />
                         </button>
                       </div>
                     </div>
