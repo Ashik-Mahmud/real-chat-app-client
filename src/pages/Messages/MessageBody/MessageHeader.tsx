@@ -261,11 +261,7 @@ const MessageHeader = ({ setIsShowChatList, setIsShowProfileModal }: Props) => {
                       <FaUsers /> <p className="text-sm">View Group</p>
                     </li>
 
-                    {selectedChat?.creator === user?._id ? (
-                      <li className="hover:bg-gray-100 flex text-gray-400 cursor-not-allowed items-center gap-2 transition-all p-2 rounded-lg">
-                        <BiLogOut /> <p className="text-sm">Leave group</p>
-                      </li>
-                    ) : (
+                    {selectedChat?.creator !== user?._id && (
                       <li
                         onClick={handleLeaveGroup}
                         className="hover:bg-gray-100 flex items-center gap-2 transition-all p-2 rounded-lg cursor-pointer"

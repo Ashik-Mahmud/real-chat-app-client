@@ -1,4 +1,4 @@
-import { BiArrowBack, BiLogOut, BiMinus } from "react-icons/bi";
+import { BiArrowBack, BiCamera, BiLogOut, BiMinus } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import Cookie from "universal-cookie";
 import { useLogoutMutation } from "../api/AuthenticationApi";
@@ -46,15 +46,23 @@ const ProfileCard = ({ setIsShowProfile, isShowProfile }: Props) => {
             <BiArrowBack />
           </span>
           <div className=" my-5">
-            <img
-              src={
-                userInfo?.avatar
-                  ? userInfo?.avatar
-                  : "https://i.pravatar.cc/150?img=1"
-              }
-              alt={userInfo?.name}
-              className="rounded-full w-32 h-32 object-cover mx-auto border-4 border-blue-400"
-            />
+            <div className="rounded-full w-32 h-32 mx-auto  relative">
+              <img
+                src={
+                  userInfo?.avatar
+                    ? userInfo?.avatar
+                    : "https://i.pravatar.cc/150?img=1"
+                }
+                alt={userInfo?.name}
+                className="rounded-full w-32 h-32 object-cover mx-auto border-4 border-blue-400"
+              />
+              <div
+                className="change-photo absolute right-2 bottom-2 w-8 h-8 border rounded-full bg-blue-400 grid place-items-center text-white cursor-pointer"
+                title="Change Photo"
+              >
+                <BiCamera />
+              </div>
+            </div>
             <div className="flex items-center flex-col justify-center gap-0 mt-3">
               <h3 className="text-sky-500 font-bold text-2xl capitalize">
                 {userInfo?.name}

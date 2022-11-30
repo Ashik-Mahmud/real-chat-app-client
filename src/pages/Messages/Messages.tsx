@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { BiArrowBack } from "react-icons/bi";
 import { useAppContext } from "../../Context/AppProvider";
+import ChangeImageModal from "../../shared/ChangeImageModal";
 import Header from "../../shared/Header";
 import AllFriendList from "./FriendsBar/AllFriendList";
 import CreateNewGroupModal from "./FriendsBar/CreateNewGroupModal";
@@ -41,6 +42,8 @@ const Messages = (props: Props) => {
       {isShowNewGroupModal && (
         <CreateNewGroupModal setIsShowNewGroupModal={setIsShowNewGroupModal} />
       )}
+
+      {<ChangeImageModal />}
 
       <div className="bg-slate-200 md:h-screen py-5 z-5">
         <div className="container mx-auto">
