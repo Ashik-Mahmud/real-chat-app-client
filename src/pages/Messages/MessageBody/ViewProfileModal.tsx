@@ -118,14 +118,14 @@ const ViewProfileModal = ({
         />
       )}
       <div
-        className={`fixed left-0 transition-all top-0 z-20 grid place-items-center bg-[#ffffff9c] backdrop-blur-sm w-full h-full  ${
+        className={`fixed left-0 transition-all top-0 z-20 sm:grid place-items-center bg-[#ffffff9c] backdrop-blur-sm w-full h-full  ${
           isShowProfileModal
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"
         }`}
       >
         <div
-          className={`modal-container w-full md:w-[40rem]  bg-white z-20 rounded-md shadow-lg transition-transform ${
+          className={`modal-container w-auto sm:w-[40rem]  bg-white z-20 rounded-md shadow-lg transition-transform ${
             isShowProfileModal ? "scale-100" : "scale-75"
           }`}
         >
@@ -347,7 +347,7 @@ const ViewProfileModal = ({
                           {selectedChat?.users?.map((member: any) => (
                             <li
                               key={member?._id}
-                              className="flex items-center mb-1 justify-between bg-blue-50 p-2 rounded px-5"
+                              className="flex items-center flex-wrap mb-1 justify-between bg-blue-50 p-2 rounded px-5 w-full"
                             >
                               <div className="flex items-center gap-2">
                                 {member?.name}
