@@ -17,6 +17,7 @@ const AddMembersModal = ({
 }: Props) => {
   const { user, refetchFunc, selectedChat, setSelectedChat } = useAppContext();
   const [selectedUsers, setSelectedUsers] = useState<any>([]);
+  const [memberLoading, setMemberLoading] = useState(false);
   /* get all the friends */
   const { data, isLoading } = useQuery(["friends", user], async () => {
     if (user?.token) {
@@ -50,6 +51,7 @@ const AddMembersModal = ({
       members: selectedUsers.map((user: any) => user?.value),
     };
     try {
+      setMemberLoading(true);
       const { data } = await axios.post(
         `${server_url}/chat/group/add-members/${selectedChat?._id}`,
         sendingData,
@@ -65,9 +67,11 @@ const AddMembersModal = ({
         setIsOpenAddMembersModal(false);
         setIsShowProfileModal(false);
         setSelectedChat({});
+        setMemberLoading(false);
       }
     } catch (error) {
       console.log(error);
+      setMemberLoading(false);
     }
   };
 
@@ -127,9 +131,34 @@ const AddMembersModal = ({
 
                       <button
                         onClick={handleAddMembers}
-                        className="bg-blue-500 text-white px-4 py-2 rounded-md mt-4"
+                        disabled={memberLoading}
+                        type="button"
+                        className="w-full inline-flex justify-center mt-4 rounded-md border border-transparent shadow-sm px-4 py-2 bg-sky-500 text-base font-medium text-white hover:bg-sky-600 items-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 sm:ml-3 sm:w-auto sm:text-sm"
                       >
-                        Add Members
+                        {memberLoading && (
+                          <svg
+                            className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <circle
+                              className="opacity-25"
+                              cx="12"
+                              cy="12"
+                              r="10"
+                              stroke="currentColor"
+                              strokeWidth="4"
+                            ></circle>
+                            <path
+                              className="opacity-75"
+                              fill="currentColor"
+                              d="M4 12a8 8 0 018-8v1a7 7 0 00-7 7h1z"
+                            ></path>
+                          </svg>
+                        )}
+
+                        {memberLoading ? "Adding..." : "Add Members"}
                       </button>
                     </div>
                   </div>
